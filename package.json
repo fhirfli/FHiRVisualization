@@ -21,7 +21,8 @@
   "author": "Gopiandcode (Kiran Gopinathan)",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "victory": "^0.24.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -44,7 +45,7 @@
     "module-resolver": "^1.0.0",
     "node-sass": "^4.6.0",
     "nodemon": "^1.12.1",
-    "react": "^16.0.0",
+    "react": "^16.1.1",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.0.0",
     "react-test-renderer": "^16.0.0",
