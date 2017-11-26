@@ -21,6 +21,7 @@
   "author": "Gopiandcode (Kiran Gopinathan)",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^2.0.0",
     "express": "^4.16.2",
@@ -29,7 +30,13 @@
     "mongoose": "^4.13.4",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "prop-types": "^15.6.0",
+    "react-router": "3",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -41,6 +48,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
+    "detect-node": "^2.0.3",
     "eslint": "^4.10.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-import": "^2.8.0",
@@ -55,6 +63,7 @@
     "react": "^16.0.0",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
     "react-test-renderer": "^16.0.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",

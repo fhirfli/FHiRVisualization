@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 const webpack = require('webpack');
 const env = require('./env');
@@ -40,19 +39,11 @@ function onListening(){
 const app = express();
 const main = require('./app')(env);
 
-app.use(
-        bodyParser.urlencoded({
-            extended: false
-        })
-);
-    // Body parser
-    
-app.use(bodyParser.json());
 
 
 
 
-
+app.use(main);
 
 
 if (!env.PRODUCTION) {
@@ -74,7 +65,6 @@ if (!env.PRODUCTION) {
 
     app.use(webpackDevMiddleware(compiler));
 
-    app.use(main);
 
     app.get('*', (req, res, next) => {
         const filename = path.join(DIR_DIST, 'index.html');
@@ -96,7 +86,6 @@ else {
 
     app.use('/static', express.static(path.join(__dirname, '../frontend/dist')))
 
-    app.use(main);
 
     app.get('/', (req, res) => {
         res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))

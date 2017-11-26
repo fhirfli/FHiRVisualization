@@ -1,4 +1,3 @@
-
 console.log("Launching Server with Environment: "  + JSON.stringify(process.env, null, 3));
 const mongo_db_url = 'mongodb://' + process.env.DBNAME + ":" + process.env.KEY + "@" + process.env.DBNAME + ".documents.azure.com:" + process.env.COSMOSPORT + "/?ssl=true";
 const mongo_db_local_url = process.env.MONGODB_LOCAL || mongo_db_url;
@@ -9,6 +8,11 @@ if(isNaN(port)) {
 }
 if(port < 0) {
     throw new Error("Invalid value for PORT: " + process.env.PORT);
+}
+
+let secret = process.env.SECRET;
+if(secret === undefined){
+    throw new Error('No Secret value set in env.');
 }
 
 
@@ -25,5 +29,6 @@ module.exports = {
     PORT: port,
     PRODUCTION: production, 
     MONGODB_URL: mongo_db_url,
-    MONGODB_DEV_URL: mongo_db_local_url
+    MONGODB_DEV_URL: mongo_db_local_url,
+    SECRET: secret
 };

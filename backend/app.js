@@ -3,7 +3,9 @@ module.exports = (env) => {
     const bodyParser = require('body-parser');
     const session = require('express-session');
     const morgan = require('morgan');
-    const db = require('./db')(env);
+    const dbConnection = require('./db')(env);
+    const methodOverride = require('method-override');
+    const MongoStore = require('connect-mongo')(session);
 
     // main application
     const router = express.Router();
@@ -12,7 +14,6 @@ module.exports = (env) => {
     // add middleware for passport, api's etc
 
     // Allow CORS
-    const methodOverride = require('method-override');
     router.use(methodOverride());
     router.use((req,res,next) => {
         res.header('Access-Control-Allow-Credentials', true);
@@ -26,6 +27,24 @@ module.exports = (env) => {
             next();
         }
     });
+
+    router.use(
+            bodyParser.urlencoded({
+            extended: false
+            })
+    );
+    // Body parser
+    
+    router.use(bodyParser.json());
+
+    router.use(session({
+            secret: env.SECRET,
+            store: new MongoStore({mongooseConnection: dbConnection }),
+            resave: false,
+            saveUninitialized: false
+    }));
+
+
 
 
     // logging middleware
