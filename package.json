@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js",
-    "development": "cross-env NODE_ENV=development nodemon ./index.js",
-    "production": "cross-env NODE_ENV=production nodemon ./index.js",
+    "development": "cross-env NODE_ENV=development nodemon ./backend/index.js",
+    "production": "cross-env NODE_ENV=production nodemon ./backend/index.js",
     "test": "mocha"
   },
   "repository": {
@@ -21,7 +21,15 @@
   "author": "Gopiandcode (Kiran Gopinathan)",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.2"
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^2.0.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "method-override": "^2.3.10",
+    "mongoose": "^4.13.4",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
