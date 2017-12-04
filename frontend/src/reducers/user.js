@@ -18,7 +18,7 @@ const user = (state = {
     isWaiting: false,
     authenticated: false,
     email: "",
-    nextPathname: "/"
+    nextPathname: "/home"
 }, action) => {
     switch(action.type) {
     case MANUAL_LOGIN_USER:

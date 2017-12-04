@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { any } from "prop-types";
+import './Register.scss';
 
 const registerMessageStyle = {
     color: "red"
@@ -8,7 +9,7 @@ const registerMessageStyle = {
 
 
 export default class Register extends Component {
-    constructor(props){ 
+    constructor(props) {
         super(props);
         this.state = {
             registerMessage: "",
@@ -28,25 +29,29 @@ export default class Register extends Component {
             username: email,
             password
         })
-        .then((registerMessage) => {
-            if(registerMessage) {
-                this.setState({
-                    registerMessage
-                });
-            }
-        });
+            .then((registerMessage) => {
+                if (registerMessage) {
+                    this.setState({
+                        registerMessage
+                    });
+                }
+            });
     }
 
     render() {
         return (
-            <div>
-                <h2>Register</h2>
-                <form onSubmit={this._onRegisterSubmit}>
-                    <input type="email" onChange={e => this.setState({email: e.target.value})} placeholder="Email" /><br/>
-                    <input type="password" onChange={e => this.setState({password: e.target.value})} placeholder="Password" /><br/>
-                    <input type="submit" value="Register" />
-                    <span style={registerMessageStyle}>{this.state.registerMessage}</span>
-                </form>
+            <div id="register-parent-container">
+                <div id="register-container">
+                    <form id="register-form" onSubmit={this._onRegisterSubmit}>
+                        {/* <h2>Register</h2> */}
+                        <input className="register-inp" type="email" onChange={e => this.setState({ email: e.target.value })} placeholder="Email" /><br />
+                        <input className="register-inp" type="password" onChange={e => this.setState({ password: e.target.value })} placeholder="Password" /><br />
+                        <input id="register-submit" type="submit" value="Register" />
+                    </form>
+                    {this.state.registerMessage && (
+                        <div id="register-error">{this.state.registerMessage}</div>
+                    )}
+                </div>
             </div>
         );
     }

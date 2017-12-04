@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { any } from "prop-types";
+import { Link } from "react-router";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
+import './Login.scss';
 
 
 const loginMessageStyle = {
@@ -10,7 +12,7 @@ const loginMessageStyle = {
 };
 
 export default class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -32,28 +34,36 @@ export default class Login extends Component {
         this.props.manualLogin({
             username: email,
             password
-        }, this.props.nextPathname)
-        .then((loginMessage) => {
-            if(loginMessage) {
-                this.setState({
-                    loginMessage
-                })
-            }
-        });
+        }, nextPath)
+            .then((loginMessage) => {
+                console.log("Recieved [" + loginMessage + "]");
+                if (loginMessage) {
+                    this.setState({
+                        loginMessage
+                    })
+                }
+            });
     }
 
     render() {
-        return(
-            <div>
-                <h2>Log in</h2>
-                <form onSubmit={this._onLoginSubmit}>
-                    <input type="email" onChange={e => this.setState({email: e.target.value})} placeholder="username"/><br/>
-                    <input type="password" onChange={e => this.setState({password: e.target.value})} placeholder="Password"/><br/>
-                    <input type="submit" value="Login" />
-               </form>
-                    <span style={loginMessageStyle}>
-                    {this.state.loginMessage}
-                    </span>
+        return (
+            <div id="login-parent-container">
+                <div id="login-container">
+                    <form id="login-form" onSubmit={this._onLoginSubmit}>
+                        {/* <h2 id="login-text">Log in</h2> */}
+                        <input className="login-inp" type="email" onChange={e => this.setState({ email: e.target.value })} placeholder="username" /><br />
+                        <input className="login-inp" type="password" onChange={e => this.setState({ password: e.target.value })} placeholder="Password" /><br />
+                        <input id="login-submit" type="submit" value="Login" />
+                        <p>
+                        Don&lsquo;t have an account? <Link to="/register">Sign up</Link>
+                        </p>
+                    </form>
+                    {this.state.loginMessage && (
+                    <div id="login-error">
+                        {this.state.loginMessage}
+                    </div>
+                    )}
+               </div>
             </div>
         );
     }

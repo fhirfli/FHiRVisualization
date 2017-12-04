@@ -3,7 +3,7 @@ import * as userActions from "actions/users";
 import Login from "components/pure/Login";
 
 const mapStateToProps = (state, ownProps) => {
-    let nextPathName = "/";
+    let nextPathName = "/home";
     try {
         nextPathName = ownProps.location.state.nextPathName
     } catch(err) {}

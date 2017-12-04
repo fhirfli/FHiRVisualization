@@ -55,29 +55,25 @@ function makeUserRequest(method, data, api="/auth/login") {
 }
 
 
-export function manualLogin(
-    data,
-    successPath
-) {
+export function manualLogin(data,successPath) {
     return dispatch => {
         dispatch(beginLogin());
-        console.log("Logging in" + JSON.stringify(data));
         return makeUserRequest("post", data, "/auth/login")
-            .then(response => {
+        .then(response => {
+            console.log("Got " + response);
                 if(!response.data.error) {
                     dispatch(loginSuccess(data));
                     browserHistory.push(successPath);
                 } else {
                     dispatch(loginError());
                     let loginMessage = JSON.stringify(response.data.error);
-                    console.log("error msg: " + loginMessage);
                     return loginMessage;
                 }
-            }).catch((response) => {
-                console.log("Error", JSON.stringify(response));
+            }).catch(err => {
                 dispatch(loginError());
+                return err.response.statusText;
             });
-    }
+    };
 }
 
 

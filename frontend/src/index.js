@@ -9,7 +9,7 @@ import { createLogger } from "redux-logger";
 import isNode from "detect-node";
 import createRoutes from "./routes";
 import rootReducer from "./reducers";
-
+import './index.scss';
 // import App from 'components/App';
 
 // if(module.hot) {
