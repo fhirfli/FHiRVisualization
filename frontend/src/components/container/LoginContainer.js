@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 
-export default connect({
+export default connect(
     mapStateToProps,
     userActions
-})(Login);
+)(Login);
