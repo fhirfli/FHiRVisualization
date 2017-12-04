@@ -4,7 +4,6 @@ import Navigation from "components/pure/Navigation";
 
 
 function mapStateToProps(state) {
-    console.log("Got state " + JSON.stringify(state))
     return {
         user: state.user
     };

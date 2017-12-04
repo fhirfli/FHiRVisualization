@@ -11,7 +11,9 @@ export default class Register extends Component {
     constructor(props){ 
         super(props);
         this.state = {
-            registerMessage: ""
+            registerMessage: "",
+            email: "",
+            password: ""
         };
 
         this._onRegisterSubmit = this._onRegisterSubmit.bind(this);
@@ -19,11 +21,11 @@ export default class Register extends Component {
 
     _onRegisterSubmit(event) {
         event.preventDefault();
-        const email = (this.email).nodeValue;
-        const password = (this.password).nodeValue;
+        const email = this.state.email;
+        const password = this.state.password;
 
         this.props.manualRegister({
-            email,
+            username: email,
             password
         })
         .then((registerMessage) => {
@@ -40,8 +42,8 @@ export default class Register extends Component {
             <div>
                 <h2>Register</h2>
                 <form onSubmit={this._onRegisterSubmit}>
-                    <input type="email" ref={email => this.email = email} placeholder="Email" /><br/>
-                    <input type="password" ref={password => this.password = password} placeholder="Password" /><br/>
+                    <input type="email" onChange={e => this.setState({email: e.target.value})} placeholder="Email" /><br/>
+                    <input type="password" onChange={e => this.setState({password: e.target.value})} placeholder="Password" /><br/>
                     <input type="submit" value="Register" />
                     <span style={registerMessageStyle}>{this.state.registerMessage}</span>
                 </form>

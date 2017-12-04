@@ -3,7 +3,7 @@ module.exports = (env) => {
     const LocalStrategy = require('./localStrategy');
     const User = require('../db/models/user');
 
-    passport.serializeUser((id, done) => {
+    passport.serializeUser((user, done) => {
         done(null, { _id: user._id });
     });
 

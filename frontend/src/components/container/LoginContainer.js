@@ -8,6 +8,8 @@ const mapStateToProps = (state, ownProps) => {
         nextPathName = ownProps.location.state.nextPathName
     } catch(err) {}
 
+    console.log("Next path name is  "  + nextPathName);
+
     return {
         user: state.user,
         nextPathName

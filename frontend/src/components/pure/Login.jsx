@@ -14,7 +14,9 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
-            loginMessage: ""
+            loginMessage: "",
+            email: '',
+            password: ""
         };
 
         this._onLoginSubmit = this._onLoginSubmit.bind(this);
@@ -22,12 +24,13 @@ export default class Login extends Component {
 
     _onLoginSubmit(event) {
         event.preventDefault();
-        const email = (this.email).nodeValue;
-        const password = (this.password).nodeValue;
+        const email = this.state.email;
+        const password = this.state.password;
 
+        const nextPath = this.props.nextPathname || "/";
 
         this.props.manualLogin({
-            email,
+            username: email,
             password
         }, this.props.nextPathname)
         .then((loginMessage) => {
@@ -44,13 +47,13 @@ export default class Login extends Component {
             <div>
                 <h2>Log in</h2>
                 <form onSubmit={this._onLoginSubmit}>
-                    <input type="email" ref={email => this.email = email} placeholder="username"/><br/>
-                    <input type="password" ref={password => this.password = password} placeholder="Password"/><br/>
+                    <input type="email" onChange={e => this.setState({email: e.target.value})} placeholder="username"/><br/>
+                    <input type="password" onChange={e => this.setState({password: e.target.value})} placeholder="Password"/><br/>
                     <input type="submit" value="Login" />
+               </form>
                     <span style={loginMessageStyle}>
                     {this.state.loginMessage}
                     </span>
-                </form>
             </div>
         );
     }

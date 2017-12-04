@@ -17,7 +17,8 @@ import {
 const user = (state = {
     isWaiting: false,
     authenticated: false,
-    email: ""
+    email: "",
+    nextPathname: "/"
 }, action) => {
     switch(action.type) {
     case MANUAL_LOGIN_USER:

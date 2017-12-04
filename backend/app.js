@@ -30,7 +30,7 @@ module.exports = (env) => {
 
     router.use(
             bodyParser.urlencoded({
-            extended: false
+            extended: true 
             })
     );
     // Body parser

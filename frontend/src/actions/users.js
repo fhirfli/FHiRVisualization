@@ -61,6 +61,7 @@ export function manualLogin(
 ) {
     return dispatch => {
         dispatch(beginLogin());
+        console.log("Logging in" + JSON.stringify(data));
         return makeUserRequest("post", data, "/auth/login")
             .then(response => {
                 if(!response.data.error) {
@@ -68,11 +69,13 @@ export function manualLogin(
                     browserHistory.push(successPath);
                 } else {
                     dispatch(loginError());
-                    let loginMessage = response.data.error;
+                    let loginMessage = JSON.stringify(response.data.error);
+                    console.log("error msg: " + loginMessage);
                     return loginMessage;
                 }
             }).catch((response) => {
-                console.log("Error", response.message);
+                console.log("Error", JSON.stringify(response));
+                dispatch(loginError());
             });
     }
 }

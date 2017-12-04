@@ -48,8 +48,5 @@ export default class Navigation extends Component {
 
 Navigation.propTypes = {
     manualLogout: any,
-    user: {
-        authenticated: any,
-        username: any
-    }
+    user: any
 }

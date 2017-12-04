@@ -21,8 +21,9 @@ module.exports = (env, passport) => {
 
 
     router.post('/login', 
-    passport.authenticate('local'),
+      passport.authenticate('local'),
         (req,res) => {
+            console.log("Logged in buddy");
             // Needed to get remove all Mongoose bindings
             res.json({user: sanitizeUser(req.user)});
        });
