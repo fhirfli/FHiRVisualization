@@ -3,13 +3,15 @@ import * as userActions from "actions/users";
 import Navigation from "components/pure/Navigation";
 
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
+    console.log("Got state " + JSON.stringify(state))
     return {
         user: state.user
     };
 };
 
-export default connect({
+console.log(userActions);
+export default connect(
     mapStateToProps,
     userActions
-})(Navigation);
+)(Navigation);
