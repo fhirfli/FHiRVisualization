@@ -1,13 +1,20 @@
 import React from "react";
 import {Router, Route, IndexRoute} from "react-router";
 import App from "components/container/App";
+import IndividualHomeContainer from "components/container/individual/HomeContainer";
+import CorporateHomeContainer from "components/container/corporate/HomeContainer";
 import HomeContainer from "components/container/HomeContainer";
 import Default from "components/pure/Default";
 
 import CorporateLoginContainer from "components/container/corporate/LoginContainer";
 import CorporateRegisterContainer from "components/container/corporate/RegisterContainer";
+import CorporateSettingsContainer from "components/container/corporate/SettingsContainer";
+import CorporateDataContainer from "components/container/corporate/DataContainer";
 import IndividualLoginContainer from "components/container/individual/LoginContainer";
 import IndividualRegisterContainer from "components/container/individual/RegisterContainer";
+import IndividualSettingsContainer from "components/container/individual/SettingsContainer";
+import IndividualGoalsContainer from "components/container/individual/GoalsContainer";
+import IndividualDataContainer from "components/container/individual/DataContainer";
 
 import * as corporateStatus from "constants/corporateStatus";
 
@@ -81,15 +88,15 @@ export default function createRoutes(store, history) {
                 <IndexRoute component={Default}/>
                     <Route path="/corporate/login" component={CorporateLoginContainer} onEnter={requireUnauthenticated}/>
                     <Route path="/corporate/register" component={CorporateRegisterContainer} onEnter={requireUnauthenticated}/>
-                    <Route path="/corporate/home" component={HomeContainer} onEnter={requireCorporate}/>
-                    <Route path="/corporate/data" component={HomeContainer} onEnter={requireCorporate}/>
-                    <Route path="/corporate/settings" component={HomeContainer} onEnter={requireCorporate}/>
+                <Route path="/corporate/home" component={CorporateHomeContainer} onEnter={requireCorporate}/>
+                <Route path="/corporate/data" component={CorporateDataContainer} onEnter={requireCorporate}/>
+                <Route path="/corporate/settings" component={CorporateSettingsContainer} onEnter={requireCorporate}/>
                     <Route path="/individual/login" component={IndividualLoginContainer} onEnter={requireUnauthenticated}/>
                     <Route path="/individual/register" component={IndividualRegisterContainer} onEnter={requireUnauthenticated}/>
-                    <Route path="/individual/home" component={HomeContainer} onEnter={requireIndividual}/>
-                    <Route path="/individual/data" component={HomeContainer} onEnter={requireIndividual}/>
-                    <Route path="/individual/goals" component={HomeContainer} onEnter={requireIndividual}/>
-                    <Route path="/individual/settings" component={HomeContainer} onEnter={requireIndividual}/>
+                <Route path="/individual/home" component={IndividualHomeContainer} onEnter={requireIndividual}/>
+                <Route path="/individual/data" component={IndividualDataContainer} onEnter={requireIndividual}/>
+                <Route path="/individual/goals" component={IndividualGoalsContainer} onEnter={requireIndividual}/>
+                <Route path="/individual/settings" component={IndividualSettingsContainer} onEnter={requireIndividual}/>
             </Route>
         </Router>
     )

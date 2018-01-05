@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { VictoryLine, VictoryChart, VictoryTheme } from 'victory';
-import './Home.scss';
+import './styles/Home.scss';
+import {Link} from "react-router";
 
 export default class Home extends Component {
     render() {

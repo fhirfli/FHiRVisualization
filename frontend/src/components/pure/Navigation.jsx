@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
 import {any} from "prop-types";
-import './Navigation.scss';
+import './styles/Navigation.scss';
 import * as  corporateStatus from 'constants/corporateStatus';
 
 const navStyle = {

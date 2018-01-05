@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { any } from "prop-types";
-import '../Register.scss';
+import '../styles/Register.scss';
 
 const registerMessageStyle = {
     color: "red"
@@ -59,4 +59,4 @@ export default class Register extends Component {
 
 Register.propTypes = {
     manualRegister: any
-}
+};
