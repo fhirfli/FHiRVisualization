@@ -1,32 +1,25 @@
 function sanitizeUser(user) {
 
-            user = JSON.parse(JSON.stringify(user));
-            const cleanUser = Object.assign({}, user);
-
-            return cleanUser;
+    return {
+        email: user.email,
+        type: user.isCorporate ? 'CORPORATE' : 'INDIVIDUAL'
+    };
 }
 
 module.exports = (env, passport) => {
     const express = require('express');
     const router = express.Router();
-    const User = require('../db/models/user');
+    const Individual = require('./individual')(env, passport);
+    const Corporate  = require('./corporate')(env, passport);
 
     router.get('/user', (req,res,next) => {
         if(req.user) {
-            return res.json({user: req.user});
+            return res.json(sanitizeUser(req.user));
         } else {
-            return res.json({user: null});
+            return res.json(null);
         }
     });
 
-
-    router.post('/login', 
-      passport.authenticate('local'),
-        (req,res) => {
-            console.log("Logged in buddy");
-            // Needed to get remove all Mongoose bindings
-            res.json({user: sanitizeUser(req.user)});
-       });
 
         router.post('/logout', (req,res) =>{
             if(req.user) {
@@ -38,41 +31,8 @@ module.exports = (env, passport) => {
             }
         });
 
-        router.post('/signup', (req,res) => {
-            const {username, password } = req.body;
-            console.log(JSON.stringify(req.body));
-
-            console.log("Signup called with " + username + ", " + password);
-
-            User.findOne({'local.username': username}, (err, userMatch) => {
-                console.log("Result recieved");
-                if(userMatch) {
-                    console.log("User exists");
-                    return res.json({
-                        error: 'USER_EXISTS'
-                    });
-                }
-
-                const newUser = new User({
-                    'local.username': username,
-                    'local.password': password
-                });
-
-
-                newUser.save((err, savedUser) => {
-                    if(err) {
-                        if(!env.PRODUCTION) {
-                            return res.json({error: err});
-                        } else {
-                            return res.json({error: 'UNKNOWN'});
-                        }
-                    } else {
-                        return res.json(sanitizeUser(savedUser));
-                    }
-                });
-            });
-        });
-
+        router.use('/individual', Individual);
+        router.use('/corporate', Corporate);
 
         return router;
 }

@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { any } from "prop-types";
-import { Link } from "react-router";
+import React, {Component} from "react";
+import {any} from "prop-types";
+import {Link} from "react-router";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
@@ -29,14 +29,13 @@ export default class Login extends Component {
         const email = this.state.email;
         const password = this.state.password;
 
-        const nextPath = this.props.nextPathname || "/";
+        const nextPath = this.props.nextPathName || "/";
 
         this.props.manualLogin({
-            username: email,
+            email,
             password
         }, nextPath)
             .then((loginMessage) => {
-                console.log("Recieved [" + loginMessage + "]");
                 if (loginMessage) {
                     this.setState({
                         loginMessage
@@ -48,22 +47,34 @@ export default class Login extends Component {
     render() {
         return (
             <div id="login-parent-container">
+                <h2>
+                    Log in to <strong>FHiR</strong> Visualization
+                </h2>
+                <h5>
+                    <p>{this.props.loginAccountType}</p>
+                </h5>
                 <div id="login-container">
                     <form id="login-form" onSubmit={this._onLoginSubmit}>
                         {/* <h2 id="login-text">Log in</h2> */}
-                        <input className="login-inp" type="email" onChange={e => this.setState({ email: e.target.value })} placeholder="username" /><br />
-                        <input className="login-inp" type="password" onChange={e => this.setState({ password: e.target.value })} placeholder="Password" /><br />
-                        <input id="login-submit" type="submit" value="Login" />
+                        <input className="login-inp" type="email" onChange={e => this.setState({email: e.target.value})}
+                               placeholder="username"/><br />
+                        <input className="login-inp" type="password"
+                               onChange={e => this.setState({password: e.target.value})} placeholder="Password"/><br />
+                        <input id="login-submit" type="submit" value={this.props.loginPrompt}/>
                         <p>
-                        Don&lsquo;t have an account? <Link to="/register">Sign up</Link>
+                            <Link to={this.props.alternatePath}>{this.props.alternateMessage}</Link>
+                        </p>
+
+                        <p>
+                            Don&lsquo;t have an account? <Link to={this.props.registerPath}>Sign up</Link>
                         </p>
                     </form>
                     {this.state.loginMessage && (
-                    <div id="login-error">
-                        {this.state.loginMessage}
-                    </div>
+                        <div id="login-error">
+                            {this.state.loginMessage}
+                        </div>
                     )}
-               </div>
+                </div>
             </div>
         );
     }
@@ -71,5 +82,10 @@ export default class Login extends Component {
 
 Login.propTypes = {
     manualLogin: any,
-    nextPathname: any
-}
+    nextPathName: any,
+    registerPath: any,
+    alternatePath: any,
+    alternateMessage: any,
+    loginAccountType: any,
+    loginPrompt: any
+};

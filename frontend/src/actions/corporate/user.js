@@ -1,55 +1,67 @@
 import axios from "axios";
 import { browserHistory } from "react-router";
-import * as types from "../constants";
+import * as types from "constants/corporate/authentication";
 
 
 function beginLogin(){
-    return { type: types.MANUAL_LOGIN_USER }
+    return { type: types.CORPORATE_LOGIN_USER }
 }
 
 function loginSuccess(data) {
     return {
-        type: types.LOGIN_SUCCESS_USER,
+        type: types.CORPORATE_LOGIN_SUCCESS_USER,
         data
     };
 }
 
 function loginError() {
     return {
-        type: types.LOGIN_ERROR_USER
+        type: types.CORPORATE_LOGIN_ERROR_USER
     };
 }
 
 
 function beginLogout() {
-    return {type: types.LOGOUT_USER};
+    return {
+        type: types.CORPORATE_LOGOUT_USER
+    };
 }
 
 function logoutSuccess() {
-    return { type: types.LOGOUT_SUCCESS_USER };
+    return {
+        type: types.CORPORATE_LOGOUT_SUCCESS_USER
+    };
 }
 
 function logoutError() {
-    return { type: types.LOGOUT_ERROR_USER };
+    return {
+        type: types.CORPORATE_LOGOUT_ERROR_USER
+    };
 }
 
 
 function beginRegister() {
-    return { type: types.REGISTER_USER };
+    return {
+        type: types.CORPORATE_REGISTER_USER
+    };
 }
 
 function registerSuccess() {
-    return { type: types.REGISTER_SUCCESS_USER };
+    return {
+        type: types.CORPORATE_REGISTER_SUCCESS_USER
+    };
 }
 
 function registerError() {
-    return { type: types.REGISTER_ERROR_USER };
+    return {
+        type: types.CORPORATE_REGISTER_ERROR_USER
+    };
 }
 
-function makeUserRequest(method, data, api="/auth/login") {
+function makeUserRequest(method, data, endpoint="/auth/corporate/login") {
     return axios({
         method: method,
-        url: api,
+        url: endpoint,
         data: data
     });
 }
@@ -58,16 +70,15 @@ function makeUserRequest(method, data, api="/auth/login") {
 export function manualLogin(data,successPath) {
     return dispatch => {
         dispatch(beginLogin());
-        return makeUserRequest("post", data, "/auth/login")
-        .then(response => {
-            console.log("Got " + response);
+        return makeUserRequest("post", data)
+            .then(response => {
+                console.log("Got " + response);
                 if(!response.data.error) {
                     dispatch(loginSuccess(data));
                     browserHistory.push(successPath);
                 } else {
                     dispatch(loginError());
-                    let loginMessage = JSON.stringify(response.data.error);
-                    return loginMessage;
+                    return JSON.stringify(response.data.error);
                 }
             }).catch(err => {
                 dispatch(loginError());
@@ -87,10 +98,12 @@ export function manualLogout() {
                     browserHistory.push("/");
                 } else {
                     dispatch(logoutError());
+                    return JSON.stringify(response.data.error);
                 }
             })
-            .catch(response => {
-                console.log("Error", response.message);
+            .catch(err => {
+                dispatch(logoutError());
+                return err.response.statusText;
             });
     };
 }
@@ -99,7 +112,7 @@ export function manualRegister(data) {
     return dispatch => {
         dispatch(beginRegister());
 
-        return makeUserRequest("post", data, "/auth/signup")
+        return makeUserRequest("post", data, "/auth/corporate/signup")
             .then(response => {
                 if(!response.data.error) {
                     dispatch(registerSuccess());
@@ -111,7 +124,8 @@ export function manualRegister(data) {
                 }
             })
             .catch(err => {
-                console.log("Error", err);
+                dispatch(registerError());
+                return err.response.statusText;
             });
     }
 }

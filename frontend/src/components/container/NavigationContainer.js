@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
-import * as userActions from "actions/users";
+import * as IndividualUserActions from "actions/individual/user";
+import * as CorporateUserActions from "actions/corporate/user";
 import Navigation from "components/pure/Navigation";
 
 
@@ -7,10 +8,12 @@ function mapStateToProps(state) {
     return {
         user: state.user
     };
-};
+}
 
-console.log(userActions);
 export default connect(
     mapStateToProps,
-    userActions
+    {
+        corporateManualLogout: CorporateUserActions.manualLogout,
+        individualManualLogout: IndividualUserActions.manualLogout
+    }
 )(Navigation);
