@@ -23,5 +23,6 @@ export default combineReducers({
         data: IndividualData,
         goals: IndividualGoals,
     }),
+
     routing: routerReducer
 });

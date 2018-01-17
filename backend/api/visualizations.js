@@ -3,6 +3,9 @@ module.exports = (env) => {
     const router = express.Router();
     const Data = require('../db/models/data');
 
+    router.get('/colours', (req, res) => {
+        return res.status(200).json(Data.COLORS);
+    });
    router.get('/:visualization/type', (req, res)=> {
         const visualization = req.params.visualization;
         if(!visualization){

@@ -1,5 +1,11 @@
 function sanitizePreferences(preferences) {
-    return preferences;
+    return preferences.map((preference) => {
+        return {
+            dataType: preference.dataType,
+            colour: preference.colour,
+            visualization: preference.visualization
+        }
+    });
 }
 
 
@@ -125,16 +131,16 @@ module.exports = (env, router) => {
             if (!pref) {
                 return res.status(404).json({error: 'RESOURCE_NOT_FOUND'});
             }
-            if(!pref.visualization.includes(visualization)){
+            if (!pref.visualization.includes(visualization)) {
                 return res.status(404).json({error: 'RESOURCE_NOT_FOUND'});
             }
 
             // How to remove item from array by value
             // Reference: https://stackoverflow.com/questions/3954438/how-to-remove-item-from-array-by-value
-            pref.visualization.splice(pref.visualization.indexOf(visualization),1);
+            pref.visualization.splice(pref.visualization.indexOf(visualization), 1);
 
             pref.save((err, savedPref) => {
-                 if (err)
+                if (err)
                     return res.status(400).json(sanitizeError(env, err));
                 return res.status(200).json({
                     dataType: savedPref.dataType,
