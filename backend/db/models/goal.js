@@ -6,12 +6,7 @@ const Number = mongoose.Schema.Types.Number;
 mongoose.Promise = Promise;
 
 
-const GOAL_PERIODS = [
-    'DAY',
-    'WEEK',
-    'FORTNIGHT',
-    'MONTH'
-];
+const GOAL_PERIODS = ['DAY', 'WEEK', 'FORTNIGHT', 'MONTH'];
 
 const goalSchema = new Schema({
     user: { type: ObjectId, ref: 'User', required: true},
