@@ -6,6 +6,12 @@ module.exports = (env) => {
     router.get('/colours', (req, res) => {
         return res.status(200).json(Data.COLORS);
     });
+
+
+    router.get('/aggregate/specification', (req, res) => {
+        return res.status(200).json(Data.AGGREGATE_VISUALIZATIONS_SECONDARY_NEEDED);
+    });
+
    router.get('/:visualization/type', (req, res)=> {
         const visualization = req.params.visualization;
         if(!visualization){

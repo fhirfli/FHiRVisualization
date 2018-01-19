@@ -18,6 +18,7 @@ module.exports = (env) => {
         res.status(200).json(result);
     });
 
+
     router.get('/types/:dataType/visualizations', (req,res) => {
         const dataType = req.params.dataType;
         if(!dataType) {
