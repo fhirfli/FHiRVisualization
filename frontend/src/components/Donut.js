@@ -1,20 +1,33 @@
 import React from 'react';
 import { VictoryPie } from 'victory';
+import * as PropTypes from 'prop-types';
 
-/*
-<div>
-  <Donut/>
-</div>
-*/
 
-class Donut extends React.Component {
+export default class Donut extends React.Component {
 
-  const sampleData = [{ x: "Cats", y: 35 },
-      { x: "Dogs", y: 40 },
-      { x: "Birds", y: 55 }];
+  /*constructor(props) {
+    super();
+
+    this.state = { // Set default state values for the visualisation
+      dataType = "Default",
+      colour = "red",
+      data = []
+    }
+  }
+
+  onLoad(endPoint, dataType) {
+    this.setState((endPoint, dataType) => {
+      return {
+        dataType = dataType,
+        data = endPoint
+      }
+    });
+  }
+  */
 
   componentDidMount() {
-    console.log('hey');
+    //Call loading Data function here.
+    this.onLoad();
   }
 
   render() {
@@ -44,8 +57,12 @@ class Donut extends React.Component {
             }
           }
         }]}
-      data={sampleData}
+      data={ this.state.data }
     />
     )
   }
 }
+
+Donut.propTypes = {
+  data: PropTypes.array // whatever `this.state.videos` is
+};
