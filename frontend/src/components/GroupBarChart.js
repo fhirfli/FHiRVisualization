@@ -1,24 +1,41 @@
 import React from 'react';
-import {VictoryBar, VictoryChart, VictoryGroup} from 'victory';
+import { VictoryBar, VictoryChart, VictoryGroup } from 'victory';
+import * as PropTypes from 'prop-types';
 
-class GroupBarChart extends React.Component {
-    render() {
-        return (
-            <VictoryChart>
-                <VictoryGroup offset={20}
-                              colorScale={["tomato", "orange", "gold"]}
-                >
-                    <VictoryBar
-                        data={[{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 5}]}
-                    />
-                    <VictoryBar
-                        data={[{x: 1, y: 2}, {x: 2, y: 1}, {x: 3, y: 7}]}
-                    />
-                    <VictoryBar
-                        data={[{x: 1, y: 3}, {x: 2, y: 4}, {x: 3, y: 9}]}
-                    />
-                </VictoryGroup>
-            </VictoryChart>
-        )
-    }
+
+export default class GroupBarChart extends React.Component {
+  constructor(props) {
+    super();
+  }
+
+/*
+  componentDidMount() {
+    //Call loading Data function here.
+    this.onLoad();
+  }
+  */
+
+  render() {
+    return(
+      <VictoryChart>
+        <VictoryGroup offset={20}
+          colorScale={["tomato", "orange", "gold"]}
+        >
+          <VictoryBar
+            data={ this.state.data[0] }
+          />
+          <VictoryBar
+            data={ this.state.data[1] }
+          />
+          <VictoryBar
+            data={ this.state.data[2] }
+          />
+        </VictoryGroup>
+      </VictoryChart>
+    )
+  }
 }
+
+GroupBarChart.propTypes = {
+  data: PropTypes.array // whatever `this.state.videos` is
+};

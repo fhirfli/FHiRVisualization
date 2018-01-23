@@ -1,3 +1,17 @@
 .basic {
     background-color: #ccffff;
 }
+
+.dash__container {
+  display: grid;
+  grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr [col-4] 1fr;
+  grid-template-rows: [row-1] 1fr [row-2] 1fr [row-3] 1fr [row-4] 1fr;
+  border: 1px solid #000;
+}
+
+.dash__item-1 {
+  grid-column-start: [col-1];
+  grid-column-end: [col-2];
+  grid-row-start: [row-1];
+  grid-row-end: [row-2];
+}

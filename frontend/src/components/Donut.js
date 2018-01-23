@@ -1,52 +1,68 @@
 import React from 'react';
-import {VictoryPie} from 'victory';
+import { VictoryPie } from 'victory';
+import * as PropTypes from 'prop-types';
 
-/*
- <div>
- <Donut/>
- </div>
- */
 
-class Donut extends React.Component {
+export default class Donut extends React.Component {
 
-    const;
-    sampleData = [{x: "Cats", y: 35},
-        {x: "Dogs", y: 40},
-        {x: "Birds", y: 55}];
+  /*constructor(props) {
+    super();
 
-    componentDidMount() {
-        console.log('hey');
+    this.state = { // Set default state values for the visualisation
+      dataType = "Default",
+      colour = "red",
+      data = []
     }
+  }
 
-    render() {
-        return (
-            <VictoryPie
-                innerRadius={90}
-                colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+  onLoad(endPoint, dataType) {
+    this.setState((endPoint, dataType) => {
+      return {
+        dataType = dataType,
+        data = endPoint
+      }
+    });
+  }
+  */
 
-                events={[{
-                    target: "data",
-                    eventHandlers: {
-                        onClick: () => {
-                            return [
-                                {
-                                    target: "data",
-                                    mutation: (props) => {
-                                        const fill = props.style && props.style.fill;
-                                        return fill === "#c43a31" ? null : {style: {fill: "#c43a31"}};
-                                    }
-                                }, {
-                                    target: "labels",
-                                    mutation: (props) => {
-                                        return props.text === "clicked" ? null : {text: "clicked"};
-                                    }
-                                }
-                            ];
-                        }
-                    }
-                }]}
-                data={sampleData}
-            />
-        )
-    }
+  componentDidMount() {
+    //Call loading Data function here.
+    this.onLoad();
+  }
+
+  render() {
+    return (
+      <VictoryPie
+      innerRadius={90}
+      colorScale={["tomato", "orange", "gold", "cyan", "navy" ]}
+
+      events={[{
+          target: "data",
+          eventHandlers: {
+            onClick: () => {
+              return [
+                {
+                  target: "data",
+                  mutation: (props) => {
+                    const fill = props.style && props.style.fill;
+                    return fill === "#c43a31" ? null : { style: { fill: "#c43a31" } };
+                  }
+                }, {
+                  target: "labels",
+                  mutation: (props) => {
+                    return props.text === "clicked" ? null : { text: "clicked" };
+                  }
+                }
+              ];
+            }
+          }
+        }]}
+      data={ this.state.data }
+    />
+    )
+  }
 }
+
+Donut.propTypes = {
+  data: PropTypes.array // whatever `this.state.videos` is
+};
