@@ -6,6 +6,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js",
     "development": "cross-env NODE_ENV=development nodemon ./backend/index.js",
+    "debug": "cross-env NODE_ENV=development nodemon --debug ./backend/index.js",
     "production": "cross-env NODE_ENV=production nodemon ./backend/index.js",
     "test": "mocha"
   },
@@ -27,6 +28,7 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "method-override": "^2.3.10",
+    "moment": "^2.20.1",
     "mongoose": "^4.13.4",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",

@@ -1,15 +1,19 @@
 import { connect } from "react-redux";
-import * as userActions from "actions/users";
+import * as IndividualUserActions from "actions/individual/user";
+import * as CorporateUserActions from "actions/corporate/user";
 import Navigation from "components/pure/Navigation";
 
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
     return {
         user: state.user
     };
-};
+}
 
-export default connect({
+export default connect(
     mapStateToProps,
-    userActions
-})(Navigation);
+    {
+        corporateManualLogout: CorporateUserActions.manualLogout,
+        individualManualLogout: IndividualUserActions.manualLogout
+    }
+)(Navigation);

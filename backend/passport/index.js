@@ -1,22 +1,34 @@
 module.exports = (env) => {
     const passport = require('passport');
-    const LocalStrategy = require('./localStrategy');
+    const IndividualLocalStrategy = require('./individualLocalStrategy');
+    const CorporateLocalStrategy = require('./corporateLocalStrategy');
     const User = require('../db/models/user');
 
-    passport.serializeUser((id, done) => {
-        done(null, { _id: user._id });
+    // Multiple User types
+    // Reference:  https://github.com/jaredhanson/passport/issues/50
+    passport.serializeUser((user, done) => {
+        let type = "company" in user ? 'CORPORATE' : 'INDIVIDUAL';
+        done(null, { id: user._id, type });
     });
 
-    passport.deserializeUser((id, done) => {
-        User.findOne({ _id: id },
-            'local.username',
-            (err, user) => {
-                done(null, user);
+    passport.deserializeUser((key, done) => {
+        console.log("Deserializing user");
+        if(key.type == 'CORPORATE') {
+           User.corporate.findOne({_id: key.id}, (err, user) => { 
+               done(null, user)
+            }) ;
+        } else if(key.type == 'INDIVIDUAL') {
+           User.individual.findOne({_id: key.id}, (err, user) => { 
+               done(null, user)
             });
-    });
+        } else {
+            done(null, null);
+        }
+   });
 
 
-    passport.use(LocalStrategy);
+    passport.use('individual', IndividualLocalStrategy);
+    passport.use('corporate', CorporateLocalStrategy);
 
     return passport;
 }

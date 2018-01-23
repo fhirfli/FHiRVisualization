@@ -1,55 +1,67 @@
-import React, { Component } from "react";
-import { Link } from "react-router";
-import { any } from "prop-types";
+import React, {Component} from "react";
+import {Link} from "react-router";
+import {any} from "prop-types";
+import './styles/Navigation.scss';
+import * as  corporateStatus from 'constants/corporateStatus';
 
-var navStyle = {
+const navStyle = {
     backgroundColor: "#EEE",
     padding: "10px"
 };
 
 
-var buttonStyle = {
-    backgroundColor: "yellow"
-}
+const buttonStyle = {};
 
 
 export default class Navigation extends Component {
     constructor(props) {
         super(props);
-        this._logout = this._logout.bind(this);
+        this._IndividualLogout = this._IndividualLogout.bind(this);
+        this._Corporatelogout = this._Corporatelogout.bind(this);
     }
 
-    _logout(event) {
+    _IndividualLogout(event) {
         event.preventDefault();
-        this.props.manualLogout();
+        this.props.individualManualLogout();
     }
+
+    _Corporatelogout(event) {
+        event.preventDefault();
+        this.props.corporateManualLogout();
+    }
+
 
     render() {
-        return (
-            <div style={navStyle}>
-                {
-                    this.props.user.authenticated
-                    ? <button onClick={this._logout} style={buttonStyle}>Logout [{this.props.user.username}]</button>
-                    : <Link to="/login">Log in</Link>
-                } 
-                {
-                    !this.props.user.authenticated
-                    ? <span>&nbsp;|&nbsp;<Link to="/register">Register</Link></span>
-                    : ""
-                }
-                &nbsp;|&nbsp;
-                <Link to="/home">Home</Link>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Link to="/">About</Link>
-            </div>
-        );
+        return this.props.user.corporateStatus === corporateStatus.INDIVIDUAL ?
+            (
+                <div id="navbar-root">
+                    <a onClick={this._IndividualLogout} style={buttonStyle}>Logout {this.props.user.email }</a>
+                    <Link to="/individual/home">Home</Link>
+                    <Link to="/individual/data">All Data</Link>
+                    <Link to="/individual/goals">Goals</Link>
+                    <Link to="/individual/settings">Settings</Link>
+                </div>
+            )
+            : this.props.user.corporateStatus === corporateStatus.CORPORATE ?
+                (
+                    <div id="navbar-root">
+                        <a onClick={this._Corporatelogout} style={buttonStyle}>Logout {this.props.user.email }</a>
+                        <Link to="/corporate/home">Home</Link>
+                        <Link to="/corporate/data">All Data</Link>
+                        <Link to="/corporate/settings">Settings</Link>
+                    </div>
+                )
+                :
+                (
+                    <div id="navbar-root">
+                        <Link to="/individual/login">Log in</Link>
+                    </div>
+                );
     }
 }
 
 Navigation.propTypes = {
-    manualLogout: any,
-    user: {
-        authenticated: any,
-        username: any
-    }
-}
+    corporateManualLogout: any,
+    individualManualLogout: any,
+    user: any
+};

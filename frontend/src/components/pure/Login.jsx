@@ -1,8 +1,10 @@
-import React, { Component } from "react";
-import { any } from "prop-types";
+import React, {Component} from "react";
+import {any} from "prop-types";
+import {Link} from "react-router";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
+import './styles/Login.scss';
 
 
 const loginMessageStyle = {
@@ -10,11 +12,13 @@ const loginMessageStyle = {
 };
 
 export default class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
-            loginMessage: ""
+            loginMessage: "",
+            email: '',
+            password: ""
         };
 
         this._onLoginSubmit = this._onLoginSubmit.bind(this);
@@ -22,35 +26,55 @@ export default class Login extends Component {
 
     _onLoginSubmit(event) {
         event.preventDefault();
-        const email = (this.email).nodeValue;
-        const password = (this.password).nodeValue;
+        const email = this.state.email;
+        const password = this.state.password;
 
+        const nextPath = this.props.nextPathName || "/";
 
         this.props.manualLogin({
             email,
             password
-        }, this.props.nextPathname)
-        .then((loginMessage) => {
-            if(loginMessage) {
-                this.setState({
-                    loginMessage
-                })
-            }
-        });
+        }, nextPath)
+            .then((loginMessage) => {
+                if (loginMessage) {
+                    this.setState({
+                        loginMessage
+                    })
+                }
+            });
     }
 
     render() {
-        return(
-            <div>
-                <h2>Log in</h2>
-                <form onSubmit={this._onLoginSubmit}>
-                    <input type="email" ref={email => this.email = email} placeholder="username"/><br/>
-                    <input type="password" ref={password => this.password = password} placeholder="Password"/><br/>
-                    <input type="submit" value="Login" />
-                    <span style={loginMessageStyle}>
-                    {this.state.loginMessage}
-                    </span>
-                </form>
+        return (
+            <div id="login-parent-container">
+                <h2>
+                    Log in to <strong>FHiR</strong> Visualization
+                </h2>
+                <h5>
+                    <p>{this.props.loginAccountType}</p>
+                </h5>
+                <div id="login-container">
+                    <form id="login-form" onSubmit={this._onLoginSubmit}>
+                        {/* <h2 id="login-text">Log in</h2> */}
+                        <input className="login-inp" type="email" onChange={e => this.setState({email: e.target.value})}
+                               placeholder="username"/><br />
+                        <input className="login-inp" type="password"
+                               onChange={e => this.setState({password: e.target.value})} placeholder="Password"/><br />
+                        <input id="login-submit" type="submit" value={this.props.loginPrompt}/>
+                        <p>
+                            <Link to={this.props.alternatePath}>{this.props.alternateMessage}</Link>
+                        </p>
+
+                        <p>
+                            Don&lsquo;t have an account? <Link to={this.props.registerPath}>Sign up</Link>
+                        </p>
+                    </form>
+                    {this.state.loginMessage && (
+                        <div id="login-error">
+                            {this.state.loginMessage}
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
@@ -58,5 +82,10 @@ export default class Login extends Component {
 
 Login.propTypes = {
     manualLogin: any,
-    nextPathname: any
-}
+    nextPathName: any,
+    registerPath: any,
+    alternatePath: any,
+    alternateMessage: any,
+    loginAccountType: any,
+    loginPrompt: any
+};

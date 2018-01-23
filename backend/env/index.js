@@ -18,8 +18,10 @@ if(secret === undefined){
 
 let production;
 if(process.env.NODE_ENV === 'production') {
+    console.log("Starting server in PRODUCTION ENVIRONMENT");
     production = true;
 } else if(process.env.NODE_ENV === 'development') {
+    console.log("Starting server in DEVELOPMENT ENVIRONMENT");
     production = false;
 } else {
     throw new Error("Invalid value for NODE_ENV: " + process.env.NODE_ENV);

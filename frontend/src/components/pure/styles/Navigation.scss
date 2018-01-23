@@ -1,0 +1,24 @@
+$font-stack:    Helvetica, sans-serif;
+
+#navbar-root {
+    font-family: $font-stack;
+    background-color:  #ffffff;
+    overflow: hidden;
+    box-shadow: 1px 1px 3px #888888;
+}
+
+
+#navbar-root a {
+    float: left;
+    display: block;
+    color: #5b5b5b;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+#navbar-root a:hover {
+    background-color: #888888;
+    color: black;
+}
