@@ -2,3 +2,4 @@ node_modules/
 frontend/dist/
 secrets.env
 data/
+yarn.lock

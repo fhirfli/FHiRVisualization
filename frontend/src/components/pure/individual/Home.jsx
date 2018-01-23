@@ -3,7 +3,7 @@ import {VictoryLine, VictoryChart, VictoryTheme} from 'victory';
 import '../styles/Home.scss';
 import moment from 'moment';
 import * as propTypes from 'prop-types';
-import DashboardGrid from "./DashboardContainer";
+import DashboardGrid from "../DashboardContainer";
 
 
 const dumbData = [
