@@ -1,7 +1,13 @@
 import React from 'react';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack } from 'victory';
+import * as PropTypes from 'prop-types';
 
-class BarChart extends React.Component {
+
+export default class BarChart extends React.Component {
+  constructor(props) {
+    super();
+  }
+
   render () {
     return (
       <div>
@@ -30,9 +36,13 @@ class BarChart extends React.Component {
               }
             }
           }]}
-        data={sampleData}
+        data={this.props.data}
         />
       </div>
     )
   }
 }
+
+BarChart.propTypes = {
+  data: PropTypes.array // whatever `this.state.videos` is
+};

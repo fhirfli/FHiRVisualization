@@ -3,6 +3,28 @@ import {VictoryLine, VictoryChart, VictoryTheme} from 'victory';
 import '../styles/Home.scss';
 import moment from 'moment';
 import * as propTypes from 'prop-types';
+import DashboardGrid from "./DashboardContainer";
+
+
+const dumbData = [
+  {
+    "dataType": "HeartRate",
+    "colour": "red",
+    "visualization": [
+      "BarChartDaily",
+      "LineGraphAnnual",
+      "LineGraphWeekly"
+    ]
+  },
+  {
+    "dataType": "BloodPressure",
+    "colour": "blue",
+    "visualization": [
+      "LineGraphAnnual",
+      "BarGraphWeekly"
+    ]
+  }
+];
 
 const elem = (colour, string) => (
     <div key={string} style={{
@@ -25,6 +47,7 @@ export default class Home extends Component {
                 <div id="home-content">
                     <h2>Home</h2>
                     <h4>{moment().format("ddd D MMMM")}</h4>
+                      <DashboardGrid preferences={dumbData} />
                     {
                         this.props.preferences.map((preference) => {
                             /*                                     "dataType": "HeartRate",
