@@ -6,9 +6,20 @@ const home = (state = {
          // only the datasets requested will be present
          'heartRate': {
          // only the ranges requested will be present
-         'Annual': [{<FHIR-PROFILE>},{<FHIR-PROFILE>}....]
-         'Daily': [{<FHIR-PROFILE>},{<FHIR-PROFILE>}....]
-         'Weekly': [{<FHIR-PROFILE>},{<FHIR-PROFILE>}....]
+         'Annual': [
+         {<FHIR-PROFILE>},
+         {<FHIR-PROFILE>}....
+         ]
+         'Daily': [
+         {<FHIR-PROFILE>},
+         {<FHIR-PROFILE>},
+         ....
+         ]
+         'Weekly': [
+         {<FHIR-PROFILE>},
+         {<FHIR-PROFILE>},
+         ....
+         ]
          }
 
          */
