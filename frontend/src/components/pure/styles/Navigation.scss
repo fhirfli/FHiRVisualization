@@ -2,16 +2,17 @@ $font-stack:    Helvetica, sans-serif;
 
 #navbar-root {
     font-family: $font-stack;
-    background-color:  #ffffff;
+    background-color:  #00a200;
     overflow: hidden;
-    box-shadow: 1px 1px 3px #888888;
+    box-shadow: 1px 1px 3px #007e00;
+    margin-bottom: 2em;
 }
 
 
 #navbar-root a {
     float: left;
     display: block;
-    color: #5b5b5b;
+    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -19,6 +20,6 @@ $font-stack:    Helvetica, sans-serif;
 }
 
 #navbar-root a:hover {
-    background-color: #888888;
-    color: black;
+    background-color: #007e00;
+    color: white;
 }

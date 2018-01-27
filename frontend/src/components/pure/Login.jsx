@@ -47,11 +47,11 @@ export default class Login extends Component {
     render() {
         return (
             <div id="login-parent-container">
-                <h2>
-                    Log in to <strong>FHiR</strong> Visualization
+                <h2 id="text"> 
+                    Log in to <strong>FHiR</strong> Visualization 
                 </h2>
-                <h5>
-                    <p>{this.props.loginAccountType}</p>
+                <h5 id="text">
+                    <p >{this.props.loginAccountType}</p>
                 </h5>
                 <div id="login-container">
                     <form id="login-form" onSubmit={this._onLoginSubmit}>

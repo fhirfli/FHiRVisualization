@@ -65,3 +65,12 @@ $primary-color: #333;
     padding: 12px;
     border-radius: 3px;
 }
+
+#text {
+    font-family:  $font-stack;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+}
