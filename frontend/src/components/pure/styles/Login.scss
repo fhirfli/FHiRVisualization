@@ -8,8 +8,11 @@ $primary-color: #333;
 }
 
 #login-container {
-    display: table-cell;
+    margin-top: 10em;
+    /* display: table-cell; */
     vertical-align: middle;
+    color: white;
+    background-color: white;
 }
 
 #login-form {

@@ -57,7 +57,7 @@ export default class Login extends Component {
                     <form id="login-form" onSubmit={this._onLoginSubmit}>
                         {/* <h2 id="login-text">Log in</h2> */}
                         <input className="login-inp" type="email" onChange={e => this.setState({email: e.target.value})}
-                               placeholder="username"/><br />
+                               placeholder="Username"/><br />
                         <input className="login-inp" type="password"
                                onChange={e => this.setState({password: e.target.value})} placeholder="Password"/><br />
                         <input id="login-submit" type="submit" value={this.props.loginPrompt}/>

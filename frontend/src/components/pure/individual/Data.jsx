@@ -98,46 +98,48 @@ export default class Data extends Component {
                 <div id="data-content">
                     <h2>Data</h2>
                     <h4>Here is where you would be able to view all your data</h4>
-                    <div id="data-list">
-                        {
-                            Object.keys(this.props.validVisualizations).map((key) => {
-                                return (<button
-                                    key={key}
-                                    onClick={this.setCurrentItem.bind(this, key)}
-                                >{key}</button>);
-                            })
-                        }
-                    </div>
-                    <div id="data-content">
-                        {
-                            this.state.currentIndex < 0 ?
-                                (<p>Loading</p>) :
-                                (<div>
-                                    <h1>{this.props.preferences[this.state.currentIndex].dataType}</h1>
-                                    <p>Colour Scheme: {this.props.preferences[this.state.currentIndex].colour}</p>
-                                    {
-                                        this.props.colours.map((colour) => (
-                                            <div key={this.state.currentIndex + colour}>
-                                                <p>{colour}</p>
-                                                {this.createColourCheckboxFor(colour)}
-                                            </div>
-                                        ))
-                                    }
-                                    <p>Valid Visualizations</p>
-                                    <div>
+                    <div id="inline">
+                        <div id="data-list" >
+                            {
+                                Object.keys(this.props.validVisualizations).map((key) => {
+                                    return (<button id="btn"
+                                        key={key}
+                                        onClick={this.setCurrentItem.bind(this, key)}
+                                    >{key}</button>);
+                                })
+                            }
+                        </div>
+                        <div id="data-content">
+                            {
+                                this.state.currentIndex < 0 ?
+                                    (<p>Loading</p>) :
+                                    (<div>
+                                        <h1>{this.props.preferences[this.state.currentIndex].dataType}</h1>
+                                        <p>Colour Scheme: {this.props.preferences[this.state.currentIndex].colour}</p>
                                         {
-                                            this.props.validVisualizations[this.props.preferences[this.state.currentIndex].dataType].visualizations.map((visualization) =>
-                                                (<div key={this.state.currentIndex + visualization}>
-                                                    <p>{visualization}</p>
-                                                    {
-                                                        this.createCheckBoxFor(visualization)
-                                                    }
-                                                </div>)
-                                            )
+                                            this.props.colours.map((colour) => (
+                                                <div id="inline" key={this.state.currentIndex + colour}>
+                                                    <p>{colour}</p>
+                                                    {this.createColourCheckboxFor(colour)}
+                                                </div>
+                                            ))
                                         }
-                                    </div>
-                                </div>)
-                        }
+                                        <p>Valid Visualizations</p>
+                                        <div>
+                                            {
+                                                this.props.validVisualizations[this.props.preferences[this.state.currentIndex].dataType].visualizations.map((visualization) =>
+                                                    (<div key={this.state.currentIndex + visualization}>
+                                                        <p>{visualization}</p>
+                                                        {
+                                                            this.createCheckBoxFor(visualization)
+                                                        }
+                                                    </div>)
+                                                )
+                                            }
+                                        </div>
+                                    </div>)
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
