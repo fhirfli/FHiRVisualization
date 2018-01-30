@@ -1,8 +1,21 @@
+@import "components/pure/styles/variables";
+
 html, body {
     height: 100%;
     margin: 0px;
     padding: 0px;
-    background-color: D0D0D0;
-    font-family: Nunito;
+    background-color: $bodyAccentColour;
+    font-size: $bodyFontSize;
+    font-family: $baseFontFamily;
+}
+
+#app {
+    height: 100%;
+}
+
+#app > div {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 

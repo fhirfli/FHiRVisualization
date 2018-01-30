@@ -1,11 +1,12 @@
-$font-stack:    Helvetica, sans-serif;
-
+@import "variables";
 #navbar-root {
-    font-family: $font-stack;
-    background-color:  #00a200;
+    font-family: $baseFontFamily;
+    color: $headerTextColour;
+    background-color: $headerAccentColour;
     overflow: hidden;
-    box-shadow: 1px 1px 3px #007e00;
     margin-bottom: 2em;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }
 
 
@@ -16,7 +17,7 @@ $font-stack:    Helvetica, sans-serif;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: $titleFontSize;
 }
 
 #navbar-root a:hover {
