@@ -1,3 +1,5 @@
+@import "variables";
+
 #home-container {
     width: 100%;
     display: grid;
@@ -5,6 +7,8 @@
     justify-content: center;
     grid-template-columns: 1fr 3fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+    grid-row-start: 2;
+    grid-row-end: 3;
 }
 
 #home-content {
