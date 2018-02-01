@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Dropdown from "../utility/Dropdown";
 import '../styles/Goals.scss';
 
 import * as propTypes from "prop-types";
@@ -127,6 +128,7 @@ export default class Goals extends Component {
     }
 
     setCurrentDataType(dataType) {
+        //
         let index = this.state.currentIndex;
         if (index < this.props.goals.length) {
             this.setState({
@@ -207,11 +209,11 @@ export default class Goals extends Component {
 
     createNewGoal() {
         let newGoal = {
-            name: "",
-            dataType: "",
+            name: " ",
+            dataType: " ",
             value: 100,
-            period: 0,
-            colour: ""
+            period: " ",
+            colour: " "
         };
 
         let newGoals = [...this.state.newGoals, newGoal];
@@ -334,14 +336,16 @@ export default class Goals extends Component {
 
         return (
             goal && (
-                <div>
+                <div id="goals-display-panel-container">
                     {alreadyExists ?
                         (
-                            <div ><p>Label:</p><p>{goal.name}</p></div>
+                            <div id="goals-display-panel-title"><p className="goals-display-panel-label">Label:</p><p
+                                className="goals-display-panel-content">{goal.name}</p></div>
                         ) : (
-                            <div>
-                                <p>Label:</p>
-                                <input type="text" placeholder="Name"
+                            <div id="goals-display-panel-title">
+                                <p className="goals-display-panel-label">Label:</p>
+                                <input type="text" placeholder="Goal Name"
+                                       className="goals-display-panel-content"
                                        onChange={e => {
                                            const newGoals = [...this.state.newGoals];
                                            newGoals[actualIndex].name = e.target.value;
@@ -351,43 +355,80 @@ export default class Goals extends Component {
                         )
                     }
 
-                    <div><p>Data:</p> {goal.dataType}</div>
-                    {Object.keys(this.props.validVisualizations).map(visualization => (
-                        <div key={visualization + this.state.currentIndex}>
-                            {visualization}
-                            {this.generateDataCheckboxFor(visualization)}
+                    <div>
+                        <p className="goals-display-panel-label">Data:</p>
+                        <p className="goals-display-panel-content">
+                            {/*{goal.dataType}*/}
+
+                            <Dropdown baseZindex={5}
+                                      choices={Object.keys(this.props.validVisualizations)}
+                                      currentlySelected={
+                                          (
+                                              this.state.currentIndex < this.props.goals.length ?
+                                                  this.state.currentDataType :
+                                                  this.state.newGoals[this.state.currentIndex - this.props.goals.length].dataType
+                                          )
+                                      }
+                                      choiceToString={(dataType => dataType)}
+                                      callback={dataType => this.setCurrentDataType(dataType)}/>
+                        </p>
+                    </div>
+
+
+                    <div>
+                        <p className="goals-display-panel-label">Colour:</p>
+                        <div className="goals-display-panel-content">
+                            <Dropdown baseZindex={4}
+                                      choices={this.props.colours}
+                                      currentlySelected={
+                                          (this.state.currentIndex < this.props.goals.length ?
+                                                  this.state.currentColour :
+                                                  this.state.newGoals[this.state.currentIndex - this.props.goals.length].colour
+                                          )
+                                      }
+                                      choiceToString={(colour => {
+                                          console.log("Trying to parse " + colour);
+                                          return colour;
+                                      })} callback={colour => this.setCurrentColour(colour)}/>
                         </div>
-                    ))}
+                    </div>
 
-                    <div><p>Colour:</p> {goal.colour}</div>
-                    {this.props.colours.map(colour => (
-                        <div key={colour + this.state.currentIndex}>
-                            {colour}
-                            {this.generateColourCheckboxFor(colour)}
-                        </div>
-                    ))}
+                    <div><p className="goals-display-panel-label">Target:</p><input
+                        className="goals-display-panel-content" type="text" value={this.getCurrentValue()}
+                        onChange={e => {
+                            try {
+                                let value = Number.parseFloat(e.target.value);
+                                this.setCurrentValue(value);
+                            } catch (err) {
+                                this.e.target.clear();
+                            }
+                        }}/></div>
 
-                    <div><p>Target:</p><input type="text" value={this.getCurrentValue()} onChange={e => {
-                        try {
-                            let value = Number.parseFloat(e.target.value);
-                            this.setCurrentValue(value);
-                        } catch (err) {
-                            this.e.target.clear();
-                        }
-                    }}/></div>
+                    <div><p className="goals-display-panel-label">Every:</p><p
+                        className="goals-display-panel-content">
+                        {/*{goal.period}*/}
+                        <Dropdown baseZindex={3}
+                                  choices={(this.props.validPeriods)}
+                                  currentlySelected={
+                                      (
+                                          this.state.currentIndex < this.props.goals.length ?
+                                              this.state.currentPeriod :
+                                              this.state.newGoals[this.state.currentIndex - this.props.goals.length].period
+                                      )
+                                  }
+                                  choiceToString={(period => period)}
+                                  callback={period => this.setCurrentPeriod(period)}/>
 
-                    <div><p>Every:</p><p>{goal.period}</p></div>
-                    {this.props.validPeriods.map(period => (
-                        <div key={period + this.state.currentIndex}>
-                            {period}
-                            {this.generatePeriodCheckboxFor(period)}
-                        </div>
-                    ))}
+                    </p></div>
 
-                    {needsSaving && (
-                        <button onClick={this.saveChanges}>Save Changes</button>
-                    )}
-                    <button onClick={this.deleteCurrentGoal}>Delete Goal</button>
+                    <div id="goals-panel-button-container">
+                        {needsSaving && (
+                            <button className="goals-display-panel-button" onClick={this.saveChanges}>Save
+                                Changes</button>
+                        )}
+                        <button className="goals-display-panel-button" onClick={this.deleteCurrentGoal}>Delete Goal
+                        </button>
+                    </div>
                 </div>
             )
         );
@@ -397,39 +438,47 @@ export default class Goals extends Component {
     render() {
         return (
             <div id="goals-container">
-                <div id="goals-content">
+                <div id="goals-title">
                     <h2>Goals</h2>
-                    <h4>This is where you might be able to select goals</h4>
-                    <div>
-                        <h3> Tracked Goals </h3>
-                        {
-                            this.props.goals.map(goal => (
-                                <button
-                                    key={goal.name + this.state.currentIndex}
-                                    onClick={this.setSelectedValue.bind(this, goal.name)}
-                                >
-                                    {goal.name}
-                                </button>
-                            ))
-                        }
-                        {
-                            this.state.newGoals.map((goal, i) => (
-                                <button
-                                    key={goal.name + i + " - " + this.props.goals.length + "," + this.state.newGoals.length + this.state.currentIndex}
-                                    onClick={this.setSelectedValue.bind(this, goal.name)}
-                                >
-                                    {goal.name ? goal.name : "new goal"}
-                                </button>
-                            ))
-                        }
-                        { this.state.newGoals.length === 0 &&
-                        (
-                            <button
-                                onClick={this.createNewGoal}>
-                                Add goal
-                            </button>
-                        )}
+                </div>
+                <div id="goals-date">
+                    <div id="goals-date-items">
+                        <p>Fri 27</p>
+                        <p>October</p>
                     </div>
+                </div>
+                <div id="goals-options">
+                    <h3> Tracked Goals </h3>
+                    {
+                        this.props.goals.map(goal => (
+                            <button
+                                key={goal.name + this.state.currentIndex}
+                                onClick={this.setSelectedValue.bind(this, goal.name)}
+                            >
+                                {goal.name}
+                            </button>
+                        ))
+                    }
+                    {
+                        this.state.newGoals.map((goal, i) => (
+                            <button
+                                key={goal.name + i + " - " + this.props.goals.length + "," + this.state.newGoals.length + this.state.currentIndex}
+                                onClick={this.setSelectedValue.bind(this, goal.name)}
+                            >
+                                {goal.name ? goal.name : "new goal"}
+                            </button>
+                        ))
+                    }
+                    { this.state.newGoals.length === 0 &&
+                    (
+                        <button
+                            id="goals-new-button"
+                            onClick={this.createNewGoal}>
+                            Add goal
+                        </button>
+                    )}
+                </div>
+                <div id="goals-panel">
                     { this.state.currentIndex >= 0 &&
                     this.generateDisplayPanel()
                     }
