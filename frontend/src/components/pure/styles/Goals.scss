@@ -106,6 +106,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  margin-right: 10px;
 
   > div {
     display: grid;
@@ -132,21 +133,25 @@ input.goals-display-panel-content {
   font-weight: $boldFontWeight;
   display: flex;
   padding: 10px !important;
-  width: 95%;
+  width: 100%;
   margin-bottom: 10px;
+  border-width: 0px;
 }
 
 #goals-panel-button-container {
   display: flex !important;
-  justify-content: center;
+  //justify-content: center;
   margin-top: auto;
-  margin-bottom: 10px;
-  align-items: center;
+  //margin-bottom: 10px;
+  //align-items: center;
   flex-direction: column;
+  //padding-right: 10px;
+  align-self: center;
+  margin-left: 10px;
 }
 
 input.goals-display-panel-content {
-  margin: 10px 10px 10px 0px;
+  margin: 10px 0px 10px 0px;
 }
 
 .dropdown-display {
