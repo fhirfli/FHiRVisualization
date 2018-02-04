@@ -54,40 +54,48 @@ export default class Settings extends Component {
     render() {
         return (
             <div id="settings-container">
-                <div id="settings-content">
+                <div id="settings-title">
                     <h2>Settings</h2>
-                    <div id="settings-add-panel">
-                        <form id="add-form" onSubmit={this._onAddSubmit}>
-                            <input
-                                className="settings-inp"
-                                type="text"
-                                placeholder="Company Domain"
-                                onChange={e => this.setState({domain: e.target.value})}
-                                ref={ref => this.domainField = ref}/>
-                            <input id="add-submit" type="submit" value="Add Association"/>
-                        </form>
+                </div>
+                <div id="settings-date">
+                    <div id="settings-date-items">
+                        <p>Fri 27</p>
+                        <p>October</p>
                     </div>
-                    <div id="settings-list-panel">
-                        {
-                            this.props.isWaiting ?
-                                <p>Loading...</p>
-                                :
-                                <ul>
-                                    {
-                                        this.props.associations.map(association => {
-                                            return (
-                                                <li key={this.updateCount + association.domain}>
-                                                    {association.name} - {association.domain}
-                                                    <button
-                                                        onClick={this._onRemoveAssociation.bind(this, association.domain)}>
-                                                        Remove
-                                                    </button>
-                                                </li>);
-                                        })
-                                    }
-                                </ul>
-                        }
-                    </div>
+                </div>
+                <div id="settings-add-panel">
+                    <h2>Add Company</h2>
+                    <form id="add-form" onSubmit={this._onAddSubmit}>
+                        <input
+                            className="settings-inp"
+                            type="text"
+                            placeholder="Company Domain"
+                            onChange={e => this.setState({domain: e.target.value})}
+                            ref={ref => this.domainField = ref}/>
+                        <input id="add-submit" type="submit" value="Add Association"/>
+                    </form>
+                </div>
+                <div id="settings-list-panel">
+                    <h2>Associated Organizations</h2>
+                    {
+                        this.props.isWaiting ?
+                            <p>Loading...</p>
+                            :
+                            <div id="settings-company-list">
+                                {
+                                    this.props.associations.map(association => {
+                                        return (
+                                            <div key={this.updateCount + association.domain}>
+                                                {association.name} - {association.domain}
+                                                <button
+                                                    onClick={this._onRemoveAssociation.bind(this, association.domain)}>
+                                                    Remove
+                                                </button>
+                                            </div>);
+                                    })
+                                }
+                            </div>
+                    }
                 </div>
             </div>
         );
