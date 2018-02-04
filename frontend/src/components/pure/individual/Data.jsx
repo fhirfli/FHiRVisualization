@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import '../styles/Data.scss';
+import Dropdown from 'components/pure/utility/Dropdown';
 
 import * as propTypes from "prop-types";
 
@@ -95,50 +96,60 @@ export default class Data extends Component {
     render() {
         return (
             <div id="data-container">
-                <div id="data-content">
+                <div id="data-title">
                     <h2>Data</h2>
-                    <h4>Here is where you would be able to view all your data</h4>
-                    <div id="data-list">
-                        {
-                            Object.keys(this.props.validVisualizations).map((key) => {
-                                return (<button
-                                    key={key}
-                                    onClick={this.setCurrentItem.bind(this, key)}
-                                >{key}</button>);
-                            })
-                        }
+                </div>
+                <div id="data-date">
+                    <div id="data-date-items">
+                        <p>Fri 27</p>
+                        <p>October</p>
                     </div>
-                    <div id="data-content">
-                        {
-                            this.state.currentIndex < 0 ?
-                                (<p>Loading</p>) :
-                                (<div>
-                                    <h1>{this.props.preferences[this.state.currentIndex].dataType}</h1>
-                                    <p>Colour Scheme: {this.props.preferences[this.state.currentIndex].colour}</p>
+                </div>
+
+                <div id="data-list">
+                    {
+                        Object.keys(this.props.validVisualizations).map((key) => {
+                            return (<button id="btn"
+                                            key={key}
+                                            onClick={this.setCurrentItem.bind(this, key)}
+                            >{key}</button>);
+                        })
+                    }
+                </div>
+                <div id="data-content">
+                    {
+                        this.state.currentIndex < 0 ?
+                            (<p>Loading</p>) :
+                            (<div id="data-panel">
+                                <h1>{this.props.preferences[this.state.currentIndex].dataType}</h1>
+                                <div id="data-colour-select">
+                                    <p>Colour Scheme:</p>
+                                    <Dropdown baseZindex={5}
+                                              choices={(this.props.colours)}
+                                              currentlySelected={ this.props.preferences[this.state.currentIndex].colour }
+                                              choiceToString={(colour => colour)}
+                                              callback={colour => this.toggleColour(colour)}/>
+                                </div>
+
+                                <div id="data-visualizations-title">
+                                    <h2>Available Visualizations</h2>
+                                    <p>On dashboard:</p>
+                                </div>
+                                <div id="data-visualizations">
                                     {
-                                        this.props.colours.map((colour) => (
-                                            <div key={this.state.currentIndex + colour}>
-                                                <p>{colour}</p>
-                                                {this.createColourCheckboxFor(colour)}
-                                            </div>
-                                        ))
+                                        this.props.validVisualizations[this.props.preferences[this.state.currentIndex].dataType].visualizations.map((visualization) =>
+                                            (<div className="data-visualization-option"
+                                                  key={this.state.currentIndex + visualization}>
+                                                <p className="data-visualization-option-label">{visualization}</p>
+                                                {
+                                                    this.createCheckBoxFor(visualization)
+                                                }
+                                            </div>)
+                                        )
                                     }
-                                    <p>Valid Visualizations</p>
-                                    <div>
-                                        {
-                                            this.props.validVisualizations[this.props.preferences[this.state.currentIndex].dataType].visualizations.map((visualization) =>
-                                                (<div key={this.state.currentIndex + visualization}>
-                                                    <p>{visualization}</p>
-                                                    {
-                                                        this.createCheckBoxFor(visualization)
-                                                    }
-                                                </div>)
-                                            )
-                                        }
-                                    </div>
-                                </div>)
-                        }
-                    </div>
+                                </div>
+                            </div>)
+                    }
                 </div>
             </div>
         );

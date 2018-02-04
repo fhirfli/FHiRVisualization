@@ -64,6 +64,7 @@ if (!env.PRODUCTION) {
     }));
 
     app.use(webpackDevMiddleware(compiler));
+    app.use('/images', express.static(path.join(__dirname, '../frontend/src/images')));
 
 
     app.get('*', (req, res, next) => {
