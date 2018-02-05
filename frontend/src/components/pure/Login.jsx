@@ -47,17 +47,21 @@ export default class Login extends Component {
     render() {
         return (
             <div id="login-parent-container">
-                <h2>
-                    Log in to <strong>FHiR</strong> Visualization
-                </h2>
-                <h5>
-                    <p>{this.props.loginAccountType}</p>
-                </h5>
+                <div id="login-title-container">
+                    <h2 id="text">
+                        Log in to <strong>FHiR</strong> Visualization
+                    </h2>
+                    <h5 id="text">
+                        <p >{this.props.loginAccountType}</p>
+                    </h5>
+                </div>
                 <div id="login-container">
                     <form id="login-form" onSubmit={this._onLoginSubmit}>
                         {/* <h2 id="login-text">Log in</h2> */}
+                        Email Address
                         <input className="login-inp" type="email" onChange={e => this.setState({email: e.target.value})}
-                               placeholder="username"/><br />
+                               placeholder="Username"/><br />
+                        Password
                         <input className="login-inp" type="password"
                                onChange={e => this.setState({password: e.target.value})} placeholder="Password"/><br />
                         <input id="login-submit" type="submit" value={this.props.loginPrompt}/>

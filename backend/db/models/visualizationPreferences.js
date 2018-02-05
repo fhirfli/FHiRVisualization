@@ -14,7 +14,7 @@ const individualPreferenceSchema = new Schema({
     },
     colour: {type: String, enum: Data.COLORS, required: true},
     visualization: [{type: String, enum: Data.VALID_VISUALIZATIONS}]
-});
+}, { usePushEach: true });
 
 const corporatePreferenceSchema = new Schema({
     user: {type: ObjectId, ref: 'CorporateUser', required: true},
@@ -22,7 +22,7 @@ const corporatePreferenceSchema = new Schema({
     secondaryDataType: {type: String, enum: [...Data.VALID_DATA_TYPES, "Time"], required: false},
     colour: {type: String, enum: Data.COLORS, required: true},
     visualization: {type: String, enum: Data.VALID_AGGREGATE_VISUALIZATIONS, required: true}
-});
+}, { usePushEach: true });
 
 
 const IndividualVisualizationPreference = mongoose.model('IndividualVisualizationPreference', individualPreferenceSchema);

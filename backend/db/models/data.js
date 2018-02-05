@@ -7,7 +7,7 @@ mongoose.Promise = Promise;
 
 const VALID_SCHEMAS = [
     "HeartRate", "BodyHeight", "BodyWeight", "BloodPressureSystolicAndDiastolic", "BMI",
-    "Observation", "Condition", "FamilyMemberHistory", "MedicationStatement", "Patient", "Organization"
+    "Observation", "Condition", "FamilyMemberHistory", "MedicationStatement.js", "Patient", "Organization"
 ];
 
 const VALID_VISUALIZATIONS = [
@@ -73,7 +73,8 @@ const DATA_SPECIFICATION = {
         name: "Body mass Index",
         profile: "BMI",
         validVisualizations: [
-            "LineGraphAnnual"
+            "LineGraphAnnual",
+            "BarChartWeekly"
         ]
     }
 };

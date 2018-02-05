@@ -3,3 +3,4 @@ frontend/dist/
 secrets.env
 data/
 yarn.lock
+setup.sh

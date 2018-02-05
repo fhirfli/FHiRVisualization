@@ -1,5 +1,5 @@
 import React from 'react';
-import {VictoryLine, VictoryChart} from 'victory';
+import { VictoryArea, VictoryChart, VictoryTheme, VictoryLabel } from 'victory';
 import * as PropTypes from 'prop-types';
 
 
@@ -8,28 +8,17 @@ export default class LineGraph extends React.Component {
         super();
     }
 
-    /*
-     onLoad(endPoint, dataType) {
-     this.setState((endPoint, dataType) => {
-     return {
-     dataType = dataType,
-     data = endPoint
-     }
-     });
-     }
-     */
-
-    componentDidMount() {
-        this.onLoad();
-    }
-
-
     render() {
+      const styles = this.getStyles()
         return (
+          <div className="dash__component">
+            <VictoryLabel x={5} y={24} style={ styles.title }
+              text="Line Graph"
+            />
             <VictoryChart
                 theme={ VictoryTheme.material }
             >
-                <VictoryLine
+                <VictoryArea
                     style={{
                         data: {stroke: "#c43a31"},
                         parent: {border: "1px solid #ccc"}
@@ -37,6 +26,7 @@ export default class LineGraph extends React.Component {
                     data={ this.state.data }
                 />
             </VictoryChart>
+          </div>
         )
     }
 }

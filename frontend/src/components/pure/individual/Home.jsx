@@ -5,8 +5,80 @@ import moment from 'moment';
 import * as propTypes from 'prop-types';
 import DashboardGrid from "../DashboardContainer";
 
+const sampleBarChartWeekly1 = [{ x: "Monday", y: 293 },
+                             { x: "Tuesday", y: 424 },
+                             { x: "Wednesday", y: 392},
+                             { x: "Thursday", y: 264},
+                             { x: "Friday", y: 42},
+                             { x: "Saturday", y: 105},
+                             { x: "Sunday", y: 183}
+                           ];
+
+const sampleBarChartDaily1 = [{ x: "7:39", y: 293 },
+                              { x: "8:21", y: 424 },
+                              { x: "14:53", y: 392},
+                              { x: "19:20", y: 264},
+                             ]
 
 const dumbData = [
+  {
+    "dataType": "HeartRate",
+    "colour": "blue",
+    "visualization": []
+  },
+  {
+    "dataType": "BloodPressure",
+    "colour": "blue",
+    "visualization": [
+      "LineGraphMonthly"
+    ]
+  },
+  {
+    "dataType": "BodyWeight",
+    "colour": "yellow",
+    "visualization": [
+      "LineGraphMonthly"
+    ]
+  },
+  {
+    "dataType": "BodyHeight",
+    "colour": "yellow",
+    "visualization": [
+      "DonutWeekly"
+    ]
+  },
+  {
+    "dataType": "SystolicAndDiastolic",
+    "colour": "yellow",
+    "visualization": []
+  },
+  {
+    "dataType": "BMI",
+    "colour": "yellow",
+    "visualization": []
+  },
+  {
+    "dataType": "HeartRate",
+    "colour": "red",
+    "visualization": [
+      "BarChartDaily",
+      "LineGraphAnnual",
+      "LineGraphWeekly"
+    ]
+  },
+  {
+    "dataType": "BloodPressure",
+    "colour": "blue",
+    "visualization": [
+      "LineGraphAnnual",
+      "BarGraphWeekly"
+    ]
+  }
+];
+
+
+
+/*[
     {
         "dataType": "HeartRate",
         "colour": "red",
@@ -25,6 +97,7 @@ const dumbData = [
         ]
     }
 ];
+*/
 
 const elem = (colour, string) => (
     <div key={string} style={{
@@ -43,22 +116,29 @@ export default class Home extends Component {
     }
     render() {
         return (
-            <div id="home-container">
+            <div id="home-container" className="basic">
                 <div id="home-content">
-                    <h2>Home</h2>
-                    <h4>{moment().format("ddd D MMMM")}</h4>
-                    <DashboardGrid preferences={dumbData}/>
+                  <div id="home-content__header">
+                    <h2 className="home__title">Home</h2>
+                    <h4 className="home__date">{moment().format("ddd D MMMM")}</h4>
+                  </div>
                     {
+                      this.props.preferences.length > 0 && ( <DashboardGrid preferences={ this.props.preferences }/> )
+                    }
+                    {
+                    /*
                         this.props.preferences.map((preference) => {
-                            /*                                     "dataType": "HeartRate",
+                            *                                     "dataType": "HeartRate",
                              "colour":  DEFAULT_COLOUR,
                              "visualization": [],
-                             */
+                             *
                             return preference.visualization.map((visualization, i) => {
                                 return (elem(preference.colour, visualization + " " + preference.dataType + " " + i));
                             });
                         })
+                    */
                     }
+
                     {
                         this.props.goals.map((goal, i) => {
                             return (elem(goal.colour, goal.name + " " + goal.value + " " + i))

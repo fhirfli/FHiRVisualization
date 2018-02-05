@@ -35,26 +35,49 @@ export default class Navigation extends Component {
         return this.props.user.corporateStatus === corporateStatus.INDIVIDUAL ?
             (
                 <div id="navbar-root">
-                    <a onClick={this._IndividualLogout} style={buttonStyle}>Logout {this.props.user.email }</a>
-                    <Link to="/individual/home">Home</Link>
-                    <Link to="/individual/data">All Data</Link>
-                    <Link to="/individual/goals">Goals</Link>
-                    <Link to="/individual/settings">Settings</Link>
+                    <img id="navbar-logo" src={require("../../images/logo.svg")}/>
+                    <h3 id="navbar-title"><strong>FHiR</strong> Visualization</h3>
+                    <div id="navbar-buttons">
+                        <a id="navbar-auth-button" onClick={this._IndividualLogout}
+                           style={buttonStyle}>Logout {this.props.user.email }</a>
+                        <div id="navbar-options-container">
+                            <ul>
+                                <li><Link to="/individual/home">Home</Link></li>
+                                <li><Link to="/individual/data">All Data</Link></li>
+                                <li><Link to="/individual/goals">Goals</Link></li>
+                                <li><Link to="/individual/settings">Settings</Link></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             )
             : this.props.user.corporateStatus === corporateStatus.CORPORATE ?
                 (
                     <div id="navbar-root">
-                        <a onClick={this._Corporatelogout} style={buttonStyle}>Logout {this.props.user.email }</a>
-                        <Link to="/corporate/home">Home</Link>
-                        <Link to="/corporate/data">All Data</Link>
-                        <Link to="/corporate/settings">Settings</Link>
+                        <img id="navbar-logo" src="/images/logo.svg"/>
+                        <h3 id="navbar-title"><strong>FHiR</strong> Visualization</h3>
+                        <div id="navbar-buttons">
+                            <a id="navbar-auth-button" onClick={this._Corporatelogout}
+                               style={buttonStyle}>Logout {this.props.user.email }</a>
+                            <div id="navbar-options-container">
+                                <ul>
+                                    <li><Link to="/corporate/home">Home</Link></li>
+                                    <li><Link to="/corporate/data">All Data</Link></li>
+
+                                    <li><Link to="/corporate/settings">Settings</Link></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 )
                 :
                 (
                     <div id="navbar-root">
-                        <Link to="/individual/login">Log in</Link>
+                        <img id="navbar-logo" src="/images/logo.svg"/>
+                        <h3 id="navbar-title"><strong>FHiR</strong> Visualization</h3>
+                        <div id="navbar-buttons">
+                            <Link id="navbar-auth-button" to="/individual/login">Log in</Link>
+                        </div>
                     </div>
                 );
     }
