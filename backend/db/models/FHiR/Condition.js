@@ -13,10 +13,12 @@ const conditionSchema = new Schema({
     },
     code: {
         required: true,
-        coding: {
-            required: true,
-            snowmedCT: {type: String, enum: snowmed.snowmedCTCodes}
-        }
+        type: [{
+            coding: {
+                required: true,
+                type: [{snowmedCT: {type: String, enum: snowmed.snowmedCTCodes}}]
+            }
+        }]
     },
     subject: {
         type: ObjectId, ref: 'IndividualUser', required: true

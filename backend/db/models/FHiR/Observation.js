@@ -8,15 +8,19 @@ const observationSchema = new Schema({
     // identifier is implicitly present
     status: {type: String, enum: ["registered", "preliminary", "final", "amended"], required: true},
     category: {
-        coding: {
-            snowmedCT: {type: String, enum: snowmed.snowmedCategoryCodes}
-        }
+        type: [{
+            coding: {
+                type: [{snowmedCT: {type: String, enum: snowmed.snowmedCategoryCodes}}]
+            }
+        }]
     },
     code: {
-        coding: {
-            snowmedCT: {type: String, enum: snowmed.snowmedCTCodes, required: true},
-            required: true
-        }
+        type: [{
+            coding: {
+                type: [{snowmedCT: {type: String, enum: snowmed.snowmedCTCodes, required: true}}],
+                required: true
+            }
+        }]
     },
     subject: {
         type: ObjectId, ref: 'IndividualUser', required: true
@@ -42,15 +46,19 @@ const observationSchema = new Schema({
         type: String
     },
     bodySite: {
-        coding: {
-            snowmedCT: {type: String, enum: snowmed.snowmedBodySiteCodes}
-        }
+        type: [{
+            coding: {
+                type: [{snowmedCT: {type: String, enum: snowmed.snowmedBodySiteCodes}}]
+            }
+        }]
     },
     method: {
-        coding: {
-            snowmedCT: {type: String, enum: snowmed.snowmedMethodCodes}
-        },
-        text: {type: String}
+        type: [{
+            coding: {
+                type: [{snowmedCT: {type: String, enum: snowmed.snowmedMethodCodes}}]
+            },
+            text: {type: String}
+        }]
     },
     device: {
         type: String

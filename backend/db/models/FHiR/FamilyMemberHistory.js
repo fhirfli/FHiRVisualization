@@ -11,14 +11,16 @@ const familyMemberSchema = new Schema({
         enum: ["registered", "preliminary", "final", "amended"],
         required: true
     },
-    patient: {},
-    date: {},
+    patient: {type: ObjectId, ref: 'IndividualUser', required: true},
+    date: {type: mongoose.Schema.Types.Date},
     relationship: {
         required: true,
-        coding: {
-            required: true,
-            snowmedCT: {type: String, enum: snowmed.snowmedRelationshipCodes}
-        }
+        type: [{
+            coding: {
+                required: true,
+                type: [{snowmedCT: {type: String, enum: snowmed.snowmedRelationshipCodes}}]
+            }
+        }]
     },
     gender: {
         type: mongoose.Schema.Types.String
@@ -33,13 +35,14 @@ const familyMemberSchema = new Schema({
         type: mongoose.Schema.Types.String
     },
     condition: {
-        coding: {
-            required: true,
-            snowmedCT: {type: String, enum: snowmed.snowmedConditionCodes}
-        },
-        outcome: {type: mongoose.Schema.Types.String},
-        onset: {type: mongoose.Schema.Types.String}
-
+        type: [{
+            coding: {
+                required: true,
+                type: [{snowmedCT: {type: String, enum: snowmed.snowmedConditionCodes}}]
+            },
+            outcome: {type: mongoose.Schema.Types.String},
+            onset: {type: mongoose.Schema.Types.String}
+        }]
     },
     recorder: {
         type: ObjectId,
