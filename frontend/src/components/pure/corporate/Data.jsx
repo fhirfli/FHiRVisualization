@@ -34,9 +34,13 @@ export default class Data extends Component {
     }
 
     generateDataTypeOption(dataType, index) {
-        return (<button key={index + dataType} onClick={(e) => {
-            this.setState({currentIndex: index});
-        }}>{dataType}</button>)
+        return (
+        <div id="data-list">
+            <button key={index + dataType} onClick={(e) => {
+                this.setState({currentIndex: index});
+            }}>{dataType}</button>
+        </div>
+        )
     }
 
     generateDataPanelFor(dataType) {
