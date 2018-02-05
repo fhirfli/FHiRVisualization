@@ -54,7 +54,7 @@ function beginLoadVisualizations() {
 }
 function loadVisualizationsSuccess(visualizations, dataTypes) {
     return {
-        type: LOAD_DATATYPES_SUCCESS,
+        type: LOAD_VISUALIZATIONS_SUCCESS,
         data: {
             visualizations,
             dataTypes
@@ -188,9 +188,25 @@ export function manualLoadVisualizations() {
     }
 }
 
+export function manualLoadColours() {
+    return dispatch => {
+        dispatch(beginLoadColours());
+        return axios({
+            method: "get",
+            url: "/api/visualizations/colours"
+        }).then(response => {
+            let colours = response.data;
+            dispatch(loadColoursSuccess(colours));
+        }).catch(err => {
+            dispatch(loadColoursError(handleResponseError(err)));
+        });
+    }
+}
+
 
 export function manualCreatePreference(preference) {
     return dispatch => {
+        console.log("Sending off " + JSON.stringify(preference));
         dispatch(beginCreatePreference());
         return axios({
             method: "post",

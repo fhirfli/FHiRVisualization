@@ -9,8 +9,8 @@ mongoose.Promise = Promise;
 const GOAL_PERIODS = ['DAY', 'WEEK', 'FORTNIGHT', 'MONTH'];
 
 const goalSchema = new Schema({
-    user: { type: ObjectId, ref: 'User', required: true},
-    dataType: {type: String, ref: Data.VALID_DATA_TYPES},
+    user: {type: ObjectId, ref: 'IndividualUser', required: true},
+    dataType: {type: String, enum: Data.VALID_DATA_TYPES},
     name: { type: String, required: true, unique: true},
     value: { type: Number , required: true},
     period:  { type: String, enum: GOAL_PERIODS, required: true},

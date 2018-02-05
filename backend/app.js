@@ -7,6 +7,7 @@ module.exports = (env) => {
     const methodOverride = require('method-override');
     const MongoStore = require('connect-mongo')(session);
 
+
     // main application
     const router = express.Router();
     const PORT = env.PORT;
@@ -15,13 +16,13 @@ module.exports = (env) => {
 
     // Allow CORS
     router.use(methodOverride());
-    router.use((req,res,next) => {
+    router.use((req, res, next) => {
         res.header('Access-Control-Allow-Credentials', true);
         res.header('Access-Control-Allow-Origin', req.headers.origin);
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-        if('OPTIONS' === req.method) {
+        if ('OPTIONS' === req.method) {
             res.send(200);
         } else {
             next();
@@ -29,29 +30,27 @@ module.exports = (env) => {
     });
 
     router.use(
-            bodyParser.urlencoded({
-            extended: true 
-            })
+        bodyParser.urlencoded({
+            extended: true
+        })
     );
     // Body parser
-    
+
     router.use(bodyParser.json());
 
     router.use(session({
-            secret: env.SECRET,
-            store: new MongoStore({mongooseConnection: dbConnection }),
-            resave: false,
-            saveUninitialized: false
+        secret: env.SECRET,
+        store: new MongoStore({mongooseConnection: dbConnection}),
+        resave: false,
+        saveUninitialized: false
     }));
 
 
-
-
     // logging middleware
-    if(env.PRODUCTION) {
+    if (env.PRODUCTION) {
         let accessLogStream = fs.createWriteStream(path.join(env.LOGDIR), {flags: 'a'});
         router.use(morgan(':method :url :status :res[content-length] - :response-time ms', {stream: accessLogStream}));
-    } 
+    }
 
     const passport = require('./passport')(env);
     router.use(passport.initialize());
@@ -71,8 +70,8 @@ module.exports = (env) => {
         console.log('=========== ERROR ============');
         console.error(err.stack);
         res.status(500);
-    })
+    });
 
 
     return router;
-}
+};
