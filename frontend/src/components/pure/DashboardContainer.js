@@ -8,15 +8,11 @@ import BrushLineGraph from "../BrushLineGraph";
 
 import * as PropTypes from 'prop-types';
 
-const sampleData = [{ x: "Calories Burnt", y: 293 },
-    { x: "Calories To Burn", y: 424 },];
-
 export default class DashboardGrid extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { data : {} };
-
     this.loadData = this.loadData.bind(this);
     this.checkVisType  = this.checkVisType.bind(this);
     this.mapToRange  = this.mapToRange.bind(this);
@@ -36,6 +32,7 @@ export default class DashboardGrid extends React.Component {
     this.setState({
       listOfVis
     })
+    console.log("DAshboardContainer : " + JSON.stringify(this.props.preferences));
   }
 
   mapToRange(visualization) {
@@ -54,7 +51,7 @@ export default class DashboardGrid extends React.Component {
     else if(vis.visualization.includes("LineGraph")) {
       return 2;
     }
-    else if(vis.visualization.includes("Donut")) {
+    else if(vis.visualization.includes("Doughnut")) {
       return 3;
     }
     else if(vis.visualization.includes("GroupBarChart")) {
@@ -68,15 +65,20 @@ export default class DashboardGrid extends React.Component {
 
   // Load the data from Props
   loadData(dataType, dataRange) {
-    const sampleData = [{ x: "Calories Burnt", y: 293 },
-        { x: "Calories To Burn", y: 424 }
-    ];
+    const sampleBarChartWeekly1 = [{ x: "Monday", y: (Math.random() * 400), label: "Monday"},
+                                 { x: "Tuesday", y: (Math.random() * 400), label: "Tuesday" },
+                                 { x: "Wednesday", y: (Math.random() * 400), label: "Wednesday" },
+                                 { x: "Thursday", y: (Math.random() * 400), label: "Thursday" },
+                                 { x: "Friday", y: (Math.random() * 400), label: "Friday" },
+                                 { x: "Saturday", y: (Math.random() * 400), label: "Saturday" },
+                                 { x: "Sunday", y: (Math.random() * 400), label: "Sunday" }
+                               ];
 
     var mock = Object.assign({}, this.state);
     mock.data = mock.data || {};
     mock.data[dataType] = mock.data[dataType] || {};
     mock.data[dataType][dataRange] = mock.data[dataType][dataRange] || {};
-    mock.data[dataType][dataRange] = sampleData;
+    mock.data[dataType][dataRange] = sampleBarChartWeekly1;
 
     this.setState(mock);
   }
@@ -86,16 +88,16 @@ export default class DashboardGrid extends React.Component {
     let dataType = vis.dataType;
     switch(this.checkVisType(vis)) {
       case 1:
-        return( <BarChart key={dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
+        return( <BarChart key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } />);
         break;
       case 2:
-        return( <BrushLineGraph key={dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
+        return( <BrushLineGraph key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } />);
         break;
       case 3:
-        return( <Donut key={dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
+        return( <Donut key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } />);
         break;
       case 4:
-        return( <GroupBarChart key={dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
+        return( <GroupBarChart key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } />);
         break;
       default:
         console.log("Unkown Data visualisation");
@@ -103,45 +105,12 @@ export default class DashboardGrid extends React.Component {
     }
   }
 
-
-  /* Convert to CSS grid divs:
-  populate(listOfVis) {
-    if (!listOfVis) {
-      return [];
-    }
-    var components = [];
-    for(var i = 0; i < listOfVis.length; i++) {
-      renderVisualization(listOfVis[i])
-      /*let dataRange = this.mapToRange(listOfVis[i].visualization);
-      let dataType = listOfVis[i].dataType;
-      switch(this.checkVisType(listOfVis[i])) {
-        case 1:
-          components.push( <BarChart key={i+dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
-          break;
-        case 2:
-          components.push( <BrushLineGraph key={i+dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
-          break;
-        case 3:
-          components.push( <Donut key={i+dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
-          break;
-        case 4:
-          components.push( <GroupBarChart key={i+dataRange+dataType} data={ this.state.data[dataType][dataRange] } />);
-          break;
-        default:
-          console.log("Unkown Data visualisation");
-          break;
-      }
-      *
-    }
-    return components;
-  }
-  */
-
   loadPreferences() {
     var listOfVis = [];
     this.props.preferences.map((p) => {
+      console.log(JSON.stringify(p))
       p.visualization.map((v) => {
-        listOfVis.push({dataType : p.dataType, visualization : v});
+        listOfVis.push({dataType : p.dataType, visualization : v, colour: p.colour});
       })
     })
     return listOfVis;
