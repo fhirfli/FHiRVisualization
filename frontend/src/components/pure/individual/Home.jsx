@@ -126,7 +126,7 @@ export default class Home extends Component {
                       this.props.preferences.length > 0 && ( <DashboardGrid preferences={ this.props.preferences }/> )
                     }
                     {
-                    /*
+                    /* May No Longer Need This
                         this.props.preferences.map((preference) => {
                             *                                     "dataType": "HeartRate",
                              "colour":  DEFAULT_COLOUR,
@@ -139,10 +139,17 @@ export default class Home extends Component {
                     */
                     }
 
+                    <div id="goals-content__header">
+                      <h2 className="goals__title">Goals</h2>
+                    </div>
                     {
-                        this.props.goals.map((goal, i) => {
-                            return (elem(goal.colour, goal.name + " " + goal.value + " " + i))
+                        this.props.goals.length > 0 && ( <DashboardGrid goals = { this.props.goals } /> )
+
+                        /* Might not need this anymore
+                          this.props.goals.map((goal, i) => {
+                            return (elem(goal.colour, JSON.stringify(goal)/* goal.name + " " + goal.value + " " + i*))
                         })
+                        */
                     }
                 </div>
             </div>
