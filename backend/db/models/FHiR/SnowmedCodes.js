@@ -12,5 +12,11 @@ module.exports = {
     ],
     snowmedMethodCodes: [
         "1011CT"
+    ],
+    snowmedRelationshipCodes: [
+        "1101CT"
+    ],
+    snowmedConditionCodes: [
+        "1101CT"
     ]
 };

@@ -31,7 +31,7 @@ const observationSchema = new Schema({
     },
     performer: {
         type: ObjectId,
-        ref: 'Organization',
+        ref: 'Company',
         required: true
     },
     value: {
