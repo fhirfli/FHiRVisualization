@@ -23,6 +23,16 @@ export default class Data extends Component {
             selectedColour: ""
         };
 
+        /*
+         {
+         visualization: "",
+         mainDataType: "",
+         secondaryDataType: "",
+         colour: ""
+         }
+
+         */
+
         this.generateDataTypeOption = this.generateDataTypeOption.bind(this);
         this.generateDataPanelFor = this.generateDataPanelFor.bind(this);
     }
