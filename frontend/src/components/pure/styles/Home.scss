@@ -22,6 +22,7 @@
     grid-column: 2;
     align-content: center;
     text-align: center;
+    padding-bottom: 120px;
 }
 
 .home-content__header {
@@ -43,4 +44,18 @@
   font-weight: 200;
   color: #000;
   float: right;
+}
+
+#goals-content__header {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 70px;
+}
+
+.goals__title {
+  font-family: Avenir;
+  font-weight: 500;
+  color: #000;
+  float: left;
 }
