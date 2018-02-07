@@ -73,7 +73,8 @@ const DATA_SPECIFICATION = {
         name: "Body mass Index",
         profile: "BMI",
         validVisualizations: [
-            "LineGraphAnnual"
+            "LineGraphAnnual",
+            "BarChartWeekly"
         ]
     }
 };

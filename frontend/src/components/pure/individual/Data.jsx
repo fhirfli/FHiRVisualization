@@ -54,6 +54,7 @@ export default class Data extends Component {
     createCheckBoxFor(visualization) {
 
         let isChecked = this.props.preferences[this.state.currentIndex].visualization.some(vis => vis === visualization);
+        console.log("Clicked");
 
         return (<input
             type="checkbox"
