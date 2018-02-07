@@ -33,7 +33,7 @@ export default class Donut extends React.Component {
         return (
           <div className="dash__component">
             <VictoryLabel x={5} y={24} style={ styles.title }
-              text={"Donut Graph"}
+              text={ this.props.title }
             />
             <VictoryPie
                 innerRadius={50}
@@ -76,7 +76,8 @@ export default class Donut extends React.Component {
 
       return {
         title: {
-          marginLeft: "-60%",
+          //marginLeft: "-60%",
+          float: "left",
           marginBottom: "-10%",
           fill: "#000000",
           fontFamily: "Avenir",
@@ -168,5 +169,6 @@ export default class Donut extends React.Component {
 }
 
 Donut.propTypes = {
-    data: PropTypes.array // whatever `this.state.videos` is
+    data: PropTypes.array, // whatever `this.state.videos` is
+    title: PropTypes.any
 };

@@ -13,7 +13,7 @@ export default class LineGraph extends React.Component {
         return (
           <div className="dash__component">
             <VictoryLabel x={5} y={24} style={ styles.title }
-              text="Line Graph"
+              text= { this.props.title }
             />
             <VictoryChart
                 theme={ VictoryTheme.material }
@@ -32,5 +32,6 @@ export default class LineGraph extends React.Component {
 }
 
 LineGraph.propTypes = {
-    data: PropTypes.array // whatever `this.state.videos` is
+    data: PropTypes.array, // whatever `this.state.videos` is
+    title: PropTypes.any
 };
