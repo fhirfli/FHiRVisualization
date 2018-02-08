@@ -118,5 +118,6 @@ export default class GoalRing extends React.Component {
 
 GoalRing.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
-    title: PropTypes.any
+    title: PropTypes.any,
+    colour: PropTypes.any
 };

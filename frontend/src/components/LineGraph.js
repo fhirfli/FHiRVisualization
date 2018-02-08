@@ -20,7 +20,7 @@ export default class LineGraph extends React.Component {
             >
                 <VictoryArea
                     style={{
-                        data: {stroke: "#c43a31"},
+                        data: {stroke: this.props.colour},
                         parent: {border: "1px solid #ccc"}
                     }}
                     data={ this.state.data }
@@ -33,5 +33,6 @@ export default class LineGraph extends React.Component {
 
 LineGraph.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
-    title: PropTypes.any
+    title: PropTypes.any,
+    colour: PropTypes.any,
 };

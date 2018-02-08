@@ -12,11 +12,12 @@ export default class CorporateDashboardGrid extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { data : {}, goalData : {} };
+    this.state = { data : {}, colour: {} };
     this.loadData = this.loadData.bind(this);
     this.checkVisType  = this.checkVisType.bind(this);
     this.renderVisualization  = this.renderVisualization.bind(this);
     this.loadPreferences  = this.loadPreferences.bind(this);
+    this.loadColour = this.loadColour.bind(this);
   }
 
   componentDidMount() {
@@ -24,12 +25,56 @@ export default class CorporateDashboardGrid extends React.Component {
     let listOfVis = this.loadPreferences();
     for(var i = 0; i < listOfVis.length; i++) {
       let dataType = listOfVis[i].mainDataType;
+      let colour = listOfVis[i].colour;
       this.loadData(dataType);
+      this.loadColour(colour);
     }
 
     this.setState({
       listOfVis
     })
+  }
+
+  loadColour(colour) {
+      if(colour.includes("blue")) {
+        const blue = "#76bbf1";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = blue;
+        console.log("MADE NEW mock.colour object with colour: " + mock.colour);
+      }
+      else if(colour.includes("red")) {
+        const red = "#ec5229";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = red;
+
+        console.log("MADE NEW mock.colour object with colour: " + mock.colour);
+      }
+      else if(colour.includes("yellow")) {
+        const yellow = "#fcee5f";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = yellow;
+
+        console.log("MADE NEW mock.colour object with colour: " + mock.colour);
+      }
+      else if(colour.includes("green")) {
+        const green = "#69da60";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = green;
+
+        console.log("MADE NEW mock.colour object with colour: " + mock.colour[colour]);
+      }
   }
 
   checkVisType(vis) { // Ammendable visualisation checker
@@ -73,18 +118,19 @@ export default class CorporateDashboardGrid extends React.Component {
   renderVisualization(vis) {
     console.log(JSON.stringify(vis));
     let dataType = vis.dataType;
+    let colour = vis.colour;
     switch(this.checkVisType(vis)) {
       case 1:
-        return( <BarChart key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } />);
+        return( <BarChart key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } colour={ this.state.colour[colour] }/>);
         break;
       case 2:
-        return( <BrushLineGraph key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } />);
+        return( <BrushLineGraph key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } colour={ this.state.colour[colour] }/>);
         break;
       case 3:
-        return( <Donut key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } />);
+        return( <Donut key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } colour={ this.state.colour[colour] }/>);
         break;
       case 4:
-        return( <GroupBarChart key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } />);
+        return( <GroupBarChart key={dataType} className="dash__component" data={ this.state.data[dataType] } title={ dataType } colour={ this.state.colour[colour] }/>);
         break;
       default:
         console.log("Unkown Data visualisation");
@@ -94,7 +140,6 @@ export default class CorporateDashboardGrid extends React.Component {
 
   loadPreferences() {
     var listOfVis = [];
-    console.log("LOAD PREFERENCES: " + JSON.stringify(this.props.preferences));
     this.props.preferences.map((p) => {
       listOfVis.push({dataType : p.mainDataType, visualization : p.visualization, colour: p.colour });
       /* I think this requires p.visualization to be an array
@@ -102,7 +147,6 @@ export default class CorporateDashboardGrid extends React.Component {
         listOfVis.push({dataType : p.mainDataType, visualization : v, colour: p.colour });
       })*/
     })
-    console.log("listOfVis: " + listOfVis);
     return listOfVis;
   }
 

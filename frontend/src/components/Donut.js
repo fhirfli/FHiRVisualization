@@ -170,5 +170,6 @@ export default class Donut extends React.Component {
 
 Donut.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
-    title: PropTypes.any
+    title: PropTypes.any,
+    colour: PropTypes.any
 };
