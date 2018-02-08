@@ -59,6 +59,65 @@ function randomString() {
 }
 
 
+function generateCondtion() {
+    randomUser((err, user) => {
+        randomCompany((err, company) => {
+            let condition = new Condition();
+
+            condition.status = "registered";
+            condition.code = [{
+                coding: [{
+                    snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
+                }]
+            }];
+            condition.subject = user._id;
+            condition.assertedDate = randomDate();
+            condition.asserter = company._id;
+
+            condition.save((err, savedCondition) => {
+                if (err)
+                    console.log(JSON.stringify(err));
+                console.log(JSON.stringify(savedCondition));
+            })
+
+        });
+    });
+}
+
+function generateFamilyMemberHistory() {
+    randomCompany((err, company) => {
+        randomUser((err, user) => {
+            let familyMemberHistory = new FamilyMemberHistory();
+
+            familyMemberHistory.status = "registered";
+            familyMemberHistory.patient = user._id;
+            familyMemberHistory.date = randomDate();
+            familyMemberHistory.relationship = [{
+                coding: [{
+                    snowmedCT: randomFrom(snowmedCodes.snowmedRelationshipCodes)
+                }]
+            }];
+            familyMemberHistory.gender = "Male";
+            let age = Math.abs(Math.random() * 100);
+            familyMemberHistory.age = age;
+            familyMemberHistory.estimatedAge = age + Math.random() * 10;
+            familyMemberHistory.deceased = "false";
+            familyMemberHistory.condition = [{
+                coding: [{
+                    snowmedCT: randomFrom(snowmedCodes.snowmedConditionCodes)
+                }],
+            }];
+            familyMemberHistory.recorder = company._id;
+            familyMemberHistory.save((err, savedUser) => {
+                if (err) console.log(JSON.stringify(err));
+                console.log(JSON.stringify(savedUser));
+            });
+        });
+    });
+
+}
+
+
 function generateIndividual() {
     randomCompany((err, company) => {
         if (err) console.log(JSON.stringify(err));
@@ -153,6 +212,9 @@ for (let i = 0; i < 1000; i++) {
     // generateIndividual();
 // generateMedicationStatement();
 //     generateObservation();
+//     generateFamilyMemberHistory();
+//     generateCondtion();
 }
+
 
 
