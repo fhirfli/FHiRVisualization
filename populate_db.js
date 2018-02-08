@@ -209,8 +209,8 @@ function generateMedicationStatement() {
     });
 }
 for (let i = 0; i < 1000; i++) {
-    // generateIndividual();
-// generateMedicationStatement();
+//     generateIndividual();
+//     generateMedicationStatement();
 //     generateObservation();
 //     generateFamilyMemberHistory();
 //     generateCondtion();
