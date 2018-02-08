@@ -69,7 +69,7 @@ export default class Data extends Component {
                     <p>Colour Scheme:</p>
                     <Dropdown baseZindex={5}
                             choices={(this.props.colours)}
-                            currentlySelected={ this.props.preferences[this.state.currentIndex].colour }
+                            currentlySelected={dataType.colour}
                             choiceToString={(colour => colour)}
                             callback={colour => this.toggleColour(colour)}/> 
                 </div>
@@ -171,6 +171,10 @@ export default class Data extends Component {
                             {this.generateDataPanelFor(this.props.dataTypes[this.state.currentIndex])}
                         </div>)
                     }
+                    {
+
+// JSON.stringify(this.state.currentIndex)
+}
                 </div>
             </div>
         );
