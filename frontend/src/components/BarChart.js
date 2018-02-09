@@ -9,7 +9,6 @@ export default class BarChart extends React.Component {
     }
 
     render() {
-      console.log("BAR CHART COLOUR: " + this.props.colour );
       const styles = this.getStyles()
         return (
             <div className="dash__component">

@@ -18,7 +18,6 @@ const elem = (text) => (
 export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadPreferences();
-        console.log("PREFERENCES:" + JSON.stringify(this.props.preferences))
     }
     render() {
         return (

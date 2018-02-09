@@ -43,7 +43,6 @@ export default class CorporateDashboardGrid extends React.Component {
         mock.colour = mock.colour || {};
         mock.colour[colour] = mock.colour[colour] || {};
         mock.colour[colour] = blue;
-        console.log("MADE NEW mock.colour object with colour: " + mock.colour);
       }
       else if(colour.includes("red")) {
         const red = "#ec5229";
@@ -52,8 +51,6 @@ export default class CorporateDashboardGrid extends React.Component {
         mock.colour = mock.colour || {};
         mock.colour[colour] = mock.colour[colour] || {};
         mock.colour[colour] = red;
-
-        console.log("MADE NEW mock.colour object with colour: " + mock.colour);
       }
       else if(colour.includes("yellow")) {
         const yellow = "#fcee5f";
@@ -62,8 +59,6 @@ export default class CorporateDashboardGrid extends React.Component {
         mock.colour = mock.colour || {};
         mock.colour[colour] = mock.colour[colour] || {};
         mock.colour[colour] = yellow;
-
-        console.log("MADE NEW mock.colour object with colour: " + mock.colour);
       }
       else if(colour.includes("green")) {
         const green = "#69da60";
@@ -72,8 +67,6 @@ export default class CorporateDashboardGrid extends React.Component {
         mock.colour = mock.colour || {};
         mock.colour[colour] = mock.colour[colour] || {};
         mock.colour[colour] = green;
-
-        console.log("MADE NEW mock.colour object with colour: " + mock.colour[colour]);
       }
   }
 
@@ -116,7 +109,6 @@ export default class CorporateDashboardGrid extends React.Component {
   }
 
   renderVisualization(vis) {
-    console.log(JSON.stringify(vis));
     let dataType = vis.dataType;
     let colour = vis.colour;
     switch(this.checkVisType(vis)) {
