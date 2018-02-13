@@ -1,11 +1,26 @@
-# --- Base Stage ---
-FROM node:6 # as base
-# Construct directories
-RUN mkdir -p /usr/src/app
+FROM node:6
+
 # set directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+
+
+
+
 # load packages
 COPY ./package.json ./
+RUN npm install
+
+COPY ./backend/ /usr/src/app/backend
+COPY ./frontend/src /usr/src/app/frontend/src
+COPY ./webpack.config.dev.js /usr/src/app/webpack.config.dev.js
+COPY ./webpack.config.prod.js /usr/src/app/webpack.config.prod.js
+COPY ./.babelrc /usr/src/app/.babelrc
+COPY ./.eslintrc /usr/src/app/.eslintrc
+COPY ./nodemon.json /usr/src/app/nodemon.jsodon
+COPY ./secrets.env /usr/src/app/secrets.env
+
+
 
 EXPOSE 8000
 CMD ["npm", "run", "development"]
