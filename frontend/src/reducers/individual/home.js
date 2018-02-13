@@ -48,8 +48,7 @@ const home = (state = {
         case LOAD_DATA_SUCCESS: {
             let data = Object.assign({}, state.data);
             data[action.data.dataType] = data[action.data.dataType] || {};
-            data[action.data.dataType][action.data.dataRange] = [];
-            data[action.data.dataType][action.data.dataRange].append(action.data.values);
+            data[action.data.dataType][action.data.dataRange] = action.data.values;
             return Object.assign({}, state, {
                 isLoading: false,
                 data
