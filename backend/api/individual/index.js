@@ -4,6 +4,7 @@ module.exports = (env) => {
     const preferences = require('./preferences');
     const associations = require('./associations');
     const goals = require('./goals');
+    const data = require('./data');
 
     router.use((req, res, next) => {
         if (req.user.isCorporate) {
@@ -16,6 +17,7 @@ module.exports = (env) => {
     preferences(env, router);
     associations(env, router);
     goals(env, router);
+    data(env, router);
 
 
     return router;
