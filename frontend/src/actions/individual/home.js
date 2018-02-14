@@ -7,7 +7,7 @@ function beginLoadData() {
 }
 function loadDataSuccess(dataType, dataRange, results) {
     return {
-        type: types.LOAD_DATA, data: {
+        type: types.LOAD_DATA_SUCCESS, data: {
             dataType,
             dataRange,
             values: results
@@ -37,9 +37,11 @@ export function manualLoadData(dataType, dateRange) {
                 dataRange: dateRange
             }
         }).then(response => {
+            console.log("Got a response from the server " + JSON.stringify(response));
             let results = response.data;
-            dispatch(loadDataSuccess(dataType, dataRange, results));
+            dispatch(loadDataSuccess(dataType, dateRange, results));
         }).catch(err => {
+            console.log("Got an error from the server: " + JSON.stringify(err));
             dispatch(loadDataError(handleResponseError(err)));
         });
     };
