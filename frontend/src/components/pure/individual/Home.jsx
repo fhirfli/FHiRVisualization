@@ -18,7 +18,7 @@ const sampleBarChartDaily1 = [{ x: "7:39", y: 293 },
                               { x: "8:21", y: 424 },
                               { x: "14:53", y: 392},
                               { x: "19:20", y: 264},
-                             ]
+];
 
 const dumbData = [
   {
@@ -113,6 +113,7 @@ export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadGoals();
         this.props.manualLoadPreferences();
+        this.props.manualLoadData('HeartRate', 'Weekly');
     }
     render() {
         return (
@@ -150,6 +151,9 @@ export default class Home extends Component {
                             return (elem(goal.colour, JSON.stringify(goal)/* goal.name + " " + goal.value + " " + i*))
                         })
                         */
+                    }
+                    {
+                        JSON.stringify(this.props.data)
                     }
                 </div>
             </div>
