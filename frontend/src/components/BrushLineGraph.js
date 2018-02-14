@@ -46,7 +46,10 @@ export default class BrushLineGraph extends React.Component {
             >
                 <VictoryArea
                     data={ this.props.data }
-                    style={ styles.lineOne }
+                    style={{ data: { stroke: this.props.colour,
+                                    strokeWidth: 4.5,
+                                    fill: this.props.colour }
+                                  }}
                 />
             </VictoryChart>
           </div>
@@ -131,5 +134,6 @@ export default class BrushLineGraph extends React.Component {
 
 BrushLineGraph.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
-    title: PropTypes.title
+    title: PropTypes.any,
+    colour: PropTypes.any
 };

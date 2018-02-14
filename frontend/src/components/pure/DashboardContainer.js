@@ -13,7 +13,7 @@ export default class DashboardGrid extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { data : {}, goalData : {} };
+    this.state = { data : {}, goalData : {}, colour: {} };
     this.loadData = this.loadData.bind(this);
     this.loadGoalData = this.loadGoalData.bind(this);
     this.checkVisType  = this.checkVisType.bind(this);
@@ -22,6 +22,7 @@ export default class DashboardGrid extends React.Component {
     this.renderGoalVisualisation = this.renderGoalVisualisation.bind(this);
     this.loadPreferences  = this.loadPreferences.bind(this);
     this.loadGoals = this.loadGoals.bind(this);
+    this.loadColour = this.loadColour.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +32,9 @@ export default class DashboardGrid extends React.Component {
       for(var i = 0; i < listOfVis.length; i++) {
         let dataRange = this.mapToRange(listOfVis[i].visualization);
         let dataType = listOfVis[i].dataType;
+        let colour = listOfVis[i].colour;
         this.loadData(dataType, dataRange);
+        this.loadColour(colour);
       }
 
       this.setState({
@@ -59,6 +62,42 @@ export default class DashboardGrid extends React.Component {
     else if(visualization.includes("Monthly")) { return "Monthly"; }
     else if(visualization.includes("Annual")) { return "Annual"; }
     return "OOPS";
+  }
+
+  // LOAD COLOURS:
+  loadColour(colour) {
+      if(colour.includes("blue")) {
+        const blue = "#76bbf1";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = blue;
+      }
+      else if(colour.includes("red")) {
+        const red = "#ec5229";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = red;
+      }
+      else if(colour.includes("yellow")) {
+        const yellow = "#fcee5f";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = yellow;
+      }
+      else if(colour.includes("green")) {
+        const green = "#69da60";
+
+        var mock = Object.assign({}, this.state);
+        mock.colour = mock.colour || {};
+        mock.colour[colour] = mock.colour[colour] || {};
+        mock.colour[colour] = green;
+      }
   }
 
   checkVisType(vis) { // Ammendable visualisation checker
@@ -119,18 +158,19 @@ export default class DashboardGrid extends React.Component {
     console.log(JSON.stringify(vis));
     let dataRange = this.mapToRange(vis.visualization);
     let dataType = vis.dataType;
+    let colour = vis.colour;
     switch(this.checkVisType(vis)) {
       case 1:
-        return( <BarChart key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } />);
+        return( <BarChart key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } colour={ this.state.colour[colour] } />);
         break;
       case 2:
-        return( <BrushLineGraph key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } />);
+        return( <BrushLineGraph key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } colour={ this.state.colour[colour] } />);
         break;
       case 3:
-        return( <Donut key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } />);
+        return( <Donut key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } colour={ this.state.colour[colour] } />);
         break;
       case 4:
-        return( <GroupBarChart key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } />);
+        return( <GroupBarChart key={dataRange+dataType} className="dash__component" data={ this.state.data[dataType][dataRange] } title={ dataType } colour={ this.state.colour[colour] } />);
         break;
       default:
         console.log("Unkown Data visualisation");

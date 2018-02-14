@@ -17,7 +17,7 @@ export default class BarChart extends React.Component {
               />
                 <VictoryBar
                     style={{
-                        data: {fill: "#4ec244"}
+                        data: {fill: this.props.colour }
                     }}
                     barRatio={0.9}
                     cornerRadius={2}
@@ -155,5 +155,6 @@ export default class BarChart extends React.Component {
 
 BarChart.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
-    title: PropTypes.any
+    title: PropTypes.any,
+    colour: PropTypes.any
 };
