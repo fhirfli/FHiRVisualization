@@ -152,7 +152,7 @@ export default class Home extends Component {
                         */
                     }
                     {
-                        JSON.stringify(this.props.data)
+                        // JSON.stringify(this.props.data)
                     }
                 </div>
         );

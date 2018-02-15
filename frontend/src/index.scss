@@ -1,6 +1,10 @@
 @import "components/pure/styles/variables";
 
+a {
+    outline: 0;
+}
 html, body {
+    outline: 0;
     height: 100%;
     margin: 0px;
     padding: 0px;

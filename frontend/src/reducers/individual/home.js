@@ -34,8 +34,12 @@ const home = (state = {
 }, action) => {
     switch (action.type) {
         case LOAD_DATA:
+            let data = Object.assign({}, state.data);
+            data[action.data.dataType] = data[action.data.dataType] || {};
+            data[action.data.dataType][action.data.dataRange] = [];
             return Object.assign({}, state, {
-                isLoading: true
+                isLoading: true,
+                data
             });
             break;
         case LOAD_DATA_ERROR:

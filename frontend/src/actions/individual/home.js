@@ -2,8 +2,8 @@ import * as types from "constants/individual/home";
 import axios from "axios";
 import {handleResponseError} from "error";
 
-function beginLoadData() {
-    return {type: types.LOAD_DATA}
+function beginLoadData(dataType, dataRange) {
+    return {type: types.LOAD_DATA, data: {dataType, dataRange}}
 }
 function loadDataSuccess(dataType, dataRange, results) {
     return {
@@ -28,7 +28,7 @@ export function manualLoadData(dataType, dateRange) {
 
     //TODO(Kiran): Implement functionality to retrieve correct data
     return dispatch => {
-        dispatch(beginLoadData());
+        dispatch(beginLoadData(dataType, dateRange));
         return axios({
             method: "post",
             url: "/api/individual/data",
