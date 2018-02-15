@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import '../styles/Data.scss';
 import * as propTypes from 'prop-types';
+import Dropdown from 'components/pure/utility/Dropdown';
+
 
 const elem = () => (
     <div style={{
@@ -44,16 +46,20 @@ export default class Data extends Component {
     }
 
     generateDataTypeOption(dataType, index) {
-        return (<button key={index + dataType} onClick={(e) => {
-            this.setState({currentIndex: index});
-        }}>{dataType}</button>)
+        return (
+        <div id="data-list">
+            <button key={index + dataType} onClick={(e) => {
+                this.setState({currentIndex: index});
+            }}>{dataType}</button>
+        </div>
+        )
     }
 
     generateDataPanelFor(dataType) {
 
         return (
             <div key={dataType.name + dataType.dataType}>
-                <h3>{dataType.name}</h3>
+                <h1 style={{marginTop: "0"}}>{dataType.name}</h1>
                 {
                     this.props.preferences.filter((preference) => preference.mainDataType === dataType.dataType).map((preference, i) => (
                         <div key={preference.mainDataType + i}>
@@ -69,19 +75,14 @@ export default class Data extends Component {
                         </div>
                     ))
                 }
-                <h4>Colour</h4>
-                {
-                    this.props.colours.map((colour) => (
-                        <div key={colour}>
-                            {colour}
-                            <input checked={this.state.selectedColour === colour} type="checkbox"
-                                   onChange={(e) => this.setState({
-                                       selectedColour: colour
-                                   })}/>
-
-                        </div>
-                    ))
-                }
+                <div id="data-colour-select">
+                    <p>Colour Scheme:</p>
+                    <Dropdown baseZindex={5}
+                            choices={(this.props.colours)}
+                            currentlySelected={dataType.colour}
+                            choiceToString={(colour => colour)}
+                            callback={colour => this.toggleColour(colour)}/> 
+                </div>
                 <h4>Data Type</h4>
                 {Object.keys(this.props.visualizationMap).map((visualization, index) => (
                     <div key={visualization + index}>
@@ -140,7 +141,7 @@ export default class Data extends Component {
     render() {
         return (
             <div id="data-container">
-                <div id="data-content">
+                {/* <div id="data-content">
                     <h2>Data</h2>
                     <h4>Here is where you would be able to view all your data</h4>
                     {
@@ -154,6 +155,36 @@ export default class Data extends Component {
                             this.generateDataPanelFor(this.props.dataTypes[this.state.currentIndex])
                         )
                     }
+                </div> */}
+                <div id="data-title">
+                    <h2>Data</h2>
+                </div>
+                <div id="data-date">
+                    <div id="data-date-items">
+                        <p>Fri 27</p>
+                        <p>October</p>
+                    </div>
+                </div>
+
+                <div id="data-list">
+                    {
+                        this.props.dataTypes.map((dataType, index) => {
+                            return this.generateDataTypeOption(dataType.name, index);
+                        })
+                    }
+                </div>
+
+                <div id="data-content">
+                    {
+                        this.state.currentIndex >= 0 &&
+                        (<div id="data-panel">
+                            {this.generateDataPanelFor(this.props.dataTypes[this.state.currentIndex])}
+                        </div>)
+                    }
+                    {
+
+// JSON.stringify(this.state.currentIndex)
+}
                 </div>
             </div>
         );
@@ -167,6 +198,7 @@ Data.propTypes = {
     manualUpdatePreference: propTypes.func.isRequired,
     manualRemovePreference: propTypes.func.isRequired,
     preferences: propTypes.array.isRequired,
+    validVisualizations: propTypes.object.isRequired,
     visualizationMap: propTypes.object.isRequired,
     dataTypes: propTypes.array.isRequired,
     colours: propTypes.array.isRequired,

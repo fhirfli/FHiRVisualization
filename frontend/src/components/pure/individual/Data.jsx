@@ -58,6 +58,7 @@ export default class Data extends Component {
 
         return (<input
             type="checkbox"
+            style={{marginTop: "20px"}}
             value={visualization}
             checked={isChecked}
             onChange={this.toggleVisualization.bind(this, visualization)}/>);

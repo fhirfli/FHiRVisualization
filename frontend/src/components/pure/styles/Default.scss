@@ -14,3 +14,19 @@
     align-content: center;
     text-align: center;
 }
+
+#btn {
+    background-color: #00a200 !important;
+    color: white;
+    border-radius: 50px;
+    justify-content: center;
+    text-transform: uppercase !important;
+    font-weight: 700;
+    // display: flex;
+    padding: 10px !important;
+    margin: 10px !important;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

@@ -10,10 +10,10 @@ export default class Default extends Component {
                     <p>A Health Dashboard for the People, by the People!</p>
                     <p>Features:</p>
                     <ul>
-                        <li><strong>Fast</strong></li>
-                        <li><strong>Furious</strong></li>
-                        <li><strong>Fancy</strong></li>
-                        <li><strong>Free?</strong></li>
+                        <li id="btn"><strong>Fast</strong></li>
+                        <li id="btn"><strong>Furious</strong></li>
+                        <li id="btn"><strong>Fancy</strong></li>
+                        <li id="btn"><strong>Free?</strong></li>
                     </ul>
                 </div>
             </div>
