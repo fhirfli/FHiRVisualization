@@ -80,6 +80,7 @@ const DATA_SPECIFICATION = {
 };
 
 const VALID_DATA_TYPES = Object.keys(DATA_SPECIFICATION);
+const VALID_DATA_RANGES = ["Single", "Daily", "Weekly", "Monthly", "Annual"];
 /*[
  "HeartRate",
  "BodyHeight",
@@ -92,6 +93,7 @@ const VALID_DATA_TYPES = Object.keys(DATA_SPECIFICATION);
 module.exports = {
     DATA_SPECIFICATION,
     VALID_DATA_TYPES,
+    VALID_DATA_RANGES,
     VALID_SCHEMAS,
     VALID_VISUALIZATIONS,
     VALID_AGGREGATE_VISUALIZATIONS,

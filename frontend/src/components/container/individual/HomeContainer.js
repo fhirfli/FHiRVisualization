@@ -18,7 +18,11 @@ const mapStateToProps = (state) => {
     return {
         preferences: state.individual.data.preferences,
         goals: state.individual.goals.goals,
-        data: state.individual.home.data
+        data: state.individual.home.data,
+        isLoading: state.corporate.home.isLoading,
+        hasErrored: state.corporate.home.hasErrored,
+        errorMsg: state.corporate.home.errorMsg
+
     };
 };
 

@@ -37,5 +37,7 @@ export default class GroupBarChart extends React.Component {
 }
 
 GroupBarChart.propTypes = {
-    data: PropTypes.array // whatever `this.state.videos` is
+    data: PropTypes.array, // whatever `this.state.videos` is
+    title: PropTypes.any,
+    colour: PropTypes.any
 };
