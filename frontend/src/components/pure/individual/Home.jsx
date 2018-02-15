@@ -118,7 +118,6 @@ export default class Home extends Component {
     render() {
         return (
             <div id="home-container" className="basic">
-                <div id="home-content">
                   <div id="home-content__header">
                     <h2 className="home__title">Home</h2>
                     <h4 className="home__date">{moment().format("ddd D MMMM")}</h4>
@@ -156,7 +155,6 @@ export default class Home extends Component {
                         JSON.stringify(this.props.data)
                     }
                 </div>
-            </div>
         );
     }
 }
