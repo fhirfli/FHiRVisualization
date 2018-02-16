@@ -30,3 +30,45 @@
     margin-right: auto;
     width: 50%;
 }
+
+#masthead {
+    position: relative;
+    // background: url('../img/masthead.png') no-repeat center center;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+   
+    h1 {
+      font-size: 2rem;
+    }
+    
+  }
+  
+  #overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.7;
+  }
+
+  #image {
+      margin-top: -2em;
+      width: 100%;
+  }
+
+  #banner {
+    margin-top: -20em;
+    margin-bottom: 7em;
+    > h2 {
+        color: white;
+        margin-left: 25%;
+        font-weight: initial;
+    }
+
+    > p {
+        color: white;
+        margin-left: 25%;
+        font-weight: initial;
+    }
+  }

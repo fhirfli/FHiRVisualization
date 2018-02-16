@@ -56,9 +56,6 @@ export default class Settings extends Component {
                     {this.props.isLoading ?
                         (<div>Loading...</div>) :
 
-                        // (<div>
-                        //     <p>test</p>
-                        //  </div>)
                         (<div>
                             {this.props.users.map(((user, i) => (
                                 <div key={user.email + i}>
