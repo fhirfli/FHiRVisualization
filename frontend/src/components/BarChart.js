@@ -13,11 +13,11 @@ export default class BarChart extends React.Component {
         return (
             <div className="dash__component">
               <VictoryLabel x={5} y={24} style={ styles.title }
-                text="Bar Chart"
+                text={ this.props.title }
               />
                 <VictoryBar
                     style={{
-                        data: {fill: "#4ec244"}
+                        data: {fill: this.props.colour }
                     }}
                     barRatio={0.9}
                     cornerRadius={2}
@@ -61,7 +61,8 @@ export default class BarChart extends React.Component {
           //textAnchor: "start",
           //marginLeft: "-20px",
           //verticalAnchor: "end",
-          marginLeft: "-70%",
+          //marginLeft: "-70%",
+          float: "left",
           marginBottom: "-10%",
           fill: "#000000",
           fontFamily: "Avenir",
@@ -153,5 +154,7 @@ export default class BarChart extends React.Component {
 }
 
 BarChart.propTypes = {
-    data: PropTypes.array // whatever `this.state.videos` is
+    data: PropTypes.array, // whatever `this.state.videos` is
+    title: PropTypes.any,
+    colour: PropTypes.any
 };

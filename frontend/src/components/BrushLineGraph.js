@@ -31,7 +31,7 @@ export default class BrushLineGraph extends React.Component {
         return (
           <div className="dash__component">
             <VictoryLabel x={5} y={24} style={ styles.title }
-              text="Brush Line Graph"
+              text={ this.props.title }
             />
             <VictoryChart
                 style={ styles.axisOne }
@@ -46,7 +46,10 @@ export default class BrushLineGraph extends React.Component {
             >
                 <VictoryArea
                     data={ this.props.data }
-                    style={ styles.lineOne }
+                    style={{ data: { stroke: this.props.colour,
+                                    strokeWidth: 4.5,
+                                    fill: this.props.colour }
+                                  }}
                 />
             </VictoryChart>
           </div>
@@ -62,7 +65,8 @@ export default class BrushLineGraph extends React.Component {
 
     return {
       title: {
-        marginLeft: "-45%",
+        //marginLeft: "-45%",
+        float: "left",
         marginBottom: "-10%",
         fill: "#000000",
         fontFamily: "Avenir",
@@ -129,5 +133,7 @@ export default class BrushLineGraph extends React.Component {
 }
 
 BrushLineGraph.propTypes = {
-    data: PropTypes.array // whatever `this.state.videos` is
+    data: PropTypes.array, // whatever `this.state.videos` is
+    title: PropTypes.any,
+    colour: PropTypes.any
 };
