@@ -123,7 +123,7 @@ export default class Home extends Component {
                     <h4 className="home__date">{moment().format("ddd D MMMM")}</h4>
                   </div>
                     {
-                      this.props.preferences.length > 0 && ( <DashboardGrid preferences={ this.props.preferences }/> )
+                      this.props.preferences.length > 0 && ( <DashboardGrid preferences={ this.props.preferences } data={ this.props.loadData }/> )
                     }
                     {
                     /* May No Longer Need This
@@ -152,7 +152,8 @@ export default class Home extends Component {
                         */
                     }
                     {
-                        // JSON.stringify(this.props.data)
+
+                        //JSON.stringify(this.props.data)
                     }
                 </div>
         );
@@ -165,5 +166,6 @@ Home.propTypes = {
     manualLoadData: propTypes.func.isRequired,
     preferences: propTypes.array.isRequired,
     goals: propTypes.array.isRequired,
-    data: propTypes.object.isRequired
+    data: propTypes.object.isRequired,
+    loadData: propTypes.object.isRequired
 };

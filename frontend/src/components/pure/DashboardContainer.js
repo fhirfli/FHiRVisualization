@@ -26,6 +26,11 @@ export default class DashboardGrid extends React.Component {
   }
 
   componentDidMount() {
+    console.log("DATA: " + JSON.stringify(item));
+    /* .map((item) => {
+      console.log("DATA: " + JSON.stringify(item));
+    })*/
+
     // Either props.preferences is null, OR props.goals is null
     if(this.props.preferences != null) {
       let listOfVis = this.loadPreferences();
@@ -242,5 +247,6 @@ export default class DashboardGrid extends React.Component {
 
 DashboardGrid.propTypes = {
   preferences: PropTypes.array,
-  goals: PropTypes.array
+  goals: PropTypes.array,
+  data: PropTypes.any
 };
