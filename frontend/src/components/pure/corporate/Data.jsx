@@ -67,21 +67,6 @@ export default class Data extends Component {
         return (
             <div key={dataType.name + dataType.dataType}>
                 <h1 style={{marginTop: "0"}}>{dataType.name}</h1>
-                {
-                    this.props.preferences.filter((preference) => preference.mainDataType === dataType.dataType).map((preference, i) => (
-                        <div key={preference.mainDataType + i}>
-                            {this.props.visualizationMap[preference.visualization] ?
-                                preference.visualization + " of " + preference.mainDataType + " with " + preference.secondaryDataType
-                                :
-                                preference.visualization + " of " + preference.mainDataType
-                            }
-                            <button onClick={(e) => {
-                                this.props.manualRemovePreference(preference)
-                            }}>Remove
-                            </button>
-                        </div>
-                    ))
-                }
                 <div id="data-colour-select">
                     <p>Colour Scheme:</p>
                     <Dropdown baseZindex={3}
@@ -89,6 +74,25 @@ export default class Data extends Component {
                               currentlySelected={this.state.selectedColour}
                               choiceToString={(colour => colour)}
                               callback={colour => this.setState({selectedColour: colour})}/>
+                </div>
+                <p>Available Visualizations:</p> 
+                <div className="border">
+                {
+                    
+                    this.props.preferences.filter((preference) => preference.mainDataType === dataType.dataType).map((preference, i) => (
+                        <div className="visualisation" key={preference.mainDataType + i}>
+                            {this.props.visualizationMap[preference.visualization] ?
+                                preference.visualization + " of " + preference.mainDataType + " with " + preference.secondaryDataType
+                                :
+                                preference.visualization + " of " + preference.mainDataType
+                            }
+                            <button className="buttonn" onClick={(e) => {
+                                this.props.manualRemovePreference(preference)
+                            }}>Remove
+                            </button>
+                        </div>
+                    ))
+                }
                 </div>
                 <h4>Data Type</h4>
                 <Dropdown baseZindex={2}

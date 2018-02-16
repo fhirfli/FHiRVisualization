@@ -50,6 +50,7 @@
   display: flex;
   height: 190px;
   flex-direction: column;
+  margin-left: 20px;
 
   > h2 {
     margin-top: 5px;
@@ -88,9 +89,9 @@
 
 #settings-list-panel {
   grid-row: 2;
-  grid-column: 1;
+  grid-column: 2;
   background: $panelAccentColour;
-  margin-left: 20px;
+  // margin-left: 20px;
 
 
   > h2 {
@@ -102,13 +103,15 @@
 
 #settings-company-list > div {
   display: grid;
-  grid-template-columns: 5fr 1fr;
+  // grid-template-columns: 5fr 1fr;
   margin: 20px;
 
 }
 
 #settings-company-list {
 
+  grid-row: 2;
+  grid-column: 2;
   background-color: white !important;
   margin-right: 20px;
 
@@ -119,12 +122,13 @@
 
   > div {
 
-    #users {
+    .users {
       display: -webkit-inline-box;
     }
 
-    #buttonn {
+    .buttonn {
       margin-top: 10px;
+      margin-bottom: 10px;
       background-color: #00a200 !important;
       color: $headerTextColour;
       border-radius: 50px;
@@ -138,3 +142,8 @@
     }
   }
 }
+
+ .grid {
+    grid-template-columns: 5fr 1fr;
+    display: grid;
+  }

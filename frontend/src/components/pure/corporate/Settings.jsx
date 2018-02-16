@@ -26,9 +26,15 @@ export default class Settings extends Component {
     }
 
     createUserItemFor(user) {
-        return (<div id="users"><p>{user.email}</p>
-            <button id="buttonn" onClick={this.removeUser.bind(this, user.email)}>remove</button>
-        </div>)
+        return (<div className="grid">
+                <div className="users">
+                    <p>{user.email}</p>
+                    
+                    
+                </div>
+                    <button className="buttonn" onClick={this.removeUser.bind(this, user.email)}>remove</button>
+                </div>
+    )
     }
 
     removeUser(email) {
@@ -47,7 +53,7 @@ export default class Settings extends Component {
                         <p>October</p>
                     </div>
                 </div>
-                <div id="settings-list-panel">
+                <div id="settings-add-panel">
                   <h2>Data Statistics</h2>
                 </div>
                 <div id="settings-company-list">
