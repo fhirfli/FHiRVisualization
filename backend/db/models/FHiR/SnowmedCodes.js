@@ -1,7 +1,10 @@
 module.exports = {
     snowmedCTCodes: [
         // include allowable snowmedCodes here
-        "1011CT"
+        "29463-7", // weight
+        "8302-2", // height
+        "65968-0", // sleep
+        "63863-5", // hours of activity
     ],
     snowmedCategoryCodes: [
         "1011CT"

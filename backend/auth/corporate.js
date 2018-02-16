@@ -39,6 +39,7 @@ module.exports = (env, passport) => {
         },
         passport.authenticate('corporate'),
         (req, res) => {
+            console.log(JSON.stringify(req.user));
             // Needed to get remove all Mongoose bindings
             return res.json({user: sanitizeUser(req.user)});
         });
