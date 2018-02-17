@@ -13,4 +13,16 @@ INNER JOIN
 ON 
     companies._id = observations.performer
 LIMIT 20;
+
+
+```
+
+```$xslt
+SELECT 
+    SUM(CAST(`value` AS DOUBLE))
+FROM 
+    mongo.admin.`observations` AS observations 
+WHERE 
+    observations.performer = (SELECT company FROM mongo.admin.`corporateusers` WHERE email = 'kiran@mail.com' LIMIT 1) 
+LIMIT 20;
 ```
