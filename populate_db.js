@@ -65,11 +65,11 @@ function generateCondtion() {
             let condition = new Condition();
 
             condition.status = "registered";
-            condition.code = [{
-                coding: [{
+            condition.code = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
-                }]
-            }];
+                }
+            };
             condition.subject = user._id;
             condition.assertedDate = randomDate();
             condition.asserter = company._id;
@@ -92,21 +92,21 @@ function generateFamilyMemberHistory() {
             familyMemberHistory.status = "registered";
             familyMemberHistory.patient = user._id;
             familyMemberHistory.date = randomDate();
-            familyMemberHistory.relationship = [{
-                coding: [{
+            familyMemberHistory.relationship = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedRelationshipCodes)
-                }]
-            }];
+                }
+            };
             familyMemberHistory.gender = "Male";
             let age = Math.abs(Math.random() * 100);
             familyMemberHistory.age = age;
             familyMemberHistory.estimatedAge = age + Math.random() * 10;
             familyMemberHistory.deceased = "false";
-            familyMemberHistory.condition = [{
-                coding: [{
+            familyMemberHistory.condition = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedConditionCodes)
-                }],
-            }];
+                },
+            };
             familyMemberHistory.recorder = company._id;
             familyMemberHistory.save((err, savedUser) => {
                 if (err) console.log(JSON.stringify(err));
@@ -143,31 +143,31 @@ function generateObservation() {
             let observation = new Observation();
 
             observation.status = "registered";
-            observation.category = [{
-                coding: [{
+            observation.category = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedCategoryCodes)
-                }]
-            }];
-            observation.code = [{
-                coding: [{
+                }
+            };
+            observation.code = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
-                }]
-            }];
+                }
+            };
             observation.subject = user._id;
             observation.effective = randomDate();
             observation.issued = randomDate();
             observation.performer = company._id;
             observation.value = Math.random();
-            observation.bodySite = [{
-                coding: [{
+            observation.bodySite = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedBodySiteCodes)
-                }]
-            }];
-            observation.method = [{
-                coding: [{
+                }
+            };
+            observation.method = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedMethodCodes)
-                }],
-            }];
+                },
+            };
             observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
 
             observation.save((err, savedObservation) => {
@@ -192,7 +192,7 @@ function generateMedicationStatement() {
 
             let medicationStatement = new MedicationStatement();
             medicationStatement.status = "registered";
-            medicationStatement.category = [{snowmedCT: snowmedCodes.snowmedCategoryCodes[0]}];
+            medicationStatement.category = {snowmedCT: snowmedCodes.snowmedCategoryCodes[0]};
             medicationStatement.medication = "medication/" + randomString();
             medicationStatement.effective = randomDate();
             medicationStatement.dateAsserted = randomDate();
@@ -208,66 +208,66 @@ function generateMedicationStatement() {
         });
     });
 }
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 10; i++) {
 //     generateIndividual();
 //     generateMedicationStatement();
 //     generateObservation();
 //     generateFamilyMemberHistory();
-//     generateCondtion();
+    generateCondtion();
 }
 
-for (let j = 0; j < 10; j++) {
-    CorporateUser.findById("5a4d43866e5ba73fa060646f", (err, user) => {
-        console.log(JSON.stringify(user));
-
-        let individualUser = new IndividualUser();
-        let name = randomFrom(names);
-        individualUser.email = name + Math.floor(Math.random()) + "@mail.com";
-        individualUser.password = "password";
-        individualUser.name = name + " Blogs";
-
-        console.log("Created user now saving");
-        individualUser.save((err, savedUser) => {
-            if (err) console.log(JSON.stringify(err));
-            console.log(JSON.stringify(savedUser));
-
-            let association = new CompanyAssociation();
-            association.company = user.company;
-            association.user = savedUser._id;
-            let company_id = user.company;
-            let user_id = savedUser._id;
-
-            association.save((err, savedAssoc) => {
-                if (err) console.log(JSON.stringify(err));
-                console.log(JSON.stringify(savedAssoc));
-
-                for (let i = 0; i < 100; i++) {
-                    let observation = new Observation();
-
-                    observation.status = "registered";
-                    observation.code = [{
-                        coding: [{
-                            snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
-                        }]
-                    }];
-                    observation.subject = user_id;
-                    observation.effective = randomDate();
-                    observation.issued = randomDate();
-                    observation.performer = company_id;
-                    observation.value = Math.random();
-                    observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
-
-                    observation.save((err, savedObservation) => {
-                        if (err) console.log(JSON.stringify(err));
-                        console.log(JSON.stringify(savedObservation));
-                    });
-
-                }
-
-            })
-        })
-    });
-
-
-}
+// for (let j = 0; j < 10; j++) {
+//     CorporateUser.findById("5a4d43866e5ba73fa060646f", (err, user) => {
+//         console.log(JSON.stringify(user));
+//
+//         let individualUser = new IndividualUser();
+//         let name = randomFrom(names);
+//         individualUser.email = name + Math.floor(Math.random()) + "@mail.com";
+//         individualUser.password = "password";
+//         individualUser.name = name + " Blogs";
+//
+//         console.log("Created user now saving");
+//         individualUser.save((err, savedUser) => {
+//             if (err) console.log(JSON.stringify(err));
+//             console.log(JSON.stringify(savedUser));
+//
+//             let association = new CompanyAssociation();
+//             association.company = user.company;
+//             association.user = savedUser._id;
+//             let company_id = user.company;
+//             let user_id = savedUser._id;
+//
+//             association.save((err, savedAssoc) => {
+//                 if (err) console.log(JSON.stringify(err));
+//                 console.log(JSON.stringify(savedAssoc));
+//
+//                 for (let i = 0; i < 100; i++) {
+//                     let observation = new Observation();
+//
+//                     observation.status = "registered";
+//                     observation.code = [{
+//                         coding: [{
+//                             snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
+//                         }]
+//                     }];
+//                     observation.subject = user_id;
+//                     observation.effective = randomDate();
+//                     observation.issued = randomDate();
+//                     observation.performer = company_id;
+//                     observation.value = Math.random();
+//                     observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
+//
+//                     observation.save((err, savedObservation) => {
+//                         if (err) console.log(JSON.stringify(err));
+//                         console.log(JSON.stringify(savedObservation));
+//                     });
+//
+//                 }
+//
+//             })
+//         })
+//     });
+//
+//
+// }
 

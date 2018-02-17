@@ -40,3 +40,13 @@ GROUP BY
     observations.subject 
 LIMIT 20;
 ```
+
+### Query by code
+```
+SELECT 
+    * 
+FROM 
+    (SELECT *,CAST(`extracted`.`code`.`coding`.`snowmedCT` AS VARCHAR) AS snowmedCode FROM mongo.admin.conditions AS extracted) AS withSnow  
+WHERE 
+    ILIKE(`withSnow`.`snowmedCode`, '29463-7');
+```

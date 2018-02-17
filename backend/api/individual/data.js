@@ -47,31 +47,31 @@ module.exports = (env, router) => {
             let observation = {};
 
             observation.status = "registered";
-            observation.category = [{
-                coding: [{
+            observation.category = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedCategoryCodes)
-                }]
-            }];
-            observation.code = [{
-                coding: [{
+                }
+            };
+            observation.code = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
-                }]
-            }];
+                }
+            };
             observation.subject = req.user._id;
             observation.effective = randomDate();
             observation.issued = randomDate();
             observation.performer = '';
             observation.value = Math.random();
-            observation.bodySite = [{
-                coding: [{
+            observation.bodySite = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedBodySiteCodes)
-                }]
-            }];
-            observation.method = [{
-                coding: [{
+                }
+            };
+            observation.method = {
+                coding: {
                     snowmedCT: randomFrom(snowmedCodes.snowmedMethodCodes)
-                }],
-            }];
+                },
+            };
             observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
             result.push(observation);
         }

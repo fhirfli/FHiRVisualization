@@ -3,6 +3,7 @@ import axios from "axios";
 import {handleResponseError} from "error";
 
 function beginLoadData(dataType, dataRange) {
+    console.log("beginLoadData(" + dataType + ", " + dataRange + ")");
     return {type: types.LOAD_DATA, data: {dataType, dataRange}}
 }
 function loadDataSuccess(dataType, dataRange, results) {
