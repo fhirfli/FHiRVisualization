@@ -49,7 +49,7 @@ export default class Data extends Component {
         console.log(JSON.stringify(dataType));
         return (
         <div id="data-list">
-            <button key={index + dataType.name + dataType.colour} onClick={(e) => {
+            <button className="zoom" key={index + dataType.name + dataType.colour} onClick={(e) => {
                 this.setState({
                     currentIndex: index,
                     mainDataType: dataType.name,
@@ -145,7 +145,7 @@ export default class Data extends Component {
                     (this.props.visualizationMap[this.state.selectedVisualization] &&
                     !this.props.preferences.find((preference) =>
                     preference.mainDataType === dataType.dataType && preference.secondaryDataType === this.state.selectedSecondaryDataType && preference.visualization === this.state.selectedVisualization)) ) &&
-                    <button onClick={e => {
+                    <button className="buttonn" style={{marginTop: "20px"}} onClick={e => {
                         this.props.manualCreatePreference({
                             visualization: this.state.selectedVisualization,
                             mainDataType: dataType.dataType,
