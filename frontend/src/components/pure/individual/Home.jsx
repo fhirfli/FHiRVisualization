@@ -123,7 +123,9 @@ export default class Home extends Component {
                     <h4 className="home__date">{moment().format("ddd D MMMM")}</h4>
                   </div>
                     {
-                      this.props.preferences.length > 0 && ( <DashboardGrid preferences={ this.props.preferences } data={ this.props.loadData }/> )
+                        this.props.preferences.length > 0 && (
+                            <DashboardGrid preferences={ this.props.preferences } data={ this.props.data }
+                                           loadData={this.props.manualLoadData}/> )
                     }
                     {
                     /* May No Longer Need This
@@ -167,5 +169,4 @@ Home.propTypes = {
     preferences: propTypes.array.isRequired,
     goals: propTypes.array.isRequired,
     data: propTypes.object.isRequired,
-    loadData: propTypes.object.isRequired
 };

@@ -26,3 +26,17 @@ WHERE
     observations.performer = (SELECT company FROM mongo.admin.`corporateusers` WHERE email = 'kiran@mail.com' LIMIT 1) 
 LIMIT 20;
 ```
+
+### Average Value
+```
+SELECT 
+    SUM(CAST(`value` AS DOUBLE))/COUNT(*), 
+    `subject` 
+FROM 
+    mongo.admin.`observations` AS observations 
+WHERE 
+    observations.performer = (SELECT company FROM mongo.admin.`corporateusers` WHERE email = 'kiran@mail.com' LIMIT 1) 
+GROUP BY 
+    observations.subject 
+LIMIT 20;
+```

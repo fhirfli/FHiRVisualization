@@ -26,13 +26,19 @@ export default class DashboardGrid extends React.Component {
   }
 
   componentDidMount() {
-    console.log("DATA: " + JSON.stringify(item));
+      // console.log("DATA: " + JSON.stringify(item));
     /* .map((item) => {
       console.log("DATA: " + JSON.stringify(item));
     })*/
 
+
     // Either props.preferences is null, OR props.goals is null
     if(this.props.preferences != null) {
+        this.props.preferences.map((p) => {
+            this.loadData(p.dataType, 'Weekly');
+        });
+        console.log(JSON.stringify(this.props.data));
+
       let listOfVis = this.loadPreferences();
       for(var i = 0; i < listOfVis.length; i++) {
         let dataRange = this.mapToRange(listOfVis[i].visualization);
@@ -147,7 +153,7 @@ export default class DashboardGrid extends React.Component {
   //Find Goals
   // ManualLoadGoal() gets called on:
   loadGoalData(title, goal/*, current*/) {
-    let current = Math.round(Number(goal - (Math.random() * goal)))
+      let current = Math.round(Number(goal - (Math.random() * goal)));
     const sampleGoalRing = [{ x: current.toString(), y: current},
                             { x: Math.round(Number(goal - current)).toString(), y: (goal - current) },
                             ];
@@ -193,7 +199,7 @@ export default class DashboardGrid extends React.Component {
       p.visualization.map((v) => {
         listOfVis.push({dataType : p.dataType, visualization : v, colour: p.colour });
       })
-    })
+    });
     return listOfVis;
   }
 
@@ -201,7 +207,7 @@ export default class DashboardGrid extends React.Component {
     var listOfGoalVis = [];
     this.props.goals.map((g) => {
       listOfGoalVis.push({ name: g.name, value : g.value, colour: g.colour });
-    })
+    });
     return listOfGoalVis;
   }
 
@@ -248,5 +254,6 @@ export default class DashboardGrid extends React.Component {
 DashboardGrid.propTypes = {
   preferences: PropTypes.array,
   goals: PropTypes.array,
-  data: PropTypes.any
+    data: PropTypes.any,
+    loadData: PropTypes.func
 };
