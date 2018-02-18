@@ -19,6 +19,7 @@ export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadPreferences();
         this.props.manualLoadData('HeartRate');
+        this.props.manualLoadData('HeartRate', 'BMI');
     }
     render() {
         return (

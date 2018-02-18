@@ -52,9 +52,9 @@ const home = (state = {
             let data = Object.assign({}, state.data);
             data[action.data.mainDataType] = data[action.data.mainDataType] || {};
             if (action.data.secondaryDataType) {
-                data[action.data.mainDataType][action.data.secondaryDataType] = action.data.result;
+                data[action.data.mainDataType][action.data.secondaryDataType] = action.data.values;
             } else {
-                data[action.data.mainDataType]['self'] = action.data.result;
+                data[action.data.mainDataType]['self'] = action.data.values;
             }
             return Object.assign({}, state, {
                 isLoading: false,
