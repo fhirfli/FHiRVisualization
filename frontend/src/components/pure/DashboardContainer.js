@@ -38,7 +38,7 @@ export default class DashboardGrid extends React.Component {
             dateValueList.push(dateValue);
           }
         })
-      });
+      }); 
     }
 
     dateValueListToCustomFormate(dateValueList, dataType) {

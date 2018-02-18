@@ -127,7 +127,7 @@ export default class Home extends Component {
       else if(visualization.includes("Weekly")) { return "Weekly"; }
       else if(visualization.includes("Monthly")) { return "Monthly"; }
       else if(visualization.includes("Annual")) { return "Annual"; }
-      return "OOPS";
+      return "Range is undefined";
     }
 
     render() {
