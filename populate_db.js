@@ -402,4 +402,12 @@ function generateObservationFor(email, dataType, dateRange) {
     });
 }
 
-
+function generateRealisticDataFor(dataType) {
+  switch(dataType) {
+    case 'HeartRate': return (Math.random() * 4.27) + 127;
+    case 'BodyWeight': return (Math.random() * 12.1) + 76.7;
+    case 'BodyHeight': return (Math.random() * 6.8) + 197.4;
+    case 'BMI':return (Math.random() * 4.9) + 21.7;
+    case 'SystolicAndDiastolic': return (Math.random() * 0.3) + 1.5;
+  }
+}
