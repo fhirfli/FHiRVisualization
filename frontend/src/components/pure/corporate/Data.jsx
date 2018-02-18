@@ -145,7 +145,7 @@ export default class Data extends Component {
                     (this.props.visualizationMap[this.state.selectedVisualization] &&
                     !this.props.preferences.find((preference) =>
                     preference.mainDataType === dataType.dataType && preference.secondaryDataType === this.state.selectedSecondaryDataType && preference.visualization === this.state.selectedVisualization)) ) &&
-                    <button className="buttonn" style={{marginTop: "20px"}} onClick={e => {
+                    <button className="save" onClick={e => {
                         this.props.manualCreatePreference({
                             visualization: this.state.selectedVisualization,
                             mainDataType: dataType.dataType,

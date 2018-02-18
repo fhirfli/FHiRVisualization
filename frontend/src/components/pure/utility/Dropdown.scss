@@ -175,13 +175,13 @@ div.dropdown-container {
 .dropdown-list > div {
   padding: 10px;
   border-top: 0px !important;
-  border: 1px solid black;
+  // border: 1px solid black;
   cursor: pointer;
   background-color: #ffffff;
 }
 
 .dropdown-list > div:hover {
-  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-  background-color: #369b36;
+  // transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  background-color: #F0F0F0;
 
 }
