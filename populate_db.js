@@ -87,11 +87,11 @@ function generateDataForCorporateUser(id) {
                     let observation = new Observation();
 
                     observation.status = "registered";
-                    observation.code = [{
-                        coding: [{
+                    observation.code = {
+                        coding: {
                             snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
-                        }]
-                    }];
+                        }
+                    };
                     observation.subject = user_id;
                     observation.effective = randomDate();
                     observation.issued = randomDate();
@@ -111,6 +111,45 @@ function generateDataForCorporateUser(id) {
     });
 
 }
+
+
+function generateDataForExistingCorporateUser(id) {
+    CorporateUser.findOne({_id: "5a4d43866e5ba73fa060646f"}, (err, user) => {
+        console.log(JSON.stringify(user));
+        CompanyAssociation.find({company: user.company}, (err, associations) => {
+            if (err) console.log(JSON.stringify(err));
+
+            let pos = Math.floor(Math.random() * associations.length);
+
+            let association = associations[pos];
+            for (let i = 0; i < 100; i++) {
+                let observation = new Observation();
+
+                observation.status = "registered";
+                observation.code = {
+                    coding: {
+                        snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
+                    }
+                };
+                observation.subject = association.user;
+                observation.effective = randomDate();
+                observation.issued = randomDate();
+                observation.performer = user.company;
+                observation.value = Math.random();
+                observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
+
+                observation.save((err, savedObservation) => {
+                    if (err) console.log(JSON.stringify(err));
+                    console.log(JSON.stringify(savedObservation));
+                });
+
+            }
+
+        })
+    });
+
+}
+
 
 function generateCondtion() {
     randomUser((err, user) => {
@@ -147,7 +186,8 @@ function generateFamilyMemberHistory() {
             familyMemberHistory.date = randomDate();
             familyMemberHistory.relationship = {
                 coding: {
-                    snowmedCT: randomFrom(snowmedCodes.snowmedRelationshipCodes)
+//                    snowmedCT: randomFrom(snowmedCodes.snowmedRelationshipCodes)
+                    snowmedCT: randomFrom(['63863-5', '29463-7', '63863-5', '29463-7', '63863-5', '29463-7'])
                 }
             };
             familyMemberHistory.gender = "Male";
@@ -293,7 +333,8 @@ for (let i = 0; i < 50; i++) {
     // generateObservation();
     // generateFamilyMemberHistory();
     // generateCondtion();
-    generateObservationFor('kiran@mail.com', 'HeartRate');
+    // generateObservationFor('kiran@mail.com', 'HeartRate');
+    generateDataForExistingCorporateUser(10);//   generateDataForCorporateUser(10)
 }
 
 

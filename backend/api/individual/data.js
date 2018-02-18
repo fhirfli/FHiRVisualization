@@ -42,7 +42,7 @@ module.exports = (env, router) => {
 
         let result = [];
 
-        IndividualDataManager.loadDataFor(Data.DATA_SPECIFICATION[dataType], req.user, (result) => {
+        IndividualDataManager.loadDataFor(Data.DATA_SPECIFICATION[dataType], dataRange, req.user, (result) => {
             return res.json(result);
         });
         //     // TODO: Actually load user data here
