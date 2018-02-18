@@ -46,11 +46,18 @@ export default class Data extends Component {
     }
 
     generateDataTypeOption(dataType, index) {
+        console.log(JSON.stringify(dataType));
         return (
         <div id="data-list">
-            <button key={index + dataType} onClick={(e) => {
-                this.setState({currentIndex: index});
-            }}>{dataType}</button>
+            <button className="zoom" key={index + dataType.name + dataType.colour} onClick={(e) => {
+                this.setState({
+                    currentIndex: index,
+                    mainDataType: dataType.name,
+                    selectedColour: this.props.colours[0],
+                    selectedVisualization: Object.keys(this.props.visualizationMap)[0],
+                    selectedSecondaryDataType: this.props.dataTypes[0].dataType
+                });
+            }}>{dataType.name}</button>
         </div>
         )
     }
@@ -60,55 +67,71 @@ export default class Data extends Component {
         return (
             <div key={dataType.name + dataType.dataType}>
                 <h1 style={{marginTop: "0"}}>{dataType.name}</h1>
+                <div id="data-colour-select">
+                    <p>Colour Scheme:</p>
+                    <Dropdown baseZindex={3}
+                              choices={(this.props.colours)}
+                              currentlySelected={this.state.selectedColour}
+                              choiceToString={(colour => colour)}
+                              callback={colour => this.setState({selectedColour: colour})}/>
+                </div>
+                <p>Available Visualizations:</p> 
+                <div className="border">
                 {
+                    
                     this.props.preferences.filter((preference) => preference.mainDataType === dataType.dataType).map((preference, i) => (
-                        <div key={preference.mainDataType + i}>
+                        <div className="visualisation" key={preference.mainDataType + i}>
                             {this.props.visualizationMap[preference.visualization] ?
                                 preference.visualization + " of " + preference.mainDataType + " with " + preference.secondaryDataType
                                 :
                                 preference.visualization + " of " + preference.mainDataType
                             }
-                            <button onClick={(e) => {
+                            <button className="buttonn" onClick={(e) => {
                                 this.props.manualRemovePreference(preference)
                             }}>Remove
                             </button>
                         </div>
                     ))
                 }
-                <div id="data-colour-select">
-                    <p>Colour Scheme:</p>
-                    <Dropdown baseZindex={5}
-                            choices={(this.props.colours)}
-                            currentlySelected={dataType.colour}
-                            choiceToString={(colour => colour)}
-                            callback={colour => this.toggleColour(colour)}/> 
                 </div>
                 <h4>Data Type</h4>
-                {Object.keys(this.props.visualizationMap).map((visualization, index) => (
-                    <div key={visualization + index}>
-                        {visualization}
-                        <input checked={this.state.selectedVisualization === visualization} type="checkbox"
-                               onChange={(e) => this.setState({
-                                   selectedVisualization: visualization
-                               })}/>
-                    </div>
-                ))}
+                <Dropdown baseZindex={2}
+                          choices={(Object.keys(this.props.visualizationMap))}
+                          currentlySelected={this.state.selectedVisualization}
+                          choiceToString={(vis => vis)}
+                          callback={visualization => this.setState({selectedVisualization: visualization})}/>
+
+                {/*{Object.keys(this.props.visualizationMap).map((visualization, index) => (*/}
+                {/*<div key={visualization + index}>*/}
+                {/*{visualization}*/}
+                {/*<input checked={this.state.selectedVisualization === visualization} type="checkbox"*/}
+                {/*onChange={(e) => this.setState({*/}
+                {/*selectedVisualization: visualization*/}
+                {/*})}/>*/}
+                {/*</div>*/}
+                {/*))}*/}
                 {
                     this.state.selectedVisualization !== "" &&
                     this.props.visualizationMap[this.state.selectedVisualization] &&
                     (
                         <div>
                             <h4>Secondary Data Type</h4>
-                            {this.props.dataTypes.filter((dataType) => dataType.dataType !== dataType).map((dataType, index) => (
-                                <div key={dataType.name + index}>
-                                    {dataType.name}
-                                    <input checked={this.state.selectedSecondaryDataType === dataType.dataType}
-                                           type="checkbox"
-                                           onChange={(e) => this.setState({
-                                               selectedSecondaryDataType: dataType.dataType
-                                           })}/>
-                                </div>
-                            ))}
+                            <Dropdown baseZindex={1}
+                                      choices={(this.props.dataTypes.map(e => e.dataType))}
+                                      currentlySelected={this.state.selectedSecondaryDataType}
+                                      choiceToString={(vis => vis)}
+                                      callback={dataType => this.setState({selectedSecondaryDataType: dataType})}/>
+
+                            {/*{this.props.dataTypes.filter((dataType) => dataType.dataType !== dataType).map((dataType, index) => (*/}
+                            {/*<div key={dataType.name + index}>*/}
+                            {/*{dataType.name}*/}
+                            {/*<input checked={this.state.selectedSecondaryDataType === dataType.dataType}*/}
+                            {/*type="checkbox"*/}
+                            {/*onChange={(e) => this.setState({*/}
+                            {/*selectedSecondaryDataType: dataType.dataType*/}
+                            {/*})}/>*/}
+                            {/*</div>*/}
+                            {/*))}*/}
                         </div>)}
                 {
                     this.state.selectedVisualization !== "" &&
@@ -122,7 +145,7 @@ export default class Data extends Component {
                     (this.props.visualizationMap[this.state.selectedVisualization] &&
                     !this.props.preferences.find((preference) =>
                     preference.mainDataType === dataType.dataType && preference.secondaryDataType === this.state.selectedSecondaryDataType && preference.visualization === this.state.selectedVisualization)) ) &&
-                    <button onClick={e => {
+                    <button className="save" onClick={e => {
                         this.props.manualCreatePreference({
                             visualization: this.state.selectedVisualization,
                             mainDataType: dataType.dataType,
@@ -141,21 +164,6 @@ export default class Data extends Component {
     render() {
         return (
             <div id="data-container">
-                {/* <div id="data-content">
-                    <h2>Data</h2>
-                    <h4>Here is where you would be able to view all your data</h4>
-                    {
-                        this.props.dataTypes.map((dataType, index) => {
-                            return this.generateDataTypeOption(dataType.name, index);
-                        })
-                    }
-                    {
-                        this.state.currentIndex >= 0 &&
-                        (
-                            this.generateDataPanelFor(this.props.dataTypes[this.state.currentIndex])
-                        )
-                    }
-                </div> */}
                 <div id="data-title">
                     <h2>Data</h2>
                 </div>
@@ -169,7 +177,7 @@ export default class Data extends Component {
                 <div id="data-list">
                     {
                         this.props.dataTypes.map((dataType, index) => {
-                            return this.generateDataTypeOption(dataType.name, index);
+                            return this.generateDataTypeOption(dataType, index);
                         })
                     }
                 </div>

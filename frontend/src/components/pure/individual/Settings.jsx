@@ -85,9 +85,9 @@ export default class Settings extends Component {
                                 {
                                     this.props.associations.map(association => {
                                         return (
-                                            <div key={this.updateCount + association.domain}>
+                                            <div className="grid" key={this.updateCount + association.domain}>
                                                 {association.name} - {association.domain}
-                                                <button
+                                                <button className="buttonn"
                                                     onClick={this._onRemoveAssociation.bind(this, association.domain)}>
                                                     Remove
                                                 </button>

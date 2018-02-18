@@ -8,7 +8,7 @@ mongoose.Promise = Promise;
 const associationSchema = new Schema({
     user: {type: ObjectId, ref: 'IndividualUser', required: true},
     company: [{type: ObjectId, ref: 'Company'}]
-});
+}, {usePushEach: true});
 
 
 const CompanyAssociation = mongoose.model('CompanyAssociation', associationSchema);
