@@ -23,34 +23,63 @@ export default class DashboardGrid extends React.Component {
         this.loadPreferences = this.loadPreferences.bind(this);
         this.loadGoals = this.loadGoals.bind(this);
         this.loadColour = this.loadColour.bind(this);
+        this.profileToDateValue = this.profileToDateValue.bind(this);
+    }
+
+    profileToDateValue() {
+      let dateValueList = [];
+      this.props.preferences.map((p) => {
+        let dataType = p.dataType;
+        p.visualization.map((v) => {
+          let range = this.mapToRange(v);
+          let dataList = this.props.data[dataType][range];
+          for(var i = 0; i < dataList.length; i++) {
+            let dateValue = { value: [dataList[i]["value"], date: dataList[i]["issued"]]};
+            dateValueList.push(dateValue);
+          }
+        })
+      });
+    }
+
+    dateValueListToCustomFormate(dateValueList, dataType) {
+
     }
 
     componentDidMount() {
-        // console.log("DATA: " + JSON.stringify(item));
-        /* .map((item) => {
-         console.log("DATA: " + JSON.stringify(item));
-         })*/
-
-
         // Either props.preferences is null, OR props.goals is null
         if (this.props.preferences != null) {
             this.props.preferences.map((p) => {
-                this.loadData(p.dataType, 'Weekly');
+              let dataType = p.dataType;
+              p.visualization.map((v) => {
+                let range = this.mapToRange(v);
+                console.log("DATA TYPE: " + dataType + ", RANGE: " + range);
+                this.props.loadData(dataType, range).then(() => {
+                  this.profileToDateValue();
+                });
+              })
             });
-            console.log(JSON.stringify(this.props.data));
+
+            /*this.props.preferences.map((p) => {
+                //this.loadData(p.dataType, 'Weekly');
+                this.profileToDateValue();
+            });
+            //console.log(JSON.stringify(this.props.data));
 
             let listOfVis = this.loadPreferences();
             for (var i = 0; i < listOfVis.length; i++) {
                 let dataRange = this.mapToRange(listOfVis[i].visualization);
                 let dataType = listOfVis[i].dataType;
                 let colour = listOfVis[i].colour;
-                this.loadData(dataType, dataRange);
+                this.props.loadData(dataType, dataRange);
                 this.loadColour(colour);
+
+                this.profileToDateValue();
             }
 
             this.setState({
                 listOfVis
             })
+            */
         }
 
         else {

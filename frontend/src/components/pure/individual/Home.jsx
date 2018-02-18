@@ -112,9 +112,24 @@ const elem = (colour, string) => (
 export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadGoals();
-        this.props.manualLoadPreferences();
-        this.props.manualLoadData('HeartRate', 'Weekly');
+        this.props.manualLoadPreferences().then(() => {
+          this.props.preferences.map((p) => {
+            p.visualization.map((v) => {
+              this.props.manualLoadData(p.dataType, this.mapToRange(v));
+            })
+          })
+        });
+        //this.props.manualLoadData('HeartRate', 'Weekly');
     }
+
+    mapToRange(visualization) {
+      if(visualization.includes("Daily")) { return "Daily" }
+      else if(visualization.includes("Weekly")) { return "Weekly"; }
+      else if(visualization.includes("Monthly")) { return "Monthly"; }
+      else if(visualization.includes("Annual")) { return "Annual"; }
+      return "OOPS";
+    }
+
     render() {
         return (
             <div id="home-container" className="basic">
@@ -125,7 +140,7 @@ export default class Home extends Component {
                     {
                         this.props.preferences.length > 0 && (
                             <DashboardGrid preferences={ this.props.preferences } data={ this.props.data }
-                                           loadData={this.props.manualLoadData}/> )
+                                           loadData={ this.props.manualLoadData }/> )
                     }
                     {
                     /* May No Longer Need This
@@ -146,7 +161,6 @@ export default class Home extends Component {
                     </div>
                     {
                         this.props.goals.length > 0 && ( <DashboardGrid goals = { this.props.goals } /> )
-
                         /* Might not need this anymore
                           this.props.goals.map((goal, i) => {
                             return (elem(goal.colour, JSON.stringify(goal)/* goal.name + " " + goal.value + " " + i*))
@@ -154,7 +168,6 @@ export default class Home extends Component {
                         */
                     }
                     {
-
                         //JSON.stringify(this.props.data)
                     }
                 </div>
