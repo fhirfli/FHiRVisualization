@@ -116,3 +116,55 @@
   }
 }
 
+.border {
+  border-style: solid;
+  border-width: 1px;
+  padding-top: 23px;
+  padding-bottom: 20px;
+}
+
+.visualisation {
+  padding: 20px;
+  grid-template-columns: 5fr 1fr;
+    display: grid;
+}
+
+.buttonn {
+  // margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #00a200 !important;
+  color: $headerTextColour;
+  border-radius: 50px;
+  justify-content: center;
+  text-transform: uppercase !important;
+  font-weight: $boldFontWeight;
+  // display: flex;
+  padding: 10px !important;
+  border-width: 0px;
+  
+}
+
+.save {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  background-color: #00a200 !important;
+  color: $headerTextColour;
+  border-radius: 50px;
+  justify-content: center;
+  text-transform: uppercase !important;
+  font-weight: $boldFontWeight;
+  // display: flex;
+  padding: 10px !important;
+  border-width: 0px;
+  width: 100%;
+  
+}
+
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(1.19); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}

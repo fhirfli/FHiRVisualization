@@ -15,7 +15,7 @@ const goalSchema = new Schema({
     value: { type: Number , required: true},
     period:  { type: String, enum: GOAL_PERIODS, required: true},
     colour:  { type: String, enum: Data.COLORS, required: true}
-});
+}, {usePushEach: true});
 
 
 const Goal = mongoose.model('Goal', goalSchema);

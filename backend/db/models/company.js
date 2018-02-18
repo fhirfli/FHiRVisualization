@@ -8,7 +8,7 @@ mongoose.Promise = Promise;
 const companySchema = new Schema({
     domain: {type: String, required: true},
     name: {type: String, required: true}
-});
+}, {usePushEach: true});
 
 
 const Company = mongoose.model('Company', companySchema);
