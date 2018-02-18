@@ -10,6 +10,7 @@ const home = (state = {
     errorMsg: "",
     data: {
         //     'heartRate': {
+        //          'self': [<FHIR-PROFILE>]
         // // only the ranges requested will be present
         // 'bodyWeight': [
         // (<FHIR-PROFILE>,{<FHIR-PROFILE>})
@@ -26,8 +27,17 @@ const home = (state = {
 }, action) => {
     switch (action.type) {
         case LOAD_DATA:
+            let data = Object.assign({}, state.data);
+            data[action.data.mainDataType] = data[action.data.mainDataType] || {};
+            if (action.data.secondaryDataType) {
+                data[action.data.mainDataType][action.data.secondaryDataType] = data[action.data.mainDataType][action.data.secondaryDataType] || [];
+            } else {
+                data[action.data.mainDataType]['self'] = data[action.data.mainDataType]['self'] || [];
+            }
+
             return Object.assign({}, state, {
-                isLoading: true
+                isLoading: true,
+                data
             });
             break;
         case LOAD_DATA_ERROR:
@@ -39,7 +49,18 @@ const home = (state = {
             break;
         case LOAD_DATA_SUCCESS: {
             // TODO: Add load data success
-            return state;
+            let data = Object.assign({}, state.data);
+            data[action.data.mainDataType] = data[action.data.mainDataType] || {};
+            if (action.data.secondaryDataType) {
+                data[action.data.mainDataType][action.data.secondaryDataType] = action.data.values;
+            } else {
+                data[action.data.mainDataType]['self'] = action.data.values;
+            }
+            return Object.assign({}, state, {
+                isLoading: false,
+                data
+            });
+
         }
             break;
         default:

@@ -333,14 +333,33 @@ for (let i = 0; i < 50; i++) {
     // generateObservation();
     // generateFamilyMemberHistory();
     // generateCondtion();
-    // generateObservationFor('kiran@mail.com', 'HeartRate');
-    generateDataForExistingCorporateUser(10);//   generateDataForCorporateUser(10)
+    // generateDataForExistingCorporateUser(10);//   generateDataForCorporateUser(10)
+    generateObservationFor('kiran@mail.com', 'HeartRate', 'Weekly');
+}
+function generateDateInDateRange(dateRange) {
+    let noOfDays;
+    switch (dateRange) {
+        case 'Weekly':
+            noOfDays = 7;
+            break;
+        case 'Monthly':
+            noOfDays = 31;
+            break;
+        case 'Annual':
+            noOfDays = 365;
+            break;
+    }
+    let from_ts = new Date(Date.now() - 24 * 60 * 60 * 1000 * noOfDays).getTime();
+    let to_ts = new Date(Date.now() - 24 * 60 * 60 * 1000 * noOfDays).getTime();
+    let fDate = new Date(Math.floor(Math.random() * (to_ts - from_ts)) + from_ts);
+    return fDate;
+
 }
 
 
 // DHEN HERE IS THE FUNCTION
 // DHEN DHEN DHEN DHEN  ------------------------------------- LOOK HERE HERE HERE HERE
-function generateObservationFor(email, dataType) {
+function generateObservationFor(email, dataType, dateRange) {
     IndividualUser.findOne({email: email}, (err, user) => {
         CompanyAssociation.findOne({user: user._id}, (err, companyAssociations) => {
             let companyId = companyAssociations.company[0];
@@ -369,8 +388,8 @@ function generateObservationFor(email, dataType) {
                 }
             };
 
-            observation.effective = randomDate();
-            observation.issued = randomDate();
+            observation.issued = generateDateInDateRange(dateRange);
+            observation.effective = generateDateInDateRange(dateRange);
             observation.value = Math.random();
 
             observation.save((err, savedObservation) => {
@@ -382,3 +401,5 @@ function generateObservationFor(email, dataType) {
 
     });
 }
+
+
