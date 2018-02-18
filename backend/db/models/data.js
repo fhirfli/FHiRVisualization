@@ -6,8 +6,8 @@ mongoose.Promise = Promise;
 
 
 const VALID_SCHEMAS = [
-    "HeartRate", "BodyHeight", "BodyWeight", "BloodPressureSystolicAndDiastolic", "BMI",
-    "Observation", "Condition", "FamilyMemberHistory", "MedicationStatement.js", "Patient", "Organization"
+//    "HeartRate", "BodyHeight", "BodyWeight", "BloodPressureSystolicAndDiastolic", "BMI",
+    "Observation", "Condition", "FamilyMemberHistory", "MedicationStatement", "Patient", "Organization"
 ];
 
 const VALID_VISUALIZATIONS = [
@@ -29,17 +29,26 @@ const VALID_AGGREGATE_VISUALIZATIONS = Object.keys(AGGREGATE_VISUALIZATIONS_SECO
 
 const COLORS = ['red', 'blue', 'green', 'yellow', 'white'];
 
+/*
+ "29463-7", // weight
+ "65968-0", // sleep
+ "63863-5", // hours of activity
+ "35094-2",// sys blood pressure
+ "39156-5"// bmi
+ */
 const DATA_SPECIFICATION = {
     "HeartRate": {
         name: "Heart Rate",
-        profile: "HeartRate",
+        profile: "Observation",
+        loinc: "8867-4",
         validVisualizations: [
             "DoughnutDaily"
         ]
     },
     "BodyHeight": {
         name: "Body Height",
-        profile: "BodyHeight",
+        profile: "Observation",
+        loinc: "8302-2", // height
         validVisualizations: [
             "LineGraphWeekly",
             "LineGraphAnnual"
@@ -47,7 +56,8 @@ const DATA_SPECIFICATION = {
     },
     "BodyWeight": {
         name: "Body Weight",
-        profile: "BodyWeight",
+        profile: "Observation",
+        loinc: "29463-7", // weight
         validVisualizations: [
             "LineGraphWeekly",
             "LineGraphAnnual"
@@ -55,15 +65,8 @@ const DATA_SPECIFICATION = {
     },
     "BloodPressure": {
         name: "Blood Pressure",
-        profile: "BloodPressure",
-        validVisualizations: [
-            "LineGraphWeekly",
-            "LineGraphAnnual"
-        ]
-    },
-    "SystolicAndDiastolic": {
-        name: "Systolic Blood Pressure",
-        profile: "SystolicAndDiastolicSystolicAndDiastolic",
+        profile: "Observation",
+        loinc: "35094-2",// sys blood pressure
         validVisualizations: [
             "LineGraphWeekly",
             "LineGraphAnnual"
@@ -71,7 +74,8 @@ const DATA_SPECIFICATION = {
     },
     "BMI": {
         name: "Body mass Index",
-        profile: "BMI",
+        profile: "Observation",
+        loinc: "39156-5",// bmi
         validVisualizations: [
             "LineGraphAnnual",
             "BarChartWeekly"
