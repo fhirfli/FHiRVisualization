@@ -18,6 +18,7 @@ const elem = (text) => (
 export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadPreferences();
+        this.props.manualLoadData('HeartRate');
     }
     render() {
         return (

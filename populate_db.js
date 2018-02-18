@@ -333,8 +333,8 @@ for (let i = 0; i < 50; i++) {
     // generateObservation();
     // generateFamilyMemberHistory();
     // generateCondtion();
-    // generateObservationFor('kiran@mail.com', 'HeartRate');
-    generateDataForExistingCorporateUser(10);//   generateDataForCorporateUser(10)
+    // generateDataForExistingCorporateUser(10);//   generateDataForCorporateUser(10)
+    generateObservationFor('kiran@mail.com', 'HeartRate');
 }
 
 
