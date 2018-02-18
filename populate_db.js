@@ -327,15 +327,7 @@ function generateGenericObservation() {
 }
 
 
-for (let i = 0; i < 50; i++) {
-    // generateIndividual();
-    // generateMedicationStatement();
-    // generateObservation();
-    // generateFamilyMemberHistory();
-    // generateCondtion();
-    // generateDataForExistingCorporateUser(10);//   generateDataForCorporateUser(10)
-    generateObservationFor('kiran@mail.com', 'HeartRate', 'Weekly');
-}
+
 function generateDateInDateRange(dateRange) {
     let noOfDays;
     switch (dateRange) {
@@ -356,42 +348,62 @@ function generateDateInDateRange(dateRange) {
 
 }
 
+// this is the function that Dhen should code
+function generateRealisticValueFor(dataType) {
+    switch (dataType) {
+        case 'HeartRate':
+            return (Math.random() * 4.27 /* population heart rate variance */) + 127 /* average heart rate */;
+            break;
+        case 'BodyWeight':
+            break;
+        case 'BodyHeight':
+            break;
+        case 'BMI':
+            break;
+        case 'BloodPressure':
+            break;
+    }
+}
 
-// DHEN HERE IS THE FUNCTION
-// DHEN DHEN DHEN DHEN  ------------------------------------- LOOK HERE HERE HERE HERE
+
+// generate an observation for a person
 function generateObservationFor(email, dataType, dateRange) {
+    // finds an individual user by email - this is the user you are using for testing
     IndividualUser.findOne({email: email}, (err, user) => {
+        // find the associated company - your user should have an associated company or else it will fail
         CompanyAssociation.findOne({user: user._id}, (err, companyAssociations) => {
+            // just grab the id of your associated company
             let companyId = companyAssociations.company[0];
 
 
+            // create an observation with like the default FHiR fields filled in
+            // all you need to set are the
+            //          - the subject,
+            //          - the performer,
+            //          - the code,
+            //          - the issued date,
+            //          - the effective date,
+            //          - the value
             let observation = generateGenericObservation();
 
+            // set the subject to be your individual user (the one specified by email)
             observation.subject = user._id;
+            // set the performer to be the associated company
             observation.performer = companyId;
 
-            observation.code = {
-                coding: {
-                    snowmedCT: data.DATA_SPECIFICATION[dataType].loinc /// LOOOOK DHEN LOOOK HERE LOOOK HERE LOOK HERE!!!!!!
-                    // DATA_SPECIFICATION contains a mapping from dataTypes as follows
-                    /*
-                     "HeartRate": {
-                     name: "Heart Rate",
-                     profile: "Observation",
-                     loinc: "8867-4",
-                     validVisualizations: [
-                     "DoughnutDaily"
-                     ]
-                     },
+            // sets the code for the observation so that it turns up correctly in the backend
+            observation.code = {coding: {snowmedCT: data.DATA_SPECIFICATION[dataType].loinc}};
+            // note: data specification is a mapping from dataType (i.e HeartRate) to loinc codes
 
-                     */
-                }
-            };
-
+            // issued is the date that is used in filtering
+            // you should make this a date in the specified range
             observation.issued = generateDateInDateRange(dateRange);
+            // another date value, isn't really used at all, but set it to make the data more realistic
             observation.effective = generateDateInDateRange(dateRange);
-            observation.value = Math.random();
+            // the value of the data, actually used in visualizations - you should generate this value
+            observation.value = generateRealisticValueFor(dataType);
 
+            // save the created observation to the database
             observation.save((err, savedObservation) => {
                 if (err) console.log(JSON.stringify(err));
                 console.log(JSON.stringify(savedObservation));
@@ -403,3 +415,8 @@ function generateObservationFor(email, dataType, dateRange) {
 }
 
 
+// this is a loop that runs 50 times
+for (let i = 0; i < 50 /* no of times to run */; i++) {
+    // here it generates an observation for my user, for a heartrate data point within the past week
+    generateObservationFor('kiran@mail.com', 'HeartRate', 'Weekly');
+}
