@@ -23,7 +23,7 @@ module.exports = (env, router) => {
     const sanitizeError = require('../../sanitizeError');
     const IndividualVisualizationPreferences = require('../../db/models/visualizationPreferences').individual;
     const Data = require('../../db/models/data');
-    const CorporateDataManager = require('./dataManager');
+    const CorporateDataManager = require('./dataManager')(env);
 
     router.post('/data', (req, res) => {
         const {mainDataType} = req.body;

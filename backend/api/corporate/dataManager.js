@@ -76,37 +76,39 @@ function generateMultiTypeQueryCodeFor(email, loincA, loincB) {
         "ON dataB.subjectB = users._id) AS resultB " +
         "ON resultA.email= resultB.email ";
 }
-module.exports = {
-    loadDataFor: function (spec, user, callback) {
-        request({
-            url: 'http://localhost:8047/query.json',
-            method: "POST",
-            json: true,
-            body: {
-                queryType: 'SQL',
-                query: generateSingleTypeQueryCodeFor(user.email, spec.loinc)
-            }
-        }, (err, response, body) => {
-            console.log(JSON.stringify(body));
-            callback(body.rows);
-        });
+module.exports = function (env) {
+    return {
+        loadDataFor: function (spec, user, callback) {
+            request({
+                url: env.DRILL_URL,
+                method: "POST",
+                json: true,
+                body: {
+                    queryType: 'SQL',
+                    query: generateSingleTypeQueryCodeFor(user.email, spec.loinc)
+                }
+            }, (err, response, body) => {
+                console.log(JSON.stringify(body));
+                callback(body.rows);
+            });
 
 
-    },
-    loadMultiDataFor: function (spec, secondarySpec, user, callback) {
-        console.log(generateMultiTypeQueryCodeFor(user.email, spec.loinc, secondarySpec.loinc));
-        request({
-            url: 'http://localhost:8047/query.json',
-            method: "POST",
-            json: true,
-            body: {
-                queryType: 'SQL',
-                query: generateMultiTypeQueryCodeFor(user.email, spec.loinc, secondarySpec.loinc)
-            }
-        }, (err, response, body) => {
-            console.log(JSON.stringify(body));
-            callback(body.rows);
-        });
+        },
+        loadMultiDataFor: function (spec, secondarySpec, user, callback) {
+            console.log(generateMultiTypeQueryCodeFor(user.email, spec.loinc, secondarySpec.loinc));
+            request({
+                url: env.DRILL_URL,
+                method: "POST",
+                json: true,
+                body: {
+                    queryType: 'SQL',
+                    query: generateMultiTypeQueryCodeFor(user.email, spec.loinc, secondarySpec.loinc)
+                }
+            }, (err, response, body) => {
+                console.log(JSON.stringify(body));
+                callback(body.rows);
+            });
 
-    }
+        }
+    };
 };

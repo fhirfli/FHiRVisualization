@@ -27,10 +27,18 @@ if(process.env.NODE_ENV === 'production') {
     throw new Error("Invalid value for NODE_ENV: " + process.env.NODE_ENV);
 }
 
+let drillUrl;
+if (process.env.NODE_ENV === 'production') {
+    drillUrl = 'http://apache:8047/query.json';
+} else {
+    drillUrl = 'http://localhost:8047/query.json';
+}
+
 module.exports = {
     PORT: port,
     PRODUCTION: production, 
     MONGODB_URL: mongo_db_url,
     MONGODB_DEV_URL: mongo_db_local_url,
-    SECRET: secret
+    SECRET: secret,
+    DRILL_URL: drillUrl
 };
