@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Donut from "../Donut"; //Will change this to a folder of visualisation components
+import Donut from "../Donut"; //Will change this to a folder of visualization components
 import BarChart from "../BarChart";
 import GroupBarChart from "../GroupBarChart";
 import LineGraph from "../LineGraph";
@@ -19,7 +19,7 @@ export default class DashboardGrid extends React.Component {
         this.checkVisType = this.checkVisType.bind(this);
         this.mapToRange = this.mapToRange.bind(this);
         this.renderVisualization = this.renderVisualization.bind(this);
-        this.renderGoalVisualisation = this.renderGoalVisualisation.bind(this);
+        this.renderGoalvisualization = this.renderGoalvisualization.bind(this);
         this.loadGoals = this.loadGoals.bind(this);
         this.loadColour = this.loadColour.bind(this);
         this.profileToDateValue = this.profileToDateValue.bind(this);
@@ -28,9 +28,13 @@ export default class DashboardGrid extends React.Component {
 
     profileToDateValue(preference) {
       let dateValueList = [];
-
-      let dataType = preference.dataType;
-      var rangesAndVisType = new Array(); // An array for storing objects of type: { range, vis };
+      let dataList = this.props.data[preference.dataType][preference.dataRange];
+      for(var i = 0; i < dataList.length; i++) {
+            let value = dataList[i]["value"];
+            let date = dataList[i]["issued"];
+            dateValueList.push({ value: value, date: date });
+          }
+    /*
       preference.visualization.map((v) => {
         let visType = v
         let range = this.mapToRange(v);
@@ -42,14 +46,16 @@ export default class DashboardGrid extends React.Component {
               dateValueList.push({ value: value, date: date });
             }
       });
+      */
 
-      let listOfVis = [];
-      rangesAndVisType.map((obj) => {
-        let formattedData = this.dateValueListToCustomFormat(dateValueList, dataType, obj.range);
-        listOfVis.push({ dataType: dataType, dataRange: obj.range, data: formattedData, visType: obj.vis });
-      });
-
-      return listOfVis;
+      //console.log("THIS IS THE DATA BEFORE FORMATTING: " + JSON.stringify(dateValueList));
+      // let listOfVis = dataValueList.map((obj) => {
+      //   return ( this.dateValueListToCustomFormat(dateValueList, dataType, obj.range) );
+      //   //console.log("THIS IS THE DATA AFTER FORMATTING: " + JSON.stringify(formattedData));
+      //   //return ({ dataType: dataType, dataRange: obj.range, data: formattedData, visType: obj.vis });
+      // });
+      let formattedData = this.dateValueListToCustomFormat(dateValueList, preference.dataType, preference.dataRange);
+      return ({ data: formattedData });
     }
 
     dateValueListToCustomFormat(dateValueList, dataType, dataRange) {
@@ -144,24 +150,36 @@ export default class DashboardGrid extends React.Component {
         // Either props.preferences is null, OR props.goals is null
         if (this.props.preferences != null) {
           // EVERYTHING HAPPENS WITHIN THE ONE PROMISE BELOW.
-          let listOfVisComponents = [];
-            this.props.preferences.map((p) => {
+          let listOfVisComponents = this.props.preferences.map((p) => {
               let dataType = p.dataType;
-              p.visualization.map((v) => {
-                let range = this.mapToRange(v);
-                this.props.loadData(dataType, range).then(() => {
-                  let listOfVis = this.profileToDateValue(p);
-                  for (var i = 0; i < listOfVis.length; i++) {
-                    listOfVisComponents.push({ dataType: dataType, dataRange: range, data: listOfVis[i].data, visType: v, colour: p.colour });
-                    this.loadData(dataType, range, listOfVis[i].data);
-                    this.loadColour(p.colour);
-                  }
-                  this.setState({
-                    listOfVisComponents
+              return (
+                  p.visualization.map((v) => {
+                    let range = this.mapToRange(v);
+                    return { dataRange: range, visualization: v, dataType: dataType, colour: p.colour };
                   })
-                });
-              })
+              )
             });
+            listOfVisComponents = [].concat.apply([], listOfVisComponents);
+
+            console.log("listOfVisComponents in componentDidMount(): " + JSON.stringify(listOfVisComponents));
+
+            let components = [];
+
+            listOfVisComponents.map((vis) => {
+              this.props.loadData(vis.dataType, vis.dataRange).then(() => {
+
+                let formatted = this.profileToDateValue(vis);
+                components.push({ dataType: vis.dataType, dataRange: vis.dataRange, data: formatted.data, visType: vis.visualization, colour: vis.colour });
+                console.log("pushing: " + vis.visualization);
+                  //console.log("Added this: " + JSON.stringify({ dataType: dataType, dataRange: range, visType: v }));
+                this.loadData(vis.dataType, vis.dataRange, formatted.data);
+                this.loadColour(vis.colour);
+                this.setState({
+                  listOfVisComponents:[...components]
+                })
+              });
+              console.log("this.state.data: " + JSON.stringify(this.state.listOfVisComponents));
+            })
         }
 
         else {
@@ -230,7 +248,7 @@ export default class DashboardGrid extends React.Component {
         }
     }
 
-    checkVisType(vis) { // Ammendable visualisation checker
+    checkVisType(vis) { // Ammendable visualization checker
         if (vis.includes("BarChart")) {
             return 1;
         }
@@ -277,27 +295,27 @@ export default class DashboardGrid extends React.Component {
         switch (this.checkVisType(vis.visType)) {
             case 1:
                 return (<BarChart key={ vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
-                                  data={ vis.data } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
+                                  data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ this.state.colour[vis.colour] } dataRange={ vis.dataRange } />);
                 break;
             case 2:
-                return (<BrushLineGraph key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
-                                        data={ vis.data } title={ vis.dataType }  colour={ this.state.colour[vis.colour] } />);
+                return (<BrushLineGraph key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
+                                        data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }  colour={ this.state.colour[vis.colour] } />);
                 break;
             case 3:
-                return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
-                               data={ vis.data } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
+                return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
+                               data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
                 break;
             case 4:
-                return (<GroupBarChart key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
-                                       data={ vis.data } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
+                return (<GroupBarChart key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
+                                       data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
                 break;
             default:
-                console.log("Unkown Data visualisation");
+                console.log("Unkown Data visualization");
                 break;
         }
     }
 
-    renderGoalVisualisation(name, goal) {
+    renderGoalvisualization(name, goal) {
         return (<GoalRing key={goal + goal.name} className="dash__component" data={ this.state.goalData[name] }
                           title={ name }/> );
     }
@@ -316,7 +334,7 @@ export default class DashboardGrid extends React.Component {
                 <div className="dash__container">
                     {
                         this.state.listOfVisComponents &&
-                        this.state.listOfVisComponents.map(vis => this.renderVisualization(vis))
+                        this.state.listOfVisComponents.map(vis => { console.log("listOfVisComponents.map(vis): " + JSON.stringify(vis)); return (this.renderVisualization(vis))})
                     }
                 </div>
             )
@@ -326,7 +344,7 @@ export default class DashboardGrid extends React.Component {
                 <div className="dash__container-goals">
                     {
                       this.state.listOfGoals &&
-                      this.state.listOfGoals.map(goal => this.renderGoalVisualisation(goal.name, goal))
+                      this.state.listOfGoals.map(goal => this.renderGoalvisualization(goal.name, goal))
                     }
                 </div>
             )
@@ -343,7 +361,7 @@ export default class DashboardGrid extends React.Component {
              {
              (this.state.listOfVis &&
              this.state.listOfVis.map(vis => this.renderVisualization(vis))) ||
-             (this.state.listOfGoals && this.state.listOfGoals.map(vis => this.renderGoalVisualisation(vis)))
+             (this.state.listOfGoals && this.state.listOfGoals.map(vis => this.renderGoalvisualization(vis)))
              }
              </div>
              */

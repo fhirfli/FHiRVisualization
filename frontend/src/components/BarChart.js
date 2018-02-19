@@ -5,10 +5,12 @@ import * as PropTypes from 'prop-types';
 
 export default class BarChart extends React.Component {
     constructor(props) {
-        super();
+        super(props);
     }
 
     render() {
+      this.getAxisForRange(this.props.dataRange);
+
       const styles = this.getStyles()
         return (
             <div className="dash__component">
@@ -21,41 +23,40 @@ export default class BarChart extends React.Component {
                     }}
                     barRatio={0.9}
                     cornerRadius={2}
-                    events={[{
-                        target: "data",
-                        /*
-                        eventHandlers: {
-                            onClick: () => {
-                                return [{
-                                    target: "data",
-                                    mutation: (props) => {
-                                        const fill = props.style && props.style.fill;
-                                        return fill === "black" ? null : {style: {fill: "#e9602d"}};
-                                    }
-
-                                },
-                                    {
-                                        target: "labels",
-                                        mutation: (props) => {
-                                            return props.text ? null : {text: "clicked"};
-                                        }
-                                    }];
-                            }
-                        }
-                        */
-                    }]}
                     data={this.props.data}
+                />
+                <VictoryAxis
+                  standalone={false}
+                  //style={styles.axisYears}
+                  //tickValues={tickValues}
+                  /*
+                  tickFormat={
+                    (x) => {
+                      if (x.getFullYear() === 2000) {
+                        return x.getFullYear();
+                      }
+                      if (x.getFullYear() % 5 === 0) {
+                        return x.getFullYear().toString().slice(2);
+                      }
+                    }
+                  }
+                  */
                 />
             </div>
         )
     }
 
-    getStyles() {
-      const BLUE_COLOR = "#76bbf1";
-      const RED_COLOR = "#ec5229";
-      const YELLOW_COLOR = "#fcee5f";
-      const GREEN_COLOR = "#69da60";
+    getAxisForRange(range) {
+      switch(range) {
+        case 'Daily':
+        case 'Weekly':
+          console.log("NEED A WEEKLY AXIS OVER: " + JSON.stringify(this.props.data));
+        case 'Monthly':
+        case 'Annual':
+      }
+    }
 
+    getStyles() {
       return {
         title: {
           //textAnchor: "start",
@@ -73,88 +74,15 @@ export default class BarChart extends React.Component {
           fill: "#ffffff",
           fontFamily: "inherit",
           fontSize: "14px"
-        },
-
-        // INDEPENDENT AXIS
-        axisYears: {
-          axis: { stroke: "black", strokeWidth: 1},
-          ticks: {
-            size: (tick) => {
-              const tickSize =
-              tick.getFullYear() % 5 === 0 ? 10 : 5;
-              return tickSize;
-            },
-            stroke: "black",
-            strokeWidth: 1
-          },
-          tickLabels: {
-            fill: "black",
-            fontFamily: "inherit",
-            fontSize: 16
-          }
-        },
-
-        // DATA SET ONE
-        axisOne: {
-          grid: {
-            stroke: (tick) =>
-            tick === -10 ? "transparent" : "#ffffff",
-            strokeWidth: 2
-          },
-          axis: { stroke: BLUE_COLOR, strokeWidth: 0 },
-          ticks: { strokeWidth: 0 },
-          tickLabels: {
-            fill: BLUE_COLOR,
-            fontFamily: "inherit",
-            fontSize: 16
-          }
-        },
-        labelOne: {
-          fill: BLUE_COLOR,
-          fontFamily: "inherit",
-          fontSize: 12,
-          fontStyle: "italic"
-        },
-        lineOne: {
-          data: { stroke: BLUE_COLOR, strokeWidth: 4.5, fill: BLUE_COLOR }
-        },
-        axisOneCustomLabel: {
-          fill: BLUE_COLOR,
-          fontFamily: "inherit",
-          fontWeight: 300,
-          fontSize: 21
-        },
-
-        // DATA SET TWO
-        axisTwo: {
-          axis: { stroke: RED_COLOR, strokeWidth: 0 },
-          tickLabels: {
-            fill: RED_COLOR,
-            fontFamily: "inherit",
-            fontSize: 16
-          }
-        },
-        labelTwo: {
-          textAnchor: "end",
-          fill: RED_COLOR,
-          fontFamily: "inherit",
-          fontSize: 12,
-          fontStyle: "italic"
-        },
-        lineTwo: {
-          data: { stroke: RED_COLOR, strokeWidth: 4.5 }
-        },
-
-        // HORIZONTAL LINE
-        lineThree: {
-          data: { stroke: "#e95f46", strokeWidth: 2 }
         }
-      };
+
+      }
     }
 }
 
 BarChart.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
     title: PropTypes.any,
-    colour: PropTypes.any
+    colour: PropTypes.any,
+    dataRange: PropTypes.string
 };

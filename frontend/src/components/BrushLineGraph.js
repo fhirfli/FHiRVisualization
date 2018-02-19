@@ -135,5 +135,5 @@ export default class BrushLineGraph extends React.Component {
 BrushLineGraph.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
     title: PropTypes.any,
-    colour: PropTypes.any
+    colour: PropTypes.any,
 };
