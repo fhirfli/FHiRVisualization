@@ -30,13 +30,13 @@ export default class DashboardGrid extends React.Component {
       let dateValueList = [];
 
       let dataType = preference.dataType;
-      var rangesAndVisType = new Array(); // An array for storing objects of type: { range, vis };
+        const rangesAndVisType = []; // An array for storing objects of type: { range, vis };
       preference.visualization.map((v) => {
-        let visType = v
+          let visType = v;
         let range = this.mapToRange(v);
         rangesAndVisType.push({ range: range, vis: visType });
         let dataList = this.props.data[dataType][range];
-        for(var i = 0; i < dataList.length; i++) {
+          for (let i = 0; i < dataList.length; i++) {
               let value = dataList[i]["value"];
               let date = dataList[i]["issued"];
               dateValueList.push({ value: value, date: date });
@@ -56,7 +56,7 @@ export default class DashboardGrid extends React.Component {
       //console.log("DATA YEET: " + dateValueList);
 
       if(dataType === "HeartRate") {
-        if(dataRange == 'Daily') {
+          if (dataRange === 'Daily') {
           var listOfCustomFormats = [];
 
           for(var i = 0; i < dateValueList.length; i++) {
@@ -141,9 +141,10 @@ export default class DashboardGrid extends React.Component {
     }
 
     componentDidMount() {
-        // Either props.preferences is null, OR props.goals is null
-        if (this.props.preferences != null) {
-          // EVERYTHING HAPPENS WITHIN THE ONE PROMISE BELOW.
+        // We have to check whether props.preferences is null,
+        if (this.props.preferences) {
+            // list of vis components is a list of items that will accumulate objects of the following form
+            // (dataType, dataRange, data,visualizationType, colour)
           let listOfVisComponents = [];
             this.props.preferences.map((p) => {
               let dataType = p.dataType;
@@ -151,7 +152,7 @@ export default class DashboardGrid extends React.Component {
                 let range = this.mapToRange(v);
                 this.props.loadData(dataType, range).then(() => {
                   let listOfVis = this.profileToDateValue(p);
-                  for (var i = 0; i < listOfVis.length; i++) {
+                    for (let i = 0; i < listOfVis.length; i++) {
                     listOfVisComponents.push({ dataType: dataType, dataRange: range, data: listOfVis[i].data, visType: v, colour: p.colour });
                     this.loadData(dataType, range, listOfVis[i].data);
                     this.loadColour(p.colour);
@@ -163,8 +164,9 @@ export default class DashboardGrid extends React.Component {
               })
             });
         }
+        // we have to check whether  props.goals is null
+        else /*(this.props.goals !== null)*/{
 
-        else {
             let listOfGoals = this.loadGoals();
             for (var i = 0; i < listOfGoals.length; i++) {
                 let goal = listOfGoals[i].value;
@@ -303,7 +305,8 @@ export default class DashboardGrid extends React.Component {
     }
 
     loadGoals() {
-        var listOfGoalVis = [];
+        // list of goal vis accumulates a list of goals
+        const listOfGoalVis = [];
         this.props.goals.map((g) => {
             listOfGoalVis.push({name: g.name, value: g.value, colour: g.colour});
         });

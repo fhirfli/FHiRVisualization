@@ -111,7 +111,7 @@ export default class Data extends Component {
                 <div id="data-list">
                     {
                         Object.keys(this.props.validVisualizations).map((key) => {
-                            return (<button id="btn"
+                            return (<button className="zoom" id="btn"
                                             key={key}
                                             onClick={this.setCurrentItem.bind(this, key)}
                             >{key}</button>);

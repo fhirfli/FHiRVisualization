@@ -58,7 +58,7 @@ function randomString() {
     return text;
 }
 
-function generateDataForCorporateUser(id) {
+function generateDataForCorporateUser(dataType, dateRange) {
     CorporateUser.findById("5a4d43866e5ba73fa060646f", (err, user) => {
         console.log(JSON.stringify(user));
 
@@ -89,14 +89,15 @@ function generateDataForCorporateUser(id) {
                     observation.status = "registered";
                     observation.code = {
                         coding: {
-                            snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
+                            snowmedCT: data.DATA_SPECIFICATION[dataType].loinc
                         }
                     };
                     observation.subject = user_id;
-                    observation.effective = randomDate();
-                    observation.issued = randomDate();
+                    observation.issued = generateDateInDateRange(dateRange);
+                    observation.effective = generateDateInDateRange(dateRange);
+                    observation.value = generateRealisticDataFor(dataType);
+
                     observation.performer = company_id;
-                    observation.value = Math.random();
                     observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
 
                     observation.save((err, savedObservation) => {
@@ -113,7 +114,7 @@ function generateDataForCorporateUser(id) {
 }
 
 
-function generateDataForExistingCorporateUser(id) {
+function generateDataForExistingCorporateUser(id, dataType, dateRange) {
     CorporateUser.findOne({_id: "5a4d43866e5ba73fa060646f"}, (err, user) => {
         console.log(JSON.stringify(user));
         CompanyAssociation.find({company: user.company}, (err, associations) => {
@@ -128,14 +129,16 @@ function generateDataForExistingCorporateUser(id) {
                 observation.status = "registered";
                 observation.code = {
                     coding: {
-                        snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
+                        snowmedCT: data.DATA_SPECIFICATION[dataType].loinc
                     }
                 };
                 observation.subject = association.user;
-                observation.effective = randomDate();
-                observation.issued = randomDate();
                 observation.performer = user.company;
-                observation.value = Math.random();
+
+                observation.issued = generateDateInDateRange(dateRange);
+                observation.effective = generateDateInDateRange(dateRange);
+                observation.value = generateRealisticDataFor(dataType);
+
                 observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
 
                 observation.save((err, savedObservation) => {
@@ -327,7 +330,6 @@ function generateGenericObservation() {
 }
 
 
-
 function generateDateInDateRange(dateRange) {
     let noOfDays;
     switch (dateRange) {
@@ -401,21 +403,47 @@ function generateObservationFor(email, dataType, dateRange) {
 
 
 function generateRealisticDataFor(dataType) {
-  switch(dataType) {
-    case 'HeartRate': return (Math.random() * 4.27) + 127;
-    case 'BodyWeight': return (Math.random() * 12.1) + 76.7;
-    case 'BodyHeight': return (Math.random() * 6.8) + 197.4;
-    case 'BMI':return (Math.random() * 4.9) + 21.7;
-    case 'BloodPressure': return (Math.random() * 0.3) + 1.5;
-  }
+    switch (dataType) {
+        case 'HeartRate':
+            return (Math.random() * 4.27) + 127;
+        case 'BodyWeight':
+            return (Math.random() * 12.1) + 76.7;
+        case 'BodyHeight':
+            return (Math.random() * 6.8) + 197.4;
+        case 'BMI':
+            return (Math.random() * 4.9) + 21.7;
+        case 'BloodPressure':
+            return (Math.random() * 0.3) + 1.5;
+    }
 }
 
 // this is a loop that runs 50 times
 for (let i = 0; i < 20; i++) {
+    let prefix = 'kiran';
     // here it generates an observation for my user, for a heartrate data point within the past week
-    generateObservationFor('dhen@mail.com', 'BodyHeight', 'Weekly');
-    generateObservationFor('dhen@mail.com', 'BodyWeight', 'Weekly');
-    generateObservationFor('dhen@mail.com', 'BMI', 'Weekly');
-    generateObservationFor('dhen@mail.com', 'HeartRate', 'Weekly');
-    generateObservationFor('dhen@mail.com', 'BloodPressure', 'Weekly');
+    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Weekly');
+    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Weekly');
+    generateObservationFor(prefix + '@mail.com', 'BMI', 'Weekly');
+    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Weekly');
+    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Weekly');
+    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Daily');
+    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Daily');
+    generateObservationFor(prefix + '@mail.com', 'BMI', 'Daily');
+    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Daily');
+    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Daily');
+    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Annual');
+    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Annual');
+    generateObservationFor(prefix + '@mail.com', 'BMI', 'Annual');
+    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Annual');
+    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Annual');
+    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Monthly');
+    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Monthly');
+    generateObservationFor(prefix + '@mail.com', 'BMI', 'Monthly');
+    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Monthly');
+    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Monthly');
+
+
+
+
+
 }
