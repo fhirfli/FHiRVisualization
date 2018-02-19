@@ -119,7 +119,6 @@ export default class Home extends Component {
             })
           })
         });
-        //this.props.manualLoadData('HeartRate', 'Weekly');
     }
 
     mapToRange(visualization) {

@@ -20,66 +20,148 @@ export default class DashboardGrid extends React.Component {
         this.mapToRange = this.mapToRange.bind(this);
         this.renderVisualization = this.renderVisualization.bind(this);
         this.renderGoalVisualisation = this.renderGoalVisualisation.bind(this);
-        this.loadPreferences = this.loadPreferences.bind(this);
         this.loadGoals = this.loadGoals.bind(this);
         this.loadColour = this.loadColour.bind(this);
         this.profileToDateValue = this.profileToDateValue.bind(this);
+        this.dateValueListToCustomFormat = this.dateValueListToCustomFormat.bind(this);
     }
 
-    profileToDateValue() {
+    profileToDateValue(preference) {
       let dateValueList = [];
-      this.props.preferences.map((p) => {
-        let dataType = p.dataType;
-        p.visualization.map((v) => {
-          let range = this.mapToRange(v);
-          let dataList = this.props.data[dataType][range];
-          for(var i = 0; i < dataList.length; i++) {
-            let dateValue = { value: [dataList[i]["value"], date: dataList[i]["issued"]]};
-            dateValueList.push(dateValue);
-          }
-        })
-      }); 
+
+      let dataType = preference.dataType;
+      var rangesAndVisType = new Array(); // An array for storing objects of type: { range, vis };
+      preference.visualization.map((v) => {
+        let visType = v
+        let range = this.mapToRange(v);
+        rangesAndVisType.push({ range: range, vis: visType });
+        let dataList = this.props.data[dataType][range];
+        for(var i = 0; i < dataList.length; i++) {
+              let value = dataList[i]["value"];
+              let date = dataList[i]["issued"];
+              dateValueList.push({ value: value, date: date });
+            }
+      });
+
+      let listOfVis = [];
+      rangesAndVisType.map((obj) => {
+        let formattedData = this.dateValueListToCustomFormat(dateValueList, dataType, obj.range);
+        listOfVis.push({ dataType: dataType, dataRange: obj.range, data: formattedData, visType: obj.vis });
+      });
+
+      return listOfVis;
     }
 
-    dateValueListToCustomFormate(dateValueList, dataType) {
+    dateValueListToCustomFormat(dateValueList, dataType, dataRange) {
+      //console.log("DATA YEET: " + dateValueList);
 
+      if(dataType === "HeartRate") {
+        if(dataRange == 'Daily') {
+          var listOfCustomFormats = [];
+
+          for(var i = 0; i < dateValueList.length; i++) {
+            listOfCustomFormats.push({ x: (new Date(dateValueList[i].date).getDate()), y: dateValueList[i].value });
+          }
+        }
+      }
+
+      else if(dataType === "BodyWeight") {
+        if(dataRange == 'Weekly') {
+          var listOfCustomFormats = new Array(7);
+          var currentValue = dateValueList[0].value;
+          var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+
+          for(var i = 0; i < dateValueList.length; i++) {
+            if(currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+              currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+            }
+            else {
+              let formatted = { x: currentDay.getDate(), y: currentValue };
+              listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : { x: currentDay.getDate(), y: 0 } ;
+              currentDay = new Date(dateValueList[i].date);
+              currentValue = 0;
+            }
+          }
+          listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+          for(var index = 0; index < 7; index++) {
+            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
+          }
+        }
+      }
+
+      else if(dataType === "BodyHeight") { //This honestly makes no sense to measure
+        if(dataRange == 'Weekly') {
+          var listOfCustomFormats = new Array(7);
+          var currentValue = dateValueList[0].value;
+          var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+
+          for(var i = 0; i < dateValueList.length; i++) {
+            if(currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+              currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+            }
+            else {
+              let formatted = { x: currentDay.getDate(), y: currentValue };
+              listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : { x: currentDay.getDate(), y: 0 } ;
+              currentDay = new Date(dateValueList[i].date);
+              currentValue = 0;
+            }
+          }
+          listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+          for(var index = 0; index < 7; index++) {
+            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
+          }
+        }
+      }
+
+      else if(dataType === "BMI") {
+        if(dataRange == 'Weekly') {
+          var listOfCustomFormats = new Array(7);
+          var currentValue = dateValueList[0].value;
+          var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+
+          for(var i = 0; i < dateValueList.length; i++) {
+            if(currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+              currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+            }
+            else {
+              let formatted = { x: currentDay.getDate(), y: currentValue };
+              listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : { x: currentDay.getDate(), y: 0 } ;
+              currentDay = new Date(dateValueList[i].date);
+              currentValue = 0;
+            }
+          }
+          listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+          for(var index = 0; index < 7; index++) {
+            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
+          }
+        }
+      }
+
+      return listOfCustomFormats;
     }
 
     componentDidMount() {
         // Either props.preferences is null, OR props.goals is null
         if (this.props.preferences != null) {
+          // EVERYTHING HAPPENS WITHIN THE ONE PROMISE BELOW.
+          let listOfVisComponents = [];
             this.props.preferences.map((p) => {
               let dataType = p.dataType;
               p.visualization.map((v) => {
                 let range = this.mapToRange(v);
-                console.log("DATA TYPE: " + dataType + ", RANGE: " + range);
                 this.props.loadData(dataType, range).then(() => {
-                  this.profileToDateValue();
+                  let listOfVis = this.profileToDateValue(p);
+                  for (var i = 0; i < listOfVis.length; i++) {
+                    listOfVisComponents.push({ dataType: dataType, dataRange: range, data: listOfVis[i].data, visType: v, colour: p.colour });
+                    this.loadData(dataType, range, listOfVis[i].data);
+                    this.loadColour(p.colour);
+                  }
+                  this.setState({
+                    listOfVisComponents
+                  })
                 });
               })
             });
-
-            /*this.props.preferences.map((p) => {
-                //this.loadData(p.dataType, 'Weekly');
-                this.profileToDateValue();
-            });
-            //console.log(JSON.stringify(this.props.data));
-
-            let listOfVis = this.loadPreferences();
-            for (var i = 0; i < listOfVis.length; i++) {
-                let dataRange = this.mapToRange(listOfVis[i].visualization);
-                let dataType = listOfVis[i].dataType;
-                let colour = listOfVis[i].colour;
-                this.props.loadData(dataType, dataRange);
-                this.loadColour(colour);
-
-                this.profileToDateValue();
-            }
-
-            this.setState({
-                listOfVis
-            })
-            */
         }
 
         else {
@@ -87,7 +169,7 @@ export default class DashboardGrid extends React.Component {
             for (var i = 0; i < listOfGoals.length; i++) {
                 let goal = listOfGoals[i].value;
                 let title = listOfGoals[i].name;
-                this.loadGoalData(title, goal/*, current*/);
+                this.loadGoalData(title, goal);
             }
 
             this.setState({
@@ -149,42 +231,30 @@ export default class DashboardGrid extends React.Component {
     }
 
     checkVisType(vis) { // Ammendable visualisation checker
-        if (vis.visualization.includes("BarChart")) {
+        if (vis.includes("BarChart")) {
             return 1;
         }
-        else if (vis.visualization.includes("LineGraph")) {
+        else if (vis.includes("LineGraph")) {
             return 2;
         }
-        else if (vis.visualization.includes("Doughnut")) {
+        else if (vis.includes("Doughnut")) {
             return 3;
         }
-        else if (vis.visualization.includes("GroupBarChart")) {
+        else if (vis.includes("GroupBarChart")) {
             return 4;
         }
         return 0;
     }
 
-    // Find preference,
-    // manualLoadData() gets called on: dataType & range (Weekly, Monthly etc)
+    //Save Data to State
+    loadData(dataType, dataRange, formattedData) {
+        var obj = Object.assign({}, this.state);
+        obj.data = obj.data || {};
+        obj.data[dataType] = obj.data[dataType] || {};
+        obj.data[dataType][dataRange] = obj.data[dataType][dataRange] || {};
+        obj.data[dataType][dataRange] = formattedData;
 
-    // Load the data from Props
-    loadData(dataType, dataRange) {
-        const sampleBarChartWeekly1 = [{x: "Monday", y: (Math.random() * 400), label: "Monday"},
-            {x: "Tuesday", y: (Math.random() * 400), label: "Tuesday"},
-            {x: "Wednesday", y: (Math.random() * 400), label: "Wednesday"},
-            {x: "Thursday", y: (Math.random() * 400), label: "Thursday"},
-            {x: "Friday", y: (Math.random() * 400), label: "Friday"},
-            {x: "Saturday", y: (Math.random() * 400), label: "Saturday"},
-            {x: "Sunday", y: (Math.random() * 400), label: "Sunday"}
-        ];
-
-        var mock = Object.assign({}, this.state);
-        mock.data = mock.data || {};
-        mock.data[dataType] = mock.data[dataType] || {};
-        mock.data[dataType][dataRange] = mock.data[dataType][dataRange] || {};
-        mock.data[dataType][dataRange] = sampleBarChartWeekly1;
-
-        this.setState(mock);
+        this.setState(obj);
     }
 
     //Find Goals
@@ -203,30 +273,23 @@ export default class DashboardGrid extends React.Component {
     }
 
     renderVisualization(vis) {
-        console.log(JSON.stringify(vis));
-        let dataRange = this.mapToRange(vis.visualization);
-        let dataType = vis.dataType;
-        let colour = vis.colour;
-        switch (this.checkVisType(vis)) {
+        console.log("RENDER VIS: " + JSON.stringify(vis));
+        switch (this.checkVisType(vis.visType)) {
             case 1:
-                return (<BarChart key={dataRange + dataType} className="dash__component"
-                                  data={ this.state.data[dataType][dataRange] } title={ dataType }
-                                  colour={ this.state.colour[colour] }/>);
+                return (<BarChart key={ vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
+                                  data={ vis.data } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
                 break;
             case 2:
-                return (<BrushLineGraph key={dataRange + dataType} className="dash__component"
-                                        data={ this.state.data[dataType][dataRange] } title={ dataType }
-                                        colour={ this.state.colour[colour] }/>);
+                return (<BrushLineGraph key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
+                                        data={ vis.data } title={ vis.dataType }  colour={ this.state.colour[vis.colour] } />);
                 break;
             case 3:
-                return (<Donut key={dataRange + dataType} className="dash__component"
-                               data={ this.state.data[dataType][dataRange] } title={ dataType }
-                               colour={ this.state.colour[colour] }/>);
+                return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
+                               data={ vis.data } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
                 break;
             case 4:
-                return (<GroupBarChart key={dataRange + dataType} className="dash__component"
-                                       data={ this.state.data[dataType][dataRange] } title={ dataType }
-                                       colour={ this.state.colour[colour] }/>);
+                return (<GroupBarChart key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
+                                       data={ vis.data } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
                 break;
             default:
                 console.log("Unkown Data visualisation");
@@ -237,16 +300,6 @@ export default class DashboardGrid extends React.Component {
     renderGoalVisualisation(name, goal) {
         return (<GoalRing key={goal + goal.name} className="dash__component" data={ this.state.goalData[name] }
                           title={ name }/> );
-    }
-
-    loadPreferences() {
-        var listOfVis = [];
-        this.props.preferences.map((p) => {
-            p.visualization.map((v) => {
-                listOfVis.push({dataType: p.dataType, visualization: v, colour: p.colour});
-            })
-        });
-        return listOfVis;
     }
 
     loadGoals() {
@@ -262,8 +315,8 @@ export default class DashboardGrid extends React.Component {
             return (
                 <div className="dash__container">
                     {
-                        this.state.listOfVis &&
-                        this.state.listOfVis.map(vis => this.renderVisualization(vis))
+                        this.state.listOfVisComponents &&
+                        this.state.listOfVisComponents.map(vis => this.renderVisualization(vis))
                     }
                 </div>
             )
@@ -271,8 +324,9 @@ export default class DashboardGrid extends React.Component {
         else {
             return (
                 <div className="dash__container-goals">
-                    { this.state.listOfGoals &&
-                    this.state.listOfGoals.map(goal => this.renderGoalVisualisation(goal.name, goal))
+                    {
+                      this.state.listOfGoals &&
+                      this.state.listOfGoals.map(goal => this.renderGoalVisualisation(goal.name, goal))
                     }
                 </div>
             )

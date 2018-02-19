@@ -11,7 +11,7 @@ const VALID_SCHEMAS = [
 ];
 
 const VALID_VISUALIZATIONS = [
-    "BarChartDaily", "BarChartWeekly", "LineGraphWeekly", "DoughnutDaily", "LineGraphAnnual"
+    "BarChartDaily", "BarChartWeekly", "LineGraphWeekly", "DoughnutDaily", "LineGraphAnnual", "BarChartMonthly", "LineGraphMonthly"
 ];
 
 
@@ -27,7 +27,7 @@ const VALID_AGGREGATE_VISUALIZATIONS = Object.keys(AGGREGATE_VISUALIZATIONS_SECO
  ];*/
 
 
-const COLORS = ['red', 'blue', 'green', 'yellow', 'white'];
+const COLORS = ['red', 'blue', 'green', 'yellow'];
 
 /*
  "29463-7", // weight
@@ -42,7 +42,9 @@ const DATA_SPECIFICATION = {
         profile: "Observation",
         loinc: "8867-4",
         validVisualizations: [
-            "DoughnutDaily"
+            "DoughnutDaily",
+            "BarChartWeekly",
+            "BarChartMonthly"
         ]
     },
     "BodyHeight": {
@@ -51,6 +53,7 @@ const DATA_SPECIFICATION = {
         loinc: "8302-2", // height
         validVisualizations: [
             "LineGraphWeekly",
+            "BarChartWeekly",
             "LineGraphAnnual"
         ]
     },
