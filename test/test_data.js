@@ -14,25 +14,6 @@
 //         - it should allow for users to select multiple data types
 //             (click on the dropdown, check that the list of visualizations is shown (waitUntilVisible))
 
-// test_goals.js:
-//     - describe individual goals page:
-//         - it should display text Goals on page
-//         - it should allow users to add and remove goals
-//             (click on add goal, type in name, values etc, check it is added to list)
-//             (select item, then remove item)
-
-// test_settings.js:
-//     - describe individual settings page:
-//         - it should display text settings on page
-//         - it should list companies on page
-//         - it should allow users to add company 
-//             (just store the company name in a variable at the top (like base_url))
-//         - it should allow users to remove company
-//             (just store the company name in a variable at the top (like base_url))
-//     - describe corporate settings page:
-//         - it should display text settings on page
-//         - it should list users on page
-
 
 const webdriverio = require('webdriverio');
 // const chrome = require('selenium-webdriver/chrome');
