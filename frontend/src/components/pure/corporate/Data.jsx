@@ -75,10 +75,10 @@ export default class Data extends Component {
                               choiceToString={(colour => colour)}
                               callback={colour => this.setState({selectedColour: colour})}/>
                 </div>
-                <p>Available Visualizations:</p> 
+                <p>Available Visualizations:</p>
                 <div className="border">
                 {
-                    
+
                     this.props.preferences.filter((preference) => preference.mainDataType === dataType.dataType).map((preference, i) => (
                         <div className="visualisation" key={preference.mainDataType + i}>
                             {this.props.visualizationMap[preference.visualization] ?

@@ -22,18 +22,59 @@ export default class CorporateDashboardGrid extends React.Component {
 
   componentDidMount() {
     // Either props.preferences is null, OR props.goals is null
-    let listOfVis = this.loadPreferences();
-    for(var i = 0; i < listOfVis.length; i++) {
-      let dataType = listOfVis[i].mainDataType;
-      let colour = listOfVis[i].colour;
-      this.loadData(dataType);
-      this.loadColour(colour);
-    }
+    if(this.props.preferences > 0) {
+      console.log("LOADED PREFERENCES: " + JSON.stringify(this.props.preferences));
+      console.log("LOADED DATA: " + JSON.stringify(this.props.data));
+      let listOfVis = this.loadPreferences();
+      for(var i = 0; i < listOfVis.length; i++) {
+        let dataType = listOfVis[i].mainDataType;
+        let colour = listOfVis[i].colour;
+        this.loadData(dataType);
+        this.loadColour(colour);
+      }
 
-    this.setState({
-      listOfVis
-    })
+      this.setState({
+        listOfVis
+      })
+    }
   }
+
+  /* THIS FUNCTION SHOULD WORK
+  loadData() {
+    for(var i = 0; i < this.props.preferences.length; i++) {
+      let preference = this.props.preferences[i];
+      console.log("current preference: " + JSON.stringify(preference));
+        if (preference.secondaryDataType != null) {
+            let values = this.props.manualLoadData(preference.mainDataType, preference.secondaryDataType)
+            .then(() => {
+              console.log("FORMATTED DATA FOR 2 (AFTER RETURN): " + this.formatDataForTwo(preference.mainDataType, preference.secondaryDataType))
+              });
+        }
+        else {
+            let values = this.props.manualLoadData(preference.mainDataType).then(() => this.formatDataForOne(preference.mainDataType));
+            console.log("FORMATTED DATA FOR 2 (AFTER RETURN): " + JSON.stringify(values));
+        }
+    }
+  }
+
+  formatDataForTwo(mainDataType, secondaryDataType) {
+    console.log("FORMAT DATA FOR 2: " + JSON.stringify(this.props.data[mainDataType][secondaryDataType]));
+    let values = this.props.data[mainDataType][secondaryDataType].map((xy) => {
+        return( { x: xy.valueA, y: xy.valueB } );
+        });
+    console.log("FORMATTED DATA FOR 2 (BEFORE RETURN): " + JSON.stringify(values));
+    return(values);
+   }
+
+  formatDataForOne(mainDataType) {
+    console.log("FORMAT DATA FOR 1: " + JSON.stringify(this.props.data[mainDataType].self));
+    let values = this.props.data[mainDataType].self.map((value, index) => {
+        return( { x: index, y: value.value } );
+      });
+    console.log("FORMATTED DATA FOR 1 (BEFORE RETURN): " + JSON.stringify(values));
+    return values;
+  }
+  */
 
   loadColour(colour) {
       if(colour.includes("blue")) {
@@ -85,9 +126,6 @@ export default class CorporateDashboardGrid extends React.Component {
     }
     return 0;
   }
-
-  // Find preference,
-  // manualLoadData() gets called on: dataType & range (Weekly, Monthly etc)
 
   // Load the data from Props
   loadData(dataType) {
@@ -156,4 +194,6 @@ export default class CorporateDashboardGrid extends React.Component {
 
 CorporateDashboardGrid.propTypes = {
   preferences: PropTypes.array,
+  data: PropTypes.object,
+  manualLoadData: PropTypes.func,
 };

@@ -115,7 +115,7 @@ function generateDataForCorporateUser(dataType, dateRange) {
 
 
 function generateDataForExistingCorporateUser(id, dataType, dateRange) {
-    CorporateUser.findOne({_id: "5a4d43866e5ba73fa060646f"}, (err, user) => {
+    CorporateUser.findOne({_id: "5a89cc157e31e0af921b5581"}, (err, user) => {
         console.log(JSON.stringify(user));
         CompanyAssociation.find({company: user.company}, (err, associations) => {
             if (err) console.log(JSON.stringify(err));
@@ -419,7 +419,7 @@ function generateRealisticDataFor(dataType) {
 
 // this is a loop that runs 50 times
 for (let i = 0; i < 20; i++) {
-    let prefix = 'kiran';
+    let prefix = 'dhen';
     // here it generates an observation for my user, for a heartrate data point within the past week
     generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Weekly');
     generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Weekly');

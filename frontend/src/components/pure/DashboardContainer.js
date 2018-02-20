@@ -169,6 +169,7 @@ export default class DashboardGrid extends React.Component {
         else {
 
             let listOfGoals = this.loadGoals();
+            console.log("GOALS: " + JSON.stringify(listOfGoals));
             for (var i = 0; i < listOfGoals.length; i++) {
                 let goal = listOfGoals[i].value;
                 let title = listOfGoals[i].name;

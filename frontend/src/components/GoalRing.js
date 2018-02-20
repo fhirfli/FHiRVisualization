@@ -52,12 +52,29 @@ export default class GoalRing extends React.Component {
                     <VictoryLabel
                       textAnchor="middle" verticalAnchor="middle"
                       x={125} y={125}
-                      style={{fontSize: 15}}
+                      style={{fontSize: 20}}
                       text= {this.props.data[0].y + "/" + (this.props.data[1].y + this.props.data[0].y)}
+                    />
+                    <VictoryLabel
+                      textAnchor="middle" vert
+                      x={125} y={225}
+                      style={{fontSize: 15}}
+                      text={ (this.props.data[1].y) + this.randomlyChooseMessage()}
                     />
                 </svg>
             </div>
         )
+    }
+
+    randomlyChooseMessage() {
+      switch(Math.floor(Math.random() * 6)) {
+        case 0: return(" Left, keep going!"); break;
+        case 1: return(" Calories until you're there!"); break;
+        case 2: return(" More, you're nearly done."); break;
+        case 3: return(" Left, Final push."); break;
+        case 4: return(" More to go"); break;
+        case 5: return(" More, Let's keep going"); break;
+      }
     }
 
     getStyles() {
