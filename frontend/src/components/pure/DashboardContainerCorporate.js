@@ -149,24 +149,6 @@ export default class CorporateDashboardGrid extends React.Component {
         return 0;
     }
 
-    // Load the data from Props
-    // loadData(dataType) {
-    //     const sampleBarChartWeekly1 = [{x: "Monday", y: (Math.random() * 400), label: "Monday"},
-    //         {x: "Tuesday", y: (Math.random() * 400), label: "Tuesday"},
-    //         {x: "Wednesday", y: (Math.random() * 400), label: "Wednesday"},
-    //         {x: "Thursday", y: (Math.random() * 400), label: "Thursday"},
-    //         {x: "Friday", y: (Math.random() * 400), label: "Friday"},
-    //         {x: "Saturday", y: (Math.random() * 400), label: "Saturday"},
-    //         {x: "Sunday", y: (Math.random() * 400), label: "Sunday"}
-    //     ];
-    //
-    //     var mock = Object.assign({}, this.state);
-    //     mock.data = mock.data || {};
-    //     mock.data[dataType] = mock.data[dataType] || {};
-    //     mock.data[dataType] = sampleBarChartWeekly1;
-    //
-    //     this.setState(mock);
-    // }
 
     /*
      Constructs a visualization out of a preference
