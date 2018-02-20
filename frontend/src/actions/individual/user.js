@@ -61,7 +61,7 @@ function registerError() {
 function makeUserRequest(method, data, endpoint="/auth/individual/login") {
     return axios({
         method: method,
-        url: endpoint,
+        url: BASE_URL + endpoint,
         data: data
     });
 }

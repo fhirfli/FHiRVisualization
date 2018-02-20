@@ -1,0 +1,5 @@
+node_modules/
+server/node_modules/
+chromedriver
+chromedriver.exe
+selenium-server-standalone-3.0.1.jar

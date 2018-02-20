@@ -6,41 +6,48 @@ const http = require('http');
 
 
 function onError(error) {
-    if(error.syscall !== 'listen') {
+    if (error.syscall !== 'listen') {
         throw error;
     }
 
-    let bind =  typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-    switch(error.code) {
+    switch (error.code) {
         case 'EACCES':
-        console.error(bind + " requires elevated priveleges");
+            console.error(bind + " requires elevated priveleges");
 
-        process.exit(1);
-        break;
+            process.exit(1);
+            break;
 
         case 'EADDRINUSE':
-        console.error(bind + " is already in use");
-        process.exit(1);
-        break;
+            console.error(bind + " is already in use");
+            process.exit(1);
+            break;
         default:
-        throw error;
+            throw error;
     }
 }
 
-function onListening(){
+function onListening() {
     let addr = server.address();
-    let bind = typeof addr === 'String' 
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+    let bind = typeof addr === 'String'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
     console.log("listening on " + bind);
 }
 
 const app = express();
 const main = require('./app')(env);
+const cors = require('cors');
 
 
-
+// CORS
+app.use(cors());
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
 
 
 app.use(main);
@@ -96,10 +103,10 @@ else {
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
     });
-} 
+}
 
 
-console.log("Starting the server on port " + env.PORT + ", w type "  + typeof(env.PORT));
+console.log("Starting the server on port " + env.PORT + ", w type " + typeof(env.PORT));
 
 const server = http.createServer(app);
 server.on('error', onError);

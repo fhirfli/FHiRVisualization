@@ -3,16 +3,19 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const webpack = require('webpack');
 const app = express();
+const cors = require('cors');
 
+app.use(cors());
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV === 'development') {
     const webpackMiddleware = require('webpack-dev-middleware');
     const webpackDevMiddleware = require('webpack-hot-middleware');
 
     let config = require('./webpack.config.dev');
     let compiler = webpack(config);
     let DIR_DIST = path.resolve(__dirname, 'frontend', 'dist');
+
 
     app.use((req, res, next) => {
         console.log(req.body);
