@@ -6,6 +6,7 @@ import * as PropTypes from 'prop-types';
 export default class BarChart extends React.Component {
     constructor(props) {
         super(props);
+        console.log("RENDERING VIS IN BAR CHART: " + JSON.stringify(this.props));
     }
 
     render() {
@@ -29,6 +30,7 @@ export default class BarChart extends React.Component {
                     cornerRadius={2}
                     barRatio={0.5}
                     data={this.props.data}
+                    categories={{ x: this.getXAxisFor(this.props.dataRange) }}
                 />
                 <Victory.VictoryAxis
                   standalone={false}
@@ -46,6 +48,15 @@ export default class BarChart extends React.Component {
                     }
                   }
                   */
+                />
+                <Victory.VictoryAxis
+                  dependentAxis
+                  standalone={false}
+                  // style={{
+                  //   grid: {stroke: "grey"},
+                  //   ticks: {stroke: "grey", size: 5},
+                  // }}
+                  tickValues={ this.getYAxisFor(this.props.title)}
                 />
                 </Victory.VictoryChart>
             </div>

@@ -72,6 +72,7 @@ export default class DashboardGrid extends React.Component {
           listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
           for(var index = 0; index < 7; index++) {
             listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
+            listOfCustomFormats[index] = { x: listOfCustomFormats[index].x, y: Math.round(listOfCustomFormats[index].y * 10) / 10} ;
           }
         }
       }
@@ -96,6 +97,7 @@ export default class DashboardGrid extends React.Component {
           listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
           for(var index = 0; index < 7; index++) {
             listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
+            listOfCustomFormats[index] = { x: listOfCustomFormats[index].x, y: Math.round(listOfCustomFormats[index].y * 10) / 10} ;
           }
         }
       }
@@ -120,6 +122,7 @@ export default class DashboardGrid extends React.Component {
           listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
           for(var index = 0; index < 7; index++) {
             listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
+            listOfCustomFormats[index] = { x: listOfCustomFormats[index].x, y: Math.round(listOfCustomFormats[index].y * 10) / 10} ;
           }
         }
       }
