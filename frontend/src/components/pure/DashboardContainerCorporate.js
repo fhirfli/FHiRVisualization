@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Donut from "../Donut"; //Will change this to a folder of visualisation components
-import BarChart from "../BarChart";
+import BarChartCorporate from "../BarChartCorporate";
 import GroupBarChart from "../GroupBarChart";
-import LineGraph from "../LineGraph";
-import BrushLineGraph from "../BrushLineGraph";
+import LineGraphCorporate from "../LineGraphCorporate";
 
 import * as PropTypes from 'prop-types';
 
@@ -149,25 +148,6 @@ export default class CorporateDashboardGrid extends React.Component {
         return 0;
     }
 
-    // Load the data from Props
-    // loadData(dataType) {
-    //     const sampleBarChartWeekly1 = [{x: "Monday", y: (Math.random() * 400), label: "Monday"},
-    //         {x: "Tuesday", y: (Math.random() * 400), label: "Tuesday"},
-    //         {x: "Wednesday", y: (Math.random() * 400), label: "Wednesday"},
-    //         {x: "Thursday", y: (Math.random() * 400), label: "Thursday"},
-    //         {x: "Friday", y: (Math.random() * 400), label: "Friday"},
-    //         {x: "Saturday", y: (Math.random() * 400), label: "Saturday"},
-    //         {x: "Sunday", y: (Math.random() * 400), label: "Sunday"}
-    //     ];
-    //
-    //     var mock = Object.assign({}, this.state);
-    //     mock.data = mock.data || {};
-    //     mock.data[dataType] = mock.data[dataType] || {};
-    //     mock.data[dataType] = sampleBarChartWeekly1;
-    //
-    //     this.setState(mock);
-    // }
-
     /*
      Constructs a visualization out of a preference
      */
@@ -178,12 +158,12 @@ export default class CorporateDashboardGrid extends React.Component {
 
         switch (this.checkVisType(preference)) {
             case 1:
-                return (<BarChart key={dataType + index} className="dash__component"
+                return (<BarChartCorporate key={dataType + index} className="dash__component"
                                   data={ this.state.data[dataType]['self'] }
                                   title={ dataType } colour={ colourMap[colour] }/>);
                 break;
             case 2:
-                return (<BrushLineGraph key={dataType + index} className="dash__component"
+                return (<LineGraphCorporate key={dataType + index} className="dash__component"
                                         data={ this.state.data[dataType][secondaryDataType] }
                                         title={ dataType } colour={ colourMap[colour] }/>);
                 break;

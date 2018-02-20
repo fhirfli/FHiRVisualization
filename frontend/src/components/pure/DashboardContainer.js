@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Donut from "../Donut"; //Will change this to a folder of visualization components
 import BarChart from "../BarChart";
 import GroupBarChart from "../GroupBarChart";
-import LineGraph from "../LineGraph";
 import BrushLineGraph from "../BrushLineGraph";
 import GoalRing from "../GoalRing";
 
@@ -71,7 +70,7 @@ export default class DashboardGrid extends React.Component {
           }
           listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
           for(var index = 0; index < 7; index++) {
-            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
+            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "No data found", y: 0 } : listOfCustomFormats[index];
             listOfCustomFormats[index] = { x: listOfCustomFormats[index].x, y: Math.round(listOfCustomFormats[index].y * 10) / 10} ;
           }
         }
@@ -277,7 +276,6 @@ export default class DashboardGrid extends React.Component {
     }
 
     renderVisualization(vis) {
-        console.log("RENDER VIS: " + JSON.stringify(vis));
         switch (this.checkVisType(vis.visType)) {
             case 1:
                 return (<BarChart key={ vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
@@ -303,7 +301,7 @@ export default class DashboardGrid extends React.Component {
 
     renderGoalvisualization(name, goal) {
         return (<GoalRing key={goal + goal.name} className="dash__component" data={ this.state.goalData[name] }
-                          title={ name }/> );
+                          title={ name } colour={ goal.colour }/> );
     }
 
     loadGoals() {
@@ -343,15 +341,6 @@ export default class DashboardGrid extends React.Component {
             <div>
                 { this.preferencesOrGoals() }
             </div>
-            /*
-             <div className="dash__container">
-             {
-             (this.state.listOfVis &&
-             this.state.listOfVis.map(vis => this.renderVisualization(vis))) ||
-             (this.state.listOfGoals && this.state.listOfGoals.map(vis => this.renderGoalvisualization(vis)))
-             }
-             </div>
-             */
         )
     }
 }

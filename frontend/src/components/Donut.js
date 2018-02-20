@@ -41,6 +41,7 @@ export default class Donut extends React.Component {
                 colorScale={this.getColourSchemeFor(this.props.colour)}
                 style={{ labels: { fontSize: 10} }}
                 labels={(d) => d.y}
+                padAngle={2}
                 //labelComponent={<VictoryLabel angle={45}/>}
                 data={ this.props.data }
             />
@@ -54,37 +55,29 @@ export default class Donut extends React.Component {
       switch(colour) {
         case 'blue':
           if(this.props.data) {
-            console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
             for(var i = 0; i < this.props.data.length; i++) {
               let newColour = "#008bf9" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-              console.log("newColour: " + newColour);
               colourScheme.push(newColour);
             }
           }
           case 'red':
           if(this.props.data) {
-            console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
             for(var i = 0; i < this.props.data.length; i++) {
               let newColour = "#ec5229" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-              console.log("newColour: " + newColour);
               colourScheme.push(newColour);
             }
           }
           case 'yellow':
           if(this.props.data) {
-            console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
             for(var i = 0; i < this.props.data.length; i++) {
               let newColour = "#fcee5f" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-              console.log("newColour: " + newColour);
               colourScheme.push(newColour);
             }
           }
           case 'green':
           if(this.props.data) {
-            console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
             for(var i = 0; i < this.props.data.length; i++) {
               let newColour = "#21c814" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-              console.log("newColour: " + newColour);
               colourScheme.push(newColour);
             }
           }
