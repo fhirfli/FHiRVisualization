@@ -441,9 +441,4 @@ for (let i = 0; i < 20; i++) {
     generateObservationFor(prefix + '@mail.com', 'BMI', 'Monthly');
     generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Monthly');
     generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Monthly');
-
-
-
-
-
 }

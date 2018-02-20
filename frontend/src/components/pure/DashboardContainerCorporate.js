@@ -39,7 +39,7 @@ export default class CorporateDashboardGrid extends React.Component {
     }
   }
 
-  /* THIS FUNCTION SHOULD WORK
+  /* THESE FUNCTION SHOULD WORK
   loadData() {
     for(var i = 0; i < this.props.preferences.length; i++) {
       let preference = this.props.preferences[i];
