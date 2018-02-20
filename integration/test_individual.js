@@ -1,10 +1,7 @@
 const webdriverio = require('webdriverio');
-// const chrome = require('selenium-webdriver/chrome');
 const assert = require('assert');
 const chai = require('chai');
 const expect = chai.expect;
-// chai.use(chaiAsPromised);
-// chai.should();
 
 const base_site = "http://localhost:8000";
 
@@ -39,63 +36,6 @@ describe('Individual Login', function () {
             .end()
             .catch(done);
     });
-
-
-    //
-    // it('should accept writing username and password', function (done) {
-    //     browser = webdriverio
-    //         .remote(options)
-    //         .init()
-    //         .url(base_site + '/individual/home')
-    //         .setValue("//*[@id=\"login-form\"]/input[1]", "alex@gmail.com")
-    //         .getValue("//*[@id=\"login-form\"]/input[1]")
-    //         .then(function (value) {
-    //             console.log(value);
-    //             expect(value).to.equal("alex@gmail.com")
-    //         })
-    //         .setValue("//*[@id=\"login-form\"]/input[2]", "password")
-    //         .getValue("//*[@id=\"login-form\"]/input[2]")
-    //         .then(function (value) {
-    //             console.log(value);
-    //             expect(value).to.equal("password");
-    //             done();
-    //         })
-    //         .end()
-    //         .catch(done);
-    // });
-    //
-    // it('should specify which login page it is', function (done) {
-    //     browser = webdriverio
-    //         .remote(options)
-    //         .init()
-    //         .url(base_site + '/individual/home')
-    //         .getText("//*[@id=\"text\"]/p")
-    //         .then(function (title) {
-    //             console.log(title);
-    //             expect(title).to.equal('Individual Account');
-    //             done();
-    //         })
-    //         .end()
-    //         .catch(done);
-    // });
-    //
-    // it('should allow people to log in', function (done) {
-    //     browser = webdriverio
-    //         .remote(options)
-    //         .init()
-    //         .url(base_site + '/individual/home')
-    //         .setValue("input[type=\"email\"]", "alex@gmail.com")
-    //         .setValue("input[type=\"password\"]", "password")
-    //         .submitForm("#login-form")
-    //         .waitForVisible("//*[@id=\"home-content__header\"]/h2")
-    //         .getUrl()
-    //         .then(function (value) {
-    //             expect(value).to.equal("http://localhost:37832/individual/home");
-    //             done();
-    //         })
-    //         .end()
-    //         .catch(done);
-    // });
 });
 
 
@@ -119,7 +59,7 @@ describe('Home Page', function () {
         browser.waitForVisible('tspan*=Heart')
             .getText('tspan*=Heart')
             .then(function (label) {
-                expect(label).to.equal("HeartRate");
+                expect(label).to.equal("Your Daily HeartRate Breakdown");
             })
             .waitForVisible('tspan*=BodyW')
             .getText('tspan*=BodyW')
@@ -353,7 +293,7 @@ describe('Data Page', function () {
             .waitForVisible('/html/body/div/div/div[2]/div[4]/div/div[1]/div/div[1]/span')
             .getText('/html/body/div/div/div[2]/div[4]/div/div[1]/div/div[1]/span')
             .then(function (label) {
-                expect(label).to.equal("yellow");
+                expect(label).to.equal("green");
                 done();
             })
             .end().catch(done);

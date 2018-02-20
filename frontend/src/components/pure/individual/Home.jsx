@@ -19,20 +19,28 @@ export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadGoals();
         this.props.manualLoadPreferences().then(() => {
-          this.props.preferences.map((p) => {
-            p.visualization.map((v) => {
-              this.props.manualLoadData(p.dataType, this.mapToRange(v));
+            this.props.preferences.map((p) => {
+                p.visualization.map((v) => {
+                    this.props.manualLoadData(p.dataType, this.mapToRange(v));
+                })
             })
-          })
         });
     }
 
     mapToRange(visualization) {
-      if(visualization.includes("Daily")) { return "Daily" }
-      else if(visualization.includes("Weekly")) { return "Weekly"; }
-      else if(visualization.includes("Monthly")) { return "Monthly"; }
-      else if(visualization.includes("Annual")) { return "Annual"; }
-      return "Range is undefined";
+        if (visualization.includes("Daily")) {
+            return "Daily"
+        }
+        else if (visualization.includes("Weekly")) {
+            return "Weekly";
+        }
+        else if (visualization.includes("Monthly")) {
+            return "Monthly";
+        }
+        else if (visualization.includes("Annual")) {
+            return "Annual";
+        }
+        return "Range is undefined";
     }
 
     render() {

@@ -44,7 +44,7 @@ module.exports = (env, router) => {
             let x = Math.random() * 100;
             let result = [];
             for (var i = 0; i < x; i++) {
-              result.push({ valueA: (Math.random() * 140) , valueB: (Math.random() * 300) })
+                result.push({valueA: (Math.random() * 140), valueB: (Math.random() * 300)})
             }
             res.json(result)
         } else {
@@ -54,7 +54,7 @@ module.exports = (env, router) => {
             let x = Math.random() * 100;
             let result = [];
             for (var i = 0; i < x; i++) {
-              result.push({ value: (Math.random() * 140) })
+                result.push({value: (Math.random() * 140)})
             }
             res.json(result)
         }

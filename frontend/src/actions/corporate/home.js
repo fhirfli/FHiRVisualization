@@ -30,7 +30,7 @@ export function manualLoadData(mainDataType, secondaryDataType) {
         dispatch(beginLoadData(mainDataType, secondaryDataType));
         return axios({
             method: "post",
-            url: "/api/corporate/data",
+            url: BASE_URL + "/api/corporate/data",
             data: {
                 mainDataType,
                 secondaryDataType
