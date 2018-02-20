@@ -16,6 +16,7 @@ module.exports = (env, passport) => {
             res.json({user: sanitizeUser(req.user)});
         });
 
+
     router.post('/logout', (req, res) => {
         if (req.user) {
             req.session.destroy();
@@ -25,6 +26,19 @@ module.exports = (env, passport) => {
             res.json({error: 'NO_USER'});
         }
     });
+
+    router.post('/clear', (req, res, next) => {
+        if (env.TEST) {
+            const {email} = req.body;
+            IndividualUser.findOneAndRemove({email: email}, (err, user) => {
+                res.status(200).send();
+            })
+        } else {
+            res.status(404).send();
+        }
+    });
+
+
 
     router.post('/signup', (req, res) => {
         const {email, password, name} = req.body;

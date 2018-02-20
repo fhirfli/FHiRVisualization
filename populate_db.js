@@ -21,7 +21,7 @@ const FamilyMemberHistory = require('./backend/db/models/FHiR/FamilyMemberHistor
 const Condition = require('./backend/db/models/FHiR/Condition');
 
 
-mongoose.connect("mongodb://localhost:27017", {useMongoClient: true});
+mongoose.connect("mongodb://localhost:27017/test", {useMongoClient: true});
 const db = mongoose.connection;
 
 console.log("Done loading");
@@ -114,8 +114,8 @@ function generateDataForCorporateUser(dataType, dateRange) {
 }
 
 
-function generateDataForExistingCorporateUser(id, dataType, dateRange) {
-    CorporateUser.findOne({_id: "5a89cc157e31e0af921b5581"}, (err, user) => {
+function generateDataForExistingCorporateUser(email, dataType, dateRange) {
+    CorporateUser.findOne({email: email}, (err, user) => {
         console.log(JSON.stringify(user));
         CompanyAssociation.find({company: user.company}, (err, associations) => {
             if (err) console.log(JSON.stringify(err));
@@ -419,26 +419,28 @@ function generateRealisticDataFor(dataType) {
 
 // this is a loop that runs 50 times
 for (let i = 0; i < 20; i++) {
-    let prefix = 'dhen';
-    // here it generates an observation for my user, for a heartrate data point within the past week
-    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Weekly');
-    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Weekly');
-    generateObservationFor(prefix + '@mail.com', 'BMI', 'Weekly');
-    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Weekly');
-    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Weekly');
-    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Daily');
-    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Daily');
-    generateObservationFor(prefix + '@mail.com', 'BMI', 'Daily');
-    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Daily');
-    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Daily');
-    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Annual');
-    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Annual');
-    generateObservationFor(prefix + '@mail.com', 'BMI', 'Annual');
-    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Annual');
-    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Annual');
-    generateObservationFor(prefix + '@mail.com', 'BodyHeight', 'Monthly');
-    generateObservationFor(prefix + '@mail.com', 'BodyWeight', 'Monthly');
-    generateObservationFor(prefix + '@mail.com', 'BMI', 'Monthly');
-    generateObservationFor(prefix + '@mail.com', 'HeartRate', 'Monthly');
-    generateObservationFor(prefix + '@mail.com', 'BloodPressure', 'Monthly');
+    let prefix = 'kiran';
+    // // here it generates an observation for my user, for a heartrate data point within the past week
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyHeight', 'Weekly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyWeight', 'Weekly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BMI', 'Weekly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'HeartRate', 'Weekly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BloodPressure', 'Weekly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyHeight', 'Daily');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyWeight', 'Daily');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BMI', 'Daily');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'HeartRate', 'Daily');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BloodPressure', 'Daily');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyHeight', 'Annual');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyWeight', 'Annual');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BMI', 'Annual');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'HeartRate', 'Annual');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BloodPressure', 'Annual');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyHeight', 'Monthly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BodyWeight', 'Monthly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BMI', 'Monthly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'HeartRate', 'Monthly');
+    generateDataForExistingCorporateUser(prefix + '@mail.com', 'BloodPressure', 'Monthly');
+
 }
+

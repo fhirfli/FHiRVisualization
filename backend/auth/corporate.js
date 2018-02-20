@@ -54,6 +54,18 @@ module.exports = (env, passport) => {
         }
     });
 
+
+    router.post('/clear', (req, res, next) => {
+        if (env.TEST) {
+            const {email} = req.body;
+            CorporateUser.findOneAndRemove({email: email}, (err, user) => {
+                res.status(200).send();
+            })
+        } else {
+            res.status(404).send();
+        }
+    });
+
     router.post('/signup', (req, res) => {
         const {email, password, domain, name} = req.body;
 

@@ -9,7 +9,7 @@
     "debug": "cross-env NODE_ENV=development nodemon --debug ./backend/index.js",
     "production": "cross-env NODE_ENV=production nodemon ./backend/index.js",
     "integration": "cross-env NODE_ENV=production webpack --config ./webpack.config.test.js",
-    "test": "mocha"
+    "testserver": "cross-env NODE_ENV=test nodemon ./backend/index.js"
   },
   "repository": {
     "type": "git",
