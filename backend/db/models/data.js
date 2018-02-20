@@ -13,7 +13,7 @@ const VALID_SCHEMAS = [
 const VALID_VISUALIZATIONS = [
     "BarChartDaily", "BarChartWeekly", "BarChartMonthly",
     "LineGraphWeekly", "LineGraphMonthly", "LineGraphAnnual",
-    "DoughnutDaily"
+    "DoughnutDaily", "DoughnutWeekly"
 ];
 
 
@@ -45,6 +45,7 @@ const DATA_SPECIFICATION = {
         loinc: "8867-4",
         validVisualizations: [
             "DoughnutDaily",
+            "DoughnutWeekly",
             "BarChartWeekly",
             "BarChartMonthly"
         ]
@@ -83,7 +84,8 @@ const DATA_SPECIFICATION = {
         loinc: "39156-5",// bmi
         validVisualizations: [
             "LineGraphAnnual",
-            "BarChartWeekly"
+            "BarChartWeekly",
+            "DoughnutWeekly"
         ]
     }
 };

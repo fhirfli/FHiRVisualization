@@ -289,7 +289,7 @@ export default class DashboardGrid extends React.Component {
                 break;
             case 3:
                 return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
-                               data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
+                               data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ vis.colour } />);
                 break;
             case 4:
                 return (<GroupBarChart key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
