@@ -1,5 +1,5 @@
 import React from 'react';
-import {VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack, VictoryLabel } from 'victory';
+import * as Victory from 'victory';
 import * as PropTypes from 'prop-types';
 
 
@@ -9,26 +9,31 @@ export default class BarChart extends React.Component {
     }
 
     render() {
-      this.getAxisForRange(this.props.dataRange);
+
 
       const styles = this.getStyles()
         return (
             <div className="dash__component">
-              <VictoryLabel x={5} y={24} style={ styles.title }
+              <Victory.VictoryLabel x={5} y={24} style={ styles.title }
                 text={ this.props.title }
               />
-                <VictoryBar
+              <Victory.VictoryChart>
+                <Victory.VictoryBar
                     style={{
-                        data: {fill: this.props.colour }
+                        data: {
+                          fill: this.props.colour,
+                          padding: 5
+                        }
                     }}
-                    barRatio={0.9}
+                    alignment="start"
                     cornerRadius={2}
+                    barRatio={0.5}
                     data={this.props.data}
                 />
-                <VictoryAxis
+                <Victory.VictoryAxis
                   standalone={false}
                   //style={styles.axisYears}
-                  //tickValues={tickValues}
+                  tickValues={ this.getXAxisFor(this.props.dataRange) }
                   /*
                   tickFormat={
                     (x) => {
@@ -42,17 +47,47 @@ export default class BarChart extends React.Component {
                   }
                   */
                 />
+                </Victory.VictoryChart>
             </div>
         )
     }
 
-    getAxisForRange(range) {
-      switch(range) {
+    getXAxisFor(dataRange) {
+      switch(dataRange) {
         case 'Daily':
+          return ([this.props.data.x]);
+          break;
         case 'Weekly':
-          console.log("NEED A WEEKLY AXIS OVER: " + JSON.stringify(this.props.data));
+          return (['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
+          break;
         case 'Monthly':
+          return (['Week 1', 'Week 2', 'Week 3', 'Week 4']);
+          break;
         case 'Annual':
+          return (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']);
+          break;
+        console.log("Unknown data Range");
+      }
+    }
+
+    getYAxisFor(dataType) {
+      switch(dataType) {
+        case 'HeartRate':
+          return ([0, 150]);
+          break;
+        case 'BodyWeight':
+          return ([0, 150]);
+          break;
+        case 'BodyHeight':
+          return ([0, 300]);
+          break;
+        case 'BMI':
+          return ([0, 30]);
+          break;
+        case 'BloodPressure':
+          return ([0, 2]);
+          break;
+        console.log("Unknown data type");
       }
     }
 

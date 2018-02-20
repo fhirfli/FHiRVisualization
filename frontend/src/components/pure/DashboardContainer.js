@@ -34,26 +34,7 @@ export default class DashboardGrid extends React.Component {
             let date = dataList[i]["issued"];
             dateValueList.push({ value: value, date: date });
           }
-    /*
-      preference.visualization.map((v) => {
-        let visType = v
-        let range = this.mapToRange(v);
-        rangesAndVisType.push({ range: range, vis: visType });
-        let dataList = this.props.data[dataType][range];
-        for(var i = 0; i < dataList.length; i++) {
-              let value = dataList[i]["value"];
-              let date = dataList[i]["issued"];
-              dateValueList.push({ value: value, date: date });
-            }
-      });
-      */
 
-      //console.log("THIS IS THE DATA BEFORE FORMATTING: " + JSON.stringify(dateValueList));
-      // let listOfVis = dataValueList.map((obj) => {
-      //   return ( this.dateValueListToCustomFormat(dateValueList, dataType, obj.range) );
-      //   //console.log("THIS IS THE DATA AFTER FORMATTING: " + JSON.stringify(formattedData));
-      //   //return ({ dataType: dataType, dataRange: obj.range, data: formattedData, visType: obj.vis });
-      // });
       let formattedData = this.dateValueListToCustomFormat(dateValueList, preference.dataType, preference.dataRange);
       return ({ data: formattedData });
     }
@@ -62,7 +43,7 @@ export default class DashboardGrid extends React.Component {
       //console.log("DATA YEET: " + dateValueList);
 
       if(dataType === "HeartRate") {
-        if(dataRange == 'Daily') {
+          if (dataRange === 'Daily') {
           var listOfCustomFormats = [];
 
           for(var i = 0; i < dateValueList.length; i++) {
@@ -181,8 +162,9 @@ export default class DashboardGrid extends React.Component {
               console.log("this.state.data: " + JSON.stringify(this.state.listOfVisComponents));
             })
         }
-
+        // we have to check whether  props.goals is null
         else {
+
             let listOfGoals = this.loadGoals();
             for (var i = 0; i < listOfGoals.length; i++) {
                 let goal = listOfGoals[i].value;
@@ -321,7 +303,8 @@ export default class DashboardGrid extends React.Component {
     }
 
     loadGoals() {
-        var listOfGoalVis = [];
+        // list of goal vis accumulates a list of goals
+        const listOfGoalVis = [];
         this.props.goals.map((g) => {
             listOfGoalVis.push({name: g.name, value: g.value, colour: g.colour});
         });

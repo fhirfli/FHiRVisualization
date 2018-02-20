@@ -11,7 +11,9 @@ const VALID_SCHEMAS = [
 ];
 
 const VALID_VISUALIZATIONS = [
-    "BarChartDaily", "BarChartWeekly", "LineGraphWeekly", "DoughnutDaily", "LineGraphAnnual", "BarChartMonthly", "LineGraphMonthly"
+    "BarChartDaily", "BarChartWeekly", "BarChartMonthly",
+    "LineGraphWeekly", "LineGraphMonthly", "LineGraphAnnual",
+    "DoughnutDaily"
 ];
 
 

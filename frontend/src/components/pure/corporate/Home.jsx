@@ -18,10 +18,31 @@ const elem = (text) => (
 export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadPreferences();
-        this.props.manualLoadData('HeartRate');
-        this.props.manualLoadData('HeartRate', 'BMI');
+        //this.props.manualLoadData('HeartRate');
+        //this.props.manualLoadData('HeartRate', 'BMI');
     }
+
+    loadData() {
+    console.log("PREFERENCES: " + this.props.preferences.length);
+
+      for(var i = 0; i < this.props.preferences.length; i++) {
+        let preference = this.props.preferences[i];
+        console.log("current preference: " + JSON.stringify(preference));
+        //if(preference.secondaryDataType != null) {
+        //  this.props.manualLoadData(preference.mainDataType, preference.secondaryDataType);
+        //}
+        //else {
+        //  this.props.manualLoadData(preference.mainDataType);
+        //}
+      }
+
+      console.log("DATA LOADED: " + JSON.stringify(this.props.data));
+    }
+
     render() {
+    console.log("PREFERENCES: " + JSON.stringify(this.props.preferences));
+    this.loadData();
+
         return (
             <div id="home-container">
                 <div id="home-content">

@@ -452,6 +452,7 @@ export default class Goals extends Component {
                     {
                         this.props.goals.map(goal => (
                             <button
+                                className="zoom"
                                 key={goal.name + this.state.currentIndex}
                                 onClick={this.setSelectedValue.bind(this, goal.name)}
                             >

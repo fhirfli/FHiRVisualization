@@ -66,6 +66,7 @@
   padding-right: 10px;
   padding-top: 10px;
   flex-direction: column;
+  margin-bottom: 80px;
 }
 
 #data-panel > h1 {
@@ -82,7 +83,7 @@
 }
 
 #data-visualizations {
-  border: 1px solid black;
+  border: 3px solid #aaaaaa;
   height: 100%;
   align-self: stretch;
   margin-bottom: 20px;
@@ -166,5 +167,5 @@
 }
 
 .zoom:hover {
-  transform: scale(1.19); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
