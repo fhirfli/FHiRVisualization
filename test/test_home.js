@@ -19,6 +19,7 @@ const chai = require('chai');
 const expect = chai.expect;
 // chai.use(chaiAsPromised);
 // chai.should();
+const moment = require('moment');
 
 const base_site = "http://localhost:37832";
 
@@ -32,23 +33,23 @@ let browser;
 
 describe('Individual Home Page', function () {
     this.timeout(500000);
-    before(() => {
 
-    }
-    );
+    beforeEach(() => {
+        browser = webdriverio
+        .remote(options)
+        .init()
+        .url(base_site + '/individual/home')
+        .setValue("input[type=\"email\"]", "alex@gmail.com")
+        .setValue("input[type=\"password\"]", "password")
+        .submitForm("#login-form")
+    });
 
     after(() => {
         browser.end();
     });
 
     it('should display the text Home on page', function (done) {
-        browser = webdriverio
-            .remote(options)
-            .init()
-            .url(base_site + '/individual/home')
-            .setValue("input[type=\"email\"]", "alex@gmail.com")
-            .setValue("input[type=\"password\"]", "password")
-            .submitForm("#login-form")
+        browser
             .waitForVisible("#home-content__header > h2")
             .getText("#home-content__header > h2")
             .then(function (value) {
@@ -61,15 +62,10 @@ describe('Individual Home Page', function () {
     });
 
     it('should display the date on page', function (done) {
-        browser = webdriverio
-            .remote(options)
-            .init()
-            .url(base_site + '/individual/home')
-            .setValue("input[type=\"email\"]", "alex@gmail.com")
-            .setValue("input[type=\"password\"]", "password")
-            .submitForm("#login-form")
+        browser
             .waitForVisible("//*[@id=\"home-content__header\"]/h4")
             .isExisting("//*[@id=\"home-content__header\"]/h4")
+            // .moment().format()
             .then(function (value) {
                 console.log(value)
                 expect(value).to.equal(true)
@@ -79,78 +75,92 @@ describe('Individual Home Page', function () {
             .catch(done);
     });
     
+    it('should display selected visualizations on screen', function (done) {
+        browser
+            .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .waitForVisible("//*[@id=\"data-visualizations\"]/div[1]/input")
+            .click("//*[@id=\"data-visualizations\"]/div[1]/input")          
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[1]/a")        
+            .getText("//*[@id=\"home-container\"]/div[2]/div/div[1]/text/tspan")
+            .then(function (value) {
+                console.log(value)
+                expect(value).to.equal("BodyHeight")
+                // done();
+            })
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .waitForVisible("//*[@id=\"data-visualizations\"]/div[1]/input")
+            .click("//*[@id=\"data-visualizations\"]/div[1]/input")
+            .then(function (value) {
+                done();
+            })
+            .end()
+            .catch(done);
+    });
+
+    // it('should display goals on screen', function (done) {
+    //     browser
+    //         .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
+    //         .click("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
+    // });
 
 });
 
-// describe('Corporate Navigation', function () {
-//     this.timeout(500000);
-//     before(() => {
 
-//     }
-//     );
+describe('Corporate Home Page', function () {
+    this.timeout(500000);
 
-//     after(() => {
-//         browser.end();
-//     });
+    beforeEach(() => {
+        browser = webdriverio
+        .remote(options)
+        .init()
+        .url(base_site + '/corporate/home')
+        .setValue("input[type=\"email\"]", "company@gmail.com")
+        .setValue("input[type=\"password\"]", "password")
+        .submitForm("#login-form")
+    });
 
-//     it('should allow navigating to data', function (done) {
-//         browser = webdriverio
-//             .remote(options)
-//             .init()
-//             .url(base_site + '/corporate/home')
-//             .setValue("input[type=\"email\"]", "company@gmail.com")
-//             .setValue("input[type=\"password\"]", "password")
-//             .submitForm("#login-form")
-//             .pause(100)
-//             .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
-//             .waitForVisible("//*[@id=\"data-title\"]/h2")
-//             .getUrl()
-//             .then(function (value) {
-//                 expect(value).to.equal("http://localhost:37832/corporate/data")
-//                 done();
-//             })
-//             .end()
-//             .catch(done);
-//     });
+    after(() => {
+        browser.end();
+    });
 
-//     it('should allow navigating to settings', function (done) {
-//         browser = webdriverio
-//             .remote(options)
-//             .init()
-//             .url(base_site + '/corporate/home')
-//             .setValue("input[type=\"email\"]", "company@gmail.com")
-//             .setValue("input[type=\"password\"]", "password")
-//             .submitForm("#login-form")
-//             .pause(100)
-//             .click("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
-//             .waitForVisible("//*[@id=\"settings-title\"]/h2")
-//             .getUrl()
-//             .then(function (value) {
-//                 expect(value).to.equal("http://localhost:37832/corporate/settings")
-//                 done();
-//             })
-//             .end()
-//             .catch(done);
-//     });
+    it('should display the text Home on page', function (done) {
+        browser
+            .waitForVisible("//*[@id=\"home-content\"]/h2")
+            .getText("//*[@id=\"home-content\"]/h2")
+            .then(function (value) {
+                console.log(value)
+                expect(value).to.equal("Home")
+                done();
+            })
+            .end()
+            .catch(done);
+    });
+    
+    it('should display selected visualizations on screen', function (done) {
+        browser
+            .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .waitForVisible("//*[@id=\"data-list\"]/button")
+            .click("//*[@id=\"data-list\"]/button")          
+            .click("//*[@id=\"data-panel\"]/div/button") 
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[1]/a")
+            .getText("//*[@id=\"home-content\"]/div/div/text/tspan")
+            .then(function (value) {
+                console.log(value)
+                expect(value).to.equal("HeartRate")
+                // done();
+            })
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .waitForVisible("//*[@id=\"data-list\"]/button")
+            .click("//*[@id=\"data-list\"]/button")     
+            .click("//*[@id=\"data-panel\"]/div/div[2]/div/button")
+            .then(function (value) {
+                done();
+            })
+            .end()
+            .catch(done);
+    });
 
-//     it('should allow logging out', function (done) {
-//         browser = webdriverio
-//             .remote(options)
-//             .init()
-//             .url(base_site + '/corporate/home')
-//             .setValue("input[type=\"email\"]", "company@gmail.com")
-//             .setValue("input[type=\"password\"]", "password")
-//             .submitForm("#login-form")
-//             .pause(100)
-//             .click("//*[@id=\"navbar-auth-button\"]")
-//             .waitForVisible("//*[@id=\"about-content\"]/div[1]/h2")
-//             .getUrl()
-//             .then(function (value) {
-//                 expect(value).to.equal("http://localhost:37832/")
-//                 done();
-//             })
-//             .end()
-//             .catch(done);
-//     });
+});
 
-// });
