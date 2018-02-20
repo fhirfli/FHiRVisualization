@@ -47,8 +47,9 @@ const home = (state = {
                 errorMsg: action.data.error
             });
             break;
+
         case LOAD_DATA_SUCCESS: {
-            // TODO: Add load data success
+
             let data = Object.assign({}, state.data);
             data[action.data.mainDataType] = data[action.data.mainDataType] || {};
             if (action.data.secondaryDataType) {
