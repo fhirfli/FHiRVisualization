@@ -66,7 +66,7 @@ export function manualLoadSettings() {
         dispatch(beginLoadSettings());
         return axios({
             method: "get",
-            url: "/api/individual/associations"
+            url: BASE_URL + "/api/individual/associations"
         }).then(response => {
             if (!response.data.error) {
                 dispatch(loadSettingsSuccess(response.data));
@@ -85,7 +85,7 @@ export function manualAddAssociation(data) {
         console.log("Sending " + JSON.stringify(data));
         return axios({
             method: "post",
-            url: "/api/individual/associations",
+            url: BASE_URL + "/api/individual/associations",
             data
         }).then(response => {
             if (!response.data.error) {
@@ -104,7 +104,7 @@ export function manualRemoveAssociation(data) {
     return dispatch => {
         return axios({
             method: "delete",
-            url: "/api/individual/associations",
+            url: BASE_URL + "/api/individual/associations",
             data
         }).then(response => {
             if (!response.data.error) {

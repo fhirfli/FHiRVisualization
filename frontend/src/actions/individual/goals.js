@@ -86,7 +86,7 @@ export function manualLoadGoals() {
 
         return axios({
             method: "get",
-            url: "/api/individual/goals"
+            url: BASE_URL + "/api/individual/goals"
         }).then(response => {
             const goals = response.data;
             dispatch(loadGoalsSuccess(goals));
@@ -109,7 +109,7 @@ export function manualCreateGoal(goal) {
 
         return axios({
             method: "post",
-            url: "/api/individual/goals",
+            url: BASE_URL + "/api/individual/goals",
             data: goal
         }).then(response => {
             let new_goal = response.data;
@@ -134,7 +134,7 @@ export function manualUpdateGoal(goal) {
 
         return axios({
             method: "put",
-            url: "/api/individual/goals",
+            url: BASE_URL + "/api/individual/goals",
             data: goal
         }).then(response => {
             let updated_goal = response.data;
@@ -152,7 +152,7 @@ export function manualRemoveGoal(name) {
 
         return axios({
             method: "delete",
-            url: "/api/individual/goals",
+            url: BASE_URL + "/api/individual/goals",
             data: {
                 name: name
             }

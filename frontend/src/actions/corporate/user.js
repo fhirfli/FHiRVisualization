@@ -91,7 +91,7 @@ export function manualLogin(data,successPath) {
 export function manualLogout() {
     return dispatch => {
         dispatch(beginLogout());
-        return axios.get("/auth/logout")
+        return axios.get(BASE_URL + "/auth/logout")
             .then(response => {
                 if(!response.data.error) {
                     dispatch(logoutSuccess());

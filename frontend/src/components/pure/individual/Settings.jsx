@@ -83,6 +83,7 @@ export default class Settings extends Component {
                             :
                             <div id="settings-company-list">
                                 {
+                                    this.props.associations &&
                                     this.props.associations.map(association => {
                                         return (
                                             <div className="grid" key={this.updateCount + association.domain}>

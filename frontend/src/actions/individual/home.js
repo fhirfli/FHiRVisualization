@@ -31,7 +31,7 @@ export function manualLoadData(dataType, dateRange) {
         dispatch(beginLoadData(dataType, dateRange));
         return axios({
             method: "post",
-            url: "/api/individual/data",
+            url: BASE_URL + "/api/individual/data",
             data: {
                 dataType,
                 dataRange: dateRange
