@@ -38,25 +38,32 @@ module.exports = (env, router) => {
 
         if (req.body.secondaryDataType) {
             let secondaryDataType = req.body.secondaryDataType;
-            // CorporateDataManager.loadMultiDataFor(Data.DATA_SPECIFICATION[mainDataType], Data.DATA_SPECIFICATION[secondaryDataType], req.user, (result) => {
-            //     return res.json(result);
-            // });
-            let x = Math.random() * 100;
-            let result = [];
-            for (var i = 0; i < x; i++) {
-              result.push({ valueA: (Math.random() * 140) , valueB: (Math.random() * 300) })
+            if (false) {
+                CorporateDataManager.loadMultiDataFor(Data.DATA_SPECIFICATION[mainDataType], Data.DATA_SPECIFICATION[secondaryDataType], req.user, (result) => {
+                    return res.json(result);
+                });
+            } else {
+                let x = Math.random() * 100;
+                let result = [];
+                for (var i = 0; i < x; i++) {
+                    result.push({valueA: (Math.random() * 140), valueB: (Math.random() * 300)})
+                }
+                res.json(result)
             }
-            res.json(result)
+
         } else {
-            // CorporateDataManager.loadDataFor(Data.DATA_SPECIFICATION[mainDataType], req.user, (result) => {
-            //     return res.json(result);
-            // });
-            let x = Math.random() * 100;
-            let result = [];
-            for (var i = 0; i < x; i++) {
-              result.push({ value: (Math.random() * 140) })
+            if (false) {
+                CorporateDataManager.loadDataFor(Data.DATA_SPECIFICATION[mainDataType], req.user, (result) => {
+                    return res.json(result);
+                });
+            } else {
+                let x = Math.random() * 100;
+                let result = [];
+                for (var i = 0; i < x; i++) {
+                    result.push({value: (Math.random() * 140)})
+                }
+                res.json(result)
             }
-            res.json(result)
         }
     });
 
