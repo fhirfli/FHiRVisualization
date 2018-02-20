@@ -3,6 +3,7 @@ module.exports = (env) => {
     const router = express.Router();
     const preferences = require('./preferences');
     const associations = require('./associations');
+    const data = require('./data');
 
     router.use((req, res, next) => {
         console.log("Accessing api");
@@ -16,6 +17,7 @@ module.exports = (env) => {
 
     preferences(env, router);
     associations(env, router);
+    data(env, router);
 
     return router;
 };

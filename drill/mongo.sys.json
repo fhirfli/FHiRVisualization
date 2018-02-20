@@ -2,7 +2,7 @@
   "name": "mongo",
   "config": {
     "type": "mongo",
-    "connection": "mongodb://mongo:27017/",
+    "connection": "mongodb://localhost:27017/",
     "enabled": true
   }
 }

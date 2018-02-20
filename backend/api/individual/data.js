@@ -23,6 +23,7 @@ module.exports = (env, router) => {
     const sanitizeError = require('../../sanitizeError');
     const IndividualVisualizationPreferences = require('../../db/models/visualizationPreferences').individual;
     const Data = require('../../db/models/data');
+    const IndividualDataManager = require('./dataManager');
 
     router.post('/data', (req, res) => {
         const {dataType, dataRange} = req.body;
@@ -41,43 +42,46 @@ module.exports = (env, router) => {
 
         let result = [];
 
-        // TODO: Actually load user data here
-        let lim = Math.random() * 100;
-        for (let i = 0; i < lim; i++) {
-            let observation = {};
-
-            observation.status = "registered";
-            observation.category = [{
-                coding: [{
-                    snowmedCT: randomFrom(snowmedCodes.snowmedCategoryCodes)
-                }]
-            }];
-            observation.code = [{
-                coding: [{
-                    snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
-                }]
-            }];
-            observation.subject = req.user._id;
-            observation.effective = randomDate();
-            observation.issued = randomDate();
-            observation.performer = '';
-            observation.value = Math.random();
-            observation.bodySite = [{
-                coding: [{
-                    snowmedCT: randomFrom(snowmedCodes.snowmedBodySiteCodes)
-                }]
-            }];
-            observation.method = [{
-                coding: [{
-                    snowmedCT: randomFrom(snowmedCodes.snowmedMethodCodes)
-                }],
-            }];
-            observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
-            result.push(observation);
-        }
-
-        return res.json(result);
-
+        IndividualDataManager.loadDataFor(Data.DATA_SPECIFICATION[dataType], dataRange, req.user, (result) => {
+            return res.json(result);
+        });
+        //     // TODO: Actually load user data here
+        //     let lim = Math.random() * 100;
+        //     for (let i = 0; i < lim; i++) {
+        //         let observation = {};
+        //
+        //         observation.status = "registered";
+        //         observation.category = {
+        //             coding: {
+        //                 snowmedCT: randomFrom(snowmedCodes.snowmedCategoryCodes)
+        //             }
+        //         };
+        //         observation.code = {
+        //             coding: {
+        //                 snowmedCT: randomFrom(snowmedCodes.snowmedCTCodes)
+        //             }
+        //         };
+        //         observation.subject = req.user._id;
+        //         observation.effective = randomDate();
+        //         observation.issued = randomDate();
+        //         observation.performer = '';
+        //         observation.value = Math.random();
+        //         observation.bodySite = {
+        //             coding: {
+        //                 snowmedCT: randomFrom(snowmedCodes.snowmedBodySiteCodes)
+        //             }
+        //         };
+        //         observation.method = {
+        //             coding: {
+        //                 snowmedCT: randomFrom(snowmedCodes.snowmedMethodCodes)
+        //             },
+        //         };
+        //         observation.device = randomFrom(["android/fs0d0sj2", "fitbit/f0sjds", "iphone/jsd0sdj3", "mac/03kdj02j3"]);
+        //         result.push(observation);
+        //     }
+        //
+        //     return res.json(result);
+        //
     });
 
 
