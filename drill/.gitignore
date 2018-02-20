@@ -1,0 +1,10 @@
+KEYS
+LICENSE
+NOTICE
+README.md
+bin/
+conf/
+git.properties
+jars/
+sample-data/
+winutils/

@@ -114,6 +114,7 @@
   grid-column: 2;
   background-color: white !important;
   margin-right: 20px;
+  margin-bottom: 100px;
 
   > h2 {
     font-weight: initial;
@@ -123,7 +124,7 @@
   > div {
 
     .users {
-      display: -webkit-inline-box;
+      //display: -webkit-inline-box;
     }
 
     .buttonn {

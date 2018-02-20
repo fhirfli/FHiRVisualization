@@ -15,12 +15,12 @@ const familyMemberSchema = new Schema({
     date: {type: mongoose.Schema.Types.Date},
     relationship: {
         required: true,
-        type: [{
+        type: new Schema({
             coding: {
                 required: true,
                 type: [{snowmedCT: {type: String, enum: snowmed.snowmedRelationshipCodes}}]
             }
-        }]
+        }, {_id: false})
     },
     gender: {
         type: mongoose.Schema.Types.String
@@ -35,14 +35,14 @@ const familyMemberSchema = new Schema({
         type: mongoose.Schema.Types.String
     },
     condition: {
-        type: [{
+        type: new Schema({
             coding: {
                 required: true,
-                type: [{snowmedCT: {type: String, enum: snowmed.snowmedConditionCodes}}]
+                type: new Schema({snowmedCT: {type: String, enum: snowmed.snowmedConditionCodes}}, {_id: false})
             },
             outcome: {type: mongoose.Schema.Types.String},
             onset: {type: mongoose.Schema.Types.String}
-        }]
+        }, {_id: false})
     },
     recorder: {
         type: ObjectId,

@@ -3,6 +3,7 @@ import axios from "axios";
 import {handleResponseError} from "error";
 
 function beginLoadData(dataType, dataRange) {
+    console.log("beginLoadData(" + dataType + ", " + dataRange + ")");
     return {type: types.LOAD_DATA, data: {dataType, dataRange}}
 }
 function loadDataSuccess(dataType, dataRange, results) {
@@ -37,7 +38,7 @@ export function manualLoadData(dataType, dateRange) {
                 dataRange: dateRange
             }
         }).then(response => {
-            console.log("Got a response from the server " + JSON.stringify(response));
+            //console.log("Got a response from the server " + JSON.stringify(response));
             let results = response.data;
             dispatch(loadDataSuccess(dataType, dateRange, results));
         }).catch(err => {

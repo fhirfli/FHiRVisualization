@@ -5,100 +5,6 @@ import moment from 'moment';
 import * as propTypes from 'prop-types';
 import DashboardGrid from "../DashboardContainer";
 
-const sampleBarChartWeekly1 = [{ x: "Monday", y: 293 },
-                             { x: "Tuesday", y: 424 },
-                             { x: "Wednesday", y: 392},
-                             { x: "Thursday", y: 264},
-                             { x: "Friday", y: 42},
-                             { x: "Saturday", y: 105},
-                             { x: "Sunday", y: 183}
-                           ];
-
-const sampleBarChartDaily1 = [{ x: "7:39", y: 293 },
-                              { x: "8:21", y: 424 },
-                              { x: "14:53", y: 392},
-                              { x: "19:20", y: 264},
-];
-
-const dumbData = [
-  {
-    "dataType": "HeartRate",
-    "colour": "blue",
-    "visualization": []
-  },
-  {
-    "dataType": "BloodPressure",
-    "colour": "blue",
-    "visualization": [
-      "LineGraphMonthly"
-    ]
-  },
-  {
-    "dataType": "BodyWeight",
-    "colour": "yellow",
-    "visualization": [
-      "LineGraphMonthly"
-    ]
-  },
-  {
-    "dataType": "BodyHeight",
-    "colour": "yellow",
-    "visualization": [
-      "DonutWeekly"
-    ]
-  },
-  {
-    "dataType": "SystolicAndDiastolic",
-    "colour": "yellow",
-    "visualization": []
-  },
-  {
-    "dataType": "BMI",
-    "colour": "yellow",
-    "visualization": []
-  },
-  {
-    "dataType": "HeartRate",
-    "colour": "red",
-    "visualization": [
-      "BarChartDaily",
-      "LineGraphAnnual",
-      "LineGraphWeekly"
-    ]
-  },
-  {
-    "dataType": "BloodPressure",
-    "colour": "blue",
-    "visualization": [
-      "LineGraphAnnual",
-      "BarGraphWeekly"
-    ]
-  }
-];
-
-
-
-/*[
-    {
-        "dataType": "HeartRate",
-        "colour": "red",
-        "visualization": [
-            "BarChartDaily",
-            "LineGraphAnnual",
-            "LineGraphWeekly"
-        ]
-    },
-    {
-        "dataType": "BloodPressure",
-        "colour": "blue",
-        "visualization": [
-            "LineGraphAnnual",
-            "BarGraphWeekly"
-        ]
-    }
-];
-*/
-
 const elem = (colour, string) => (
     <div key={string} style={{
         backgroundColor: {colour},
@@ -112,9 +18,23 @@ const elem = (colour, string) => (
 export default class Home extends Component {
     componentDidMount() {
         this.props.manualLoadGoals();
-        this.props.manualLoadPreferences();
-        this.props.manualLoadData('HeartRate', 'Weekly');
+        this.props.manualLoadPreferences().then(() => {
+          this.props.preferences.map((p) => {
+            p.visualization.map((v) => {
+              this.props.manualLoadData(p.dataType, this.mapToRange(v));
+            })
+          })
+        });
     }
+
+    mapToRange(visualization) {
+      if(visualization.includes("Daily")) { return "Daily" }
+      else if(visualization.includes("Weekly")) { return "Weekly"; }
+      else if(visualization.includes("Monthly")) { return "Monthly"; }
+      else if(visualization.includes("Annual")) { return "Annual"; }
+      return "Range is undefined";
+    }
+
     render() {
         return (
             <div id="home-container" className="basic">
@@ -123,7 +43,9 @@ export default class Home extends Component {
                     <h4 className="home__date">{moment().format("ddd D MMMM")}</h4>
                   </div>
                     {
-                      this.props.preferences.length > 0 && ( <DashboardGrid preferences={ this.props.preferences }/> )
+                        this.props.preferences.length > 0 && (
+                            <DashboardGrid preferences={ this.props.preferences } data={ this.props.data }
+                                           loadData={ this.props.manualLoadData }/> )
                     }
                     {
                     /* May No Longer Need This
@@ -144,7 +66,6 @@ export default class Home extends Component {
                     </div>
                     {
                         this.props.goals.length > 0 && ( <DashboardGrid goals = { this.props.goals } /> )
-
                         /* Might not need this anymore
                           this.props.goals.map((goal, i) => {
                             return (elem(goal.colour, JSON.stringify(goal)/* goal.name + " " + goal.value + " " + i*))
@@ -152,7 +73,7 @@ export default class Home extends Component {
                         */
                     }
                     {
-                        // JSON.stringify(this.props.data)
+                        //JSON.stringify(this.props.data)
                     }
                 </div>
         );
@@ -165,5 +86,5 @@ Home.propTypes = {
     manualLoadData: propTypes.func.isRequired,
     preferences: propTypes.array.isRequired,
     goals: propTypes.array.isRequired,
-    data: propTypes.object.isRequired
+    data: propTypes.object.isRequired,
 };

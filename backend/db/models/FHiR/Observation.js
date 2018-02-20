@@ -8,19 +8,25 @@ const observationSchema = new Schema({
     // identifier is implicitly present
     status: {type: String, enum: ["registered", "preliminary", "final", "amended"], required: true},
     category: {
-        type: [{
+        type: new Schema({
             coding: {
-                type: [{snowmedCT: {type: String, enum: snowmed.snowmedCategoryCodes}}]
+                type: new Schema({snowmedCT: {type: String, enum: snowmed.snowmedCategoryCodes}}, {_id: false})
             }
-        }]
+        }, {_id: false})
     },
     code: {
-        type: [{
+        type: new Schema({
             coding: {
-                type: [{snowmedCT: {type: String, enum: snowmed.snowmedCTCodes, required: true}}],
+                type: new Schema({
+                    snowmedCT: {
+                        type: String,
+                        enum: snowmed.snowmedCTCodes,
+                        required: true
+                    }
+                }, {_id: false}),
                 required: true
             }
-        }]
+        }, {_id: false})
     },
     subject: {
         type: ObjectId, ref: 'IndividualUser', required: true
@@ -46,19 +52,19 @@ const observationSchema = new Schema({
         type: String
     },
     bodySite: {
-        type: [{
+        type: new Schema({
             coding: {
-                type: [{snowmedCT: {type: String, enum: snowmed.snowmedBodySiteCodes}}]
+                type: new Schema({snowmedCT: {type: String, enum: snowmed.snowmedBodySiteCodes}}, {_id: false})
             }
-        }]
+        }, {_id: false})
     },
     method: {
-        type: [{
+        type: new Schema({
             coding: {
-                type: [{snowmedCT: {type: String, enum: snowmed.snowmedMethodCodes}}]
+                type: new Schema({snowmedCT: {type: String, enum: snowmed.snowmedMethodCodes}}, {_id: false})
             },
             text: {type: String}
-        }]
+        }, {_id: false})
     },
     device: {
         type: String
@@ -67,4 +73,5 @@ const observationSchema = new Schema({
 
 
 const Observation = mongoose.model('Observation', observationSchema);
+
 module.exports = Observation;
