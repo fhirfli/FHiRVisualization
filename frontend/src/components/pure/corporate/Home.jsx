@@ -20,6 +20,8 @@ export default class Home extends Component {
         this.props.manualLoadPreferences();
         //this.props.manualLoadData('HeartRate');
         //this.props.manualLoadData('HeartRate', 'BMI');
+        console.log("PREFERENCES: " + JSON.stringify(this.props.preferences));
+        this.loadData();
     }
 
     loadData() {
@@ -28,20 +30,18 @@ export default class Home extends Component {
       for(var i = 0; i < this.props.preferences.length; i++) {
         let preference = this.props.preferences[i];
         console.log("current preference: " + JSON.stringify(preference));
-        //if(preference.secondaryDataType != null) {
-        //  this.props.manualLoadData(preference.mainDataType, preference.secondaryDataType);
-        //}
-        //else {
-        //  this.props.manualLoadData(preference.mainDataType);
-        //}
+          if (preference.secondaryDataType != null) {
+              this.props.manualLoadData(preference.mainDataType, preference.secondaryDataType);
+          }
+          else {
+              this.props.manualLoadData(preference.mainDataType);
+          }
       }
 
       console.log("DATA LOADED: " + JSON.stringify(this.props.data));
     }
 
     render() {
-    console.log("PREFERENCES: " + JSON.stringify(this.props.preferences));
-    this.loadData();
 
         return (
             <div id="home-container">
