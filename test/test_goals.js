@@ -29,14 +29,14 @@ describe('Individual Data Page', function () {
 
     beforeEach(() => {
         browser = webdriverio
-        .remote(options)
-        .init()
-        .url(base_site + '/individual/home')
-        .setValue("input[type=\"email\"]", "alex@gmail.com")
-        .setValue("input[type=\"password\"]", "password")
-        .submitForm("#login-form")
-        .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
-        .click("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
+            .remote(options)
+            .init()
+            .url(base_site + '/individual/home')
+            .setValue("input[type=\"email\"]", "alex@gmail.com")
+            .setValue("input[type=\"password\"]", "password")
+            .submitForm("#login-form")
+            .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
     });
 
     after(() => {
@@ -48,8 +48,8 @@ describe('Individual Data Page', function () {
             .waitForVisible("#goals-title > h2")
             .getText("#goals-title > h2")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("Goals")
+                console.log(value);
+                expect(value).to.equal("Goals");
                 done();
             })
             .end()
@@ -79,7 +79,7 @@ describe('Individual Data Page', function () {
             .waitForVisible("#goals-options > button:nth-child(5)")
             .getText("#goals-options > button:nth-child(5)")
             .then(function (value) {
-                console.log(value)
+                console.log(value);
                 expect(value).to.equal("Goals")
             })
             .click("#goals-options > button:nth-child(5)")
@@ -88,12 +88,12 @@ describe('Individual Data Page', function () {
             .pause(100)
             .getText("#goals-options > button:nth-child(5)")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("ADD GOAL")
+                console.log(value);
+                expect(value).to.equal("ADD GOAL");
                 done();
             })
             .end()
             .catch(done);
-        })
-    
+    })
+
 });

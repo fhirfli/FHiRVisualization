@@ -39,7 +39,7 @@ module.exports = (env, router) => {
 
         if (req.body.secondaryDataType) {
             let secondaryDataType = req.body.secondaryDataType;
-            if (true) {
+            if (false) {
                 CorporateDataManager.loadMultiDataFor(Data.DATA_SPECIFICATION[mainDataType], Data.DATA_SPECIFICATION[secondaryDataType], req.user, (result) => {
                     return res.json(result);
                 });

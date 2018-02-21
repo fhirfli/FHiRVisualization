@@ -20,7 +20,7 @@ describe('Individual Navigation', function () {
     this.timeout(500000);
     before(() => {
 
-    }
+        }
     );
 
     after(() => {
@@ -40,7 +40,7 @@ describe('Individual Navigation', function () {
             .waitForVisible("//*[@id=\"data-title\"]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/individual/data")
+                expect(value).to.equal("http://localhost:37832/individual/data");
                 done();
             })
             .end()
@@ -60,7 +60,7 @@ describe('Individual Navigation', function () {
             .waitForVisible("//*[@id=\"goals-title\"]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/individual/goals")
+                expect(value).to.equal("http://localhost:37832/individual/goals");
                 done();
             })
             .end()
@@ -80,7 +80,7 @@ describe('Individual Navigation', function () {
             .waitForVisible("//*[@id=\"settings-title\"]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/individual/settings")
+                expect(value).to.equal("http://localhost:37832/individual/settings");
                 done();
             })
             .end()
@@ -100,7 +100,7 @@ describe('Individual Navigation', function () {
             .waitForVisible("//*[@id=\"about-content\"]/div[1]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/")
+                expect(value).to.equal("http://localhost:37832/");
                 done();
             })
             .end()
@@ -113,7 +113,7 @@ describe('Corporate Navigation', function () {
     this.timeout(500000);
     before(() => {
 
-    }
+        }
     );
 
     after(() => {
@@ -133,7 +133,7 @@ describe('Corporate Navigation', function () {
             .waitForVisible("//*[@id=\"data-title\"]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/corporate/data")
+                expect(value).to.equal("http://localhost:37832/corporate/data");
                 done();
             })
             .end()
@@ -153,7 +153,7 @@ describe('Corporate Navigation', function () {
             .waitForVisible("//*[@id=\"settings-title\"]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/corporate/settings")
+                expect(value).to.equal("http://localhost:37832/corporate/settings");
                 done();
             })
             .end()
@@ -173,7 +173,7 @@ describe('Corporate Navigation', function () {
             .waitForVisible("//*[@id=\"about-content\"]/div[1]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/")
+                expect(value).to.equal("http://localhost:37832/");
                 done();
             })
             .end()

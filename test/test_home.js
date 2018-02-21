@@ -36,12 +36,12 @@ describe('Individual Home Page', function () {
 
     beforeEach(() => {
         browser = webdriverio
-        .remote(options)
-        .init()
-        .url(base_site + '/individual/home')
-        .setValue("input[type=\"email\"]", "alex@gmail.com")
-        .setValue("input[type=\"password\"]", "password")
-        .submitForm("#login-form")
+            .remote(options)
+            .init()
+            .url(base_site + '/individual/home')
+            .setValue("input[type=\"email\"]", "alex@gmail.com")
+            .setValue("input[type=\"password\"]", "password")
+            .submitForm("#login-form")
     });
 
     after(() => {
@@ -53,8 +53,8 @@ describe('Individual Home Page', function () {
             .waitForVisible("#home-content__header > h2")
             .getText("#home-content__header > h2")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("Home")
+                console.log(value);
+                expect(value).to.equal("Home");
                 done();
             })
             .end()
@@ -67,24 +67,24 @@ describe('Individual Home Page', function () {
             .isExisting("//*[@id=\"home-content__header\"]/h4")
             // .moment().format()
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal(true)
+                console.log(value);
+                expect(value).to.equal(true);
                 done();
             })
             .end()
             .catch(done);
     });
-    
+
     it('should display selected visualizations on screen', function (done) {
         browser
             .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
             .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
             .waitForVisible("//*[@id=\"data-visualizations\"]/div[1]/input")
-            .click("//*[@id=\"data-visualizations\"]/div[1]/input")          
-            .click("//*[@id=\"navbar-options-container\"]/ul/li[1]/a")        
+            .click("//*[@id=\"data-visualizations\"]/div[1]/input")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[1]/a")
             .getText("//*[@id=\"home-container\"]/div[2]/div/div[1]/text/tspan")
             .then(function (value) {
-                console.log(value)
+                console.log(value);
                 expect(value).to.equal("BodyHeight")
                 // done();
             })
@@ -112,12 +112,12 @@ describe('Corporate Home Page', function () {
 
     beforeEach(() => {
         browser = webdriverio
-        .remote(options)
-        .init()
-        .url(base_site + '/corporate/home')
-        .setValue("input[type=\"email\"]", "company@gmail.com")
-        .setValue("input[type=\"password\"]", "password")
-        .submitForm("#login-form")
+            .remote(options)
+            .init()
+            .url(base_site + '/corporate/home')
+            .setValue("input[type=\"email\"]", "company@gmail.com")
+            .setValue("input[type=\"password\"]", "password")
+            .submitForm("#login-form")
     });
 
     after(() => {
@@ -129,31 +129,31 @@ describe('Corporate Home Page', function () {
             .waitForVisible("//*[@id=\"home-content\"]/h2")
             .getText("//*[@id=\"home-content\"]/h2")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("Home")
+                console.log(value);
+                expect(value).to.equal("Home");
                 done();
             })
             .end()
             .catch(done);
     });
-    
+
     it('should display selected visualizations on screen', function (done) {
         browser
             .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
             .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
             .waitForVisible("//*[@id=\"data-list\"]/button")
-            .click("//*[@id=\"data-list\"]/button")          
-            .click("//*[@id=\"data-panel\"]/div/button") 
+            .click("//*[@id=\"data-list\"]/button")
+            .click("//*[@id=\"data-panel\"]/div/button")
             .click("//*[@id=\"navbar-options-container\"]/ul/li[1]/a")
             .getText("//*[@id=\"home-content\"]/div/div/text/tspan")
             .then(function (value) {
-                console.log(value)
+                console.log(value);
                 expect(value).to.equal("HeartRate")
                 // done();
             })
             .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
             .waitForVisible("//*[@id=\"data-list\"]/button")
-            .click("//*[@id=\"data-list\"]/button")     
+            .click("//*[@id=\"data-list\"]/button")
             .click("//*[@id=\"data-panel\"]/div/div[2]/div/button")
             .then(function (value) {
                 done();

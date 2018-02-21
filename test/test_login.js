@@ -20,7 +20,7 @@ describe('Individual Login', function () {
     this.timeout(500000);
     before(() => {
 
-    }
+        }
     );
 
     after(() => {
@@ -50,14 +50,14 @@ describe('Individual Login', function () {
             .setValue("//*[@id=\"login-form\"]/input[1]", "alex@gmail.com")
             .getValue("//*[@id=\"login-form\"]/input[1]")
             .then(function (value) {
-                console.log(value)
+                console.log(value);
                 expect(value).to.equal("alex@gmail.com")
             })
             .setValue("//*[@id=\"login-form\"]/input[2]", "password")
             .getValue("//*[@id=\"login-form\"]/input[2]")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("password")
+                console.log(value);
+                expect(value).to.equal("password");
                 done();
             })
             .end()
@@ -90,7 +90,7 @@ describe('Individual Login', function () {
             .waitForVisible("//*[@id=\"home-content__header\"]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/individual/home")
+                expect(value).to.equal("http://localhost:37832/individual/home");
                 done();
             })
             .end()
@@ -102,7 +102,7 @@ describe('Corporate Login', function () {
     this.timeout(500000);
     before(() => {
 
-    }
+        }
     );
 
     after(() => {
@@ -117,14 +117,14 @@ describe('Corporate Login', function () {
             .setValue("//*[@id=\"login-form\"]/input[1]", "company@gmail.com")
             .getValue("//*[@id=\"login-form\"]/input[1]")
             .then(function (value) {
-                console.log(value)
+                console.log(value);
                 expect(value).to.equal("company@gmail.com")
             })
             .setValue("//*[@id=\"login-form\"]/input[2]", "password")
             .getValue("//*[@id=\"login-form\"]/input[2]")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("password")
+                console.log(value);
+                expect(value).to.equal("password");
                 done();
             })
             .end()
@@ -157,7 +157,7 @@ describe('Corporate Login', function () {
             .waitForVisible("//*[@id=\"home-content\"]/h2")
             .getUrl()
             .then(function (value) {
-                expect(value).to.equal("http://localhost:37832/corporate/home")
+                expect(value).to.equal("http://localhost:37832/corporate/home");
                 done();
             })
             .end()

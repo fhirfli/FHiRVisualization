@@ -35,14 +35,14 @@ describe('Individual Settings Page', function () {
 
     beforeEach(() => {
         browser = webdriverio
-        .remote(options)
-        .init()
-        .url(base_site + '/individual/home')
-        .setValue("input[type=\"email\"]", "alex@gmail.com")
-        .setValue("input[type=\"password\"]", "password")
-        .submitForm("#login-form")
-        .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[4]/a")
-        .click("//*[@id=\"navbar-options-container\"]/ul/li[4]/a")
+            .remote(options)
+            .init()
+            .url(base_site + '/individual/home')
+            .setValue("input[type=\"email\"]", "alex@gmail.com")
+            .setValue("input[type=\"password\"]", "password")
+            .submitForm("#login-form")
+            .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[4]/a")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[4]/a")
     });
 
     after(() => {
@@ -54,8 +54,8 @@ describe('Individual Settings Page', function () {
             .waitForVisible("#settings-title > h2")
             .getText("#settings-title > h2")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("Settings")
+                console.log(value);
+                expect(value).to.equal("Settings");
                 done();
             })
             .end()
@@ -66,8 +66,8 @@ describe('Individual Settings Page', function () {
         browser
             .isExisting("#settings-company-list > div > button")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal(true)
+                console.log(value);
+                expect(value).to.equal(true);
                 done();
             })
             .end()
@@ -79,8 +79,8 @@ describe('Individual Settings Page', function () {
             .click("#settings-company-list > div > button")
             .isVisible("#settings-company-list > div > button")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal(false)
+                console.log(value);
+                expect(value).to.equal(false);
                 done();
             })
             .end()
@@ -97,14 +97,14 @@ describe('Individual Settings Page', function () {
             .pause(1000)
             .isVisible("#settings-company-list > div > button")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal(true)
+                console.log(value);
+                expect(value).to.equal(true);
                 done();
             })
             .end()
             .catch(done);
     });
-    
+
 });
 
 
@@ -113,14 +113,14 @@ describe('Corporate Settings Page', function () {
 
     beforeEach(() => {
         browser = webdriverio
-        .remote(options)
-        .init()
-        .url(base_site + '/corporate/home')
-        .setValue("input[type=\"email\"]", "company@gmail.com")
-        .setValue("input[type=\"password\"]", "password")
-        .submitForm("#login-form")
-        .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
-        .click("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
+            .remote(options)
+            .init()
+            .url(base_site + '/corporate/home')
+            .setValue("input[type=\"email\"]", "company@gmail.com")
+            .setValue("input[type=\"password\"]", "password")
+            .submitForm("#login-form")
+            .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[3]/a")
     });
 
     after(() => {
@@ -132,8 +132,8 @@ describe('Corporate Settings Page', function () {
             .waitForVisible("#settings-title > h2")
             .getText("#settings-title > h2")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("Settings")
+                console.log(value);
+                expect(value).to.equal("Settings");
                 done();
             })
             .end()
@@ -144,12 +144,12 @@ describe('Corporate Settings Page', function () {
         browser
             .isExisting("#settings-company-list > div > div > div > button")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal(true)
+                console.log(value);
+                expect(value).to.equal(true);
                 done();
             })
             .end()
             .catch(done);
     });
-    
+
 });

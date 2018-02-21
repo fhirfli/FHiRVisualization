@@ -39,14 +39,14 @@ describe('Individual Data Page', function () {
 
     beforeEach(() => {
         browser = webdriverio
-        .remote(options)
-        .init()
-        .url(base_site + '/individual/home')
-        .setValue("input[type=\"email\"]", "alex@gmail.com")
-        .setValue("input[type=\"password\"]", "password")
-        .submitForm("#login-form")
-        .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
-        .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .remote(options)
+            .init()
+            .url(base_site + '/individual/home')
+            .setValue("input[type=\"email\"]", "alex@gmail.com")
+            .setValue("input[type=\"password\"]", "password")
+            .submitForm("#login-form")
+            .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
     });
 
     after(() => {
@@ -71,7 +71,7 @@ describe('Individual Data Page', function () {
             .waitForVisible("#data-colour-select > div > div.dropdown-display")
             .click("#data-colour-select > div > div.dropdown-display")
             .waitForVisible("#data-colour-select > div > div.dropdown-list.show > div:nth-child(2)")
-            .pause(100)           
+            .pause(100)
             .click("#data-colour-select > div > div.dropdown-list.show > div:nth-child(2)")
             .waitForVisible("#data-colour-select > div > div.dropdown-display > span")
             .getText("#data-colour-select > div > div.dropdown-display > span")
@@ -92,14 +92,14 @@ describe('Corporate Data Page', function () {
 
     beforeEach(() => {
         browser = webdriverio
-        .remote(options)
-        .init()
-        .url(base_site + '/corporate/home')
-        .setValue("input[type=\"email\"]", "company@gmail.com")
-        .setValue("input[type=\"password\"]", "password")
-        .submitForm("#login-form")
-        .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
-        .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .remote(options)
+            .init()
+            .url(base_site + '/corporate/home')
+            .setValue("input[type=\"email\"]", "company@gmail.com")
+            .setValue("input[type=\"password\"]", "password")
+            .submitForm("#login-form")
+            .waitForVisible("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
+            .click("//*[@id=\"navbar-options-container\"]/ul/li[2]/a")
     });
 
     after(() => {
@@ -125,10 +125,10 @@ describe('Corporate Data Page', function () {
             .waitForVisible("#data-colour-select > div > div.dropdown-display")
             .click("#data-colour-select > div > div.dropdown-display")
             .waitForVisible("#data-colour-select > div > div.dropdown-list.show > div:nth-child(2)")
-            .pause(1000)           
+            .pause(1000)
             .click("#data-colour-select > div > div.dropdown-list.show > div:nth-child(2)")
             .pause(1000)
-            
+
             .waitForVisible("#data-colour-select > div > div.dropdown-display > span")
             .getText("#data-colour-select > div > div.dropdown-display > span")
             .then(function (value) {
@@ -158,8 +158,6 @@ describe('Corporate Data Page', function () {
             .catch(done);
     });
 
-
-    
 
 });
 

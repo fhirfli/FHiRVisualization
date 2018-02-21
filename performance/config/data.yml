@@ -1,0 +1,36 @@
+config:
+  target: "http://localhost:8000"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+  payload:
+    path: "../data/users.csv"
+    fields:
+      - "email"
+      - "password"
+      - "name"
+
+scenarios:
+    - flow:
+      - post:
+          url: "/auth/individual/login"
+          json:
+            email: "{{email}}"
+            password: "{{password}}"
+      - post:
+          url: "/api/individual/data"
+          json:
+            dataType: "BloodPressure"
+            dataRange: "Single"
+
+scenarios:
+    - flow:
+      - post:
+          url: "/auth/corporate/login"
+          json:
+            email: "{{email}}"
+            password: "{{password}}"
+      - post:
+          url: "/api/corporate/data"
+          json:
+            mainDataType: "HeartRate"
