@@ -1,13 +1,13 @@
 // test_data.js:
 //     - describe individual data page:
 //         - it should display the text All data on page
-//         - it should allow users to select colour for visualization    
+//         - it should allow users to select colour for visualizations    
 //             (click on the dropdown, check that the list of colours is shown (waitUntilVisible))
 //         - it should allow users to select visualizations on home
 //             (check that there are a list of visualizations and the checkbox can be pressed)
 //     - describe corporate data page:
 //         -it should display All data on page
-//         - it should allow users to select colour for visualization
+//         - it should allow users to select colour for visualizations
 //             (click on the dropdown, check that the list of colours is shown (waitUntilVisible))
 //         - it should allow users to select from multiple visualizations
 //             (click on the dropdown, check that the list of visualizations is shown (waitUntilVisible))
@@ -58,15 +58,15 @@ describe('Individual Data Page', function () {
             .waitForVisible("#data-title > h2")
             .getText("#data-title > h2")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("Data")
+                console.log(value);
+                expect(value).to.equal("Data");
                 done();
             })
             .end()
             .catch(done);
     });
 
-    it('should allow users to select colour for visualization', function (done) {
+    it('should allow users to select colour for visualizations', function (done) {
         browser
             .waitForVisible("#data-colour-select > div > div.dropdown-display")
             .click("#data-colour-select > div > div.dropdown-display")
@@ -76,8 +76,8 @@ describe('Individual Data Page', function () {
             .waitForVisible("#data-colour-select > div > div.dropdown-display > span")
             .getText("#data-colour-select > div > div.dropdown-display > span")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("blue")
+                console.log(value);
+                expect(value).to.equal("blue");
                 done();
             })
             .end()
@@ -111,15 +111,15 @@ describe('Corporate Data Page', function () {
             .waitForVisible("#data-title > h2")
             .getText("#data-title > h2")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("Data")
+                console.log(value);
+                expect(value).to.equal("Data");
                 done();
             })
             .end()
             .catch(done);
     });
 
-    it('should allow users to select colour for visualization', function (done) {
+    it('should allow users to select colour for visualizations', function (done) {
         browser
             .click("#data-list > button")
             .waitForVisible("#data-colour-select > div > div.dropdown-display")
@@ -132,8 +132,8 @@ describe('Corporate Data Page', function () {
             .waitForVisible("#data-colour-select > div > div.dropdown-display > span")
             .getText("#data-colour-select > div > div.dropdown-display > span")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal("blue")
+                console.log(value);
+                expect(value).to.equal("blue");
                 done();
             })
             .end()
@@ -150,8 +150,8 @@ describe('Corporate Data Page', function () {
             .waitForVisible("#data-panel > div > div.dropdown-container > div.dropdown-list.show")
             .isExisting("#data-panel > div > div.dropdown-container > div.dropdown-list.show")
             .then(function (value) {
-                console.log(value)
-                expect(value).to.equal(true)
+                console.log(value);
+                expect(value).to.equal(true);
                 done();
             })
             .end()

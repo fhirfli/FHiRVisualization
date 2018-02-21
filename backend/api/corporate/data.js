@@ -36,9 +36,10 @@ module.exports = (env, router) => {
             return res.status(400).json({error: 'INVALID_DATATYPE'});
         }
 
+
         if (req.body.secondaryDataType) {
             let secondaryDataType = req.body.secondaryDataType;
-            if (false) {
+            if (true) {
                 CorporateDataManager.loadMultiDataFor(Data.DATA_SPECIFICATION[mainDataType], Data.DATA_SPECIFICATION[secondaryDataType], req.user, (result) => {
                     return res.json(result);
                 });
@@ -52,7 +53,8 @@ module.exports = (env, router) => {
             }
 
         } else {
-            if (false) {
+            if (true) {
+
                 CorporateDataManager.loadDataFor(Data.DATA_SPECIFICATION[mainDataType], req.user, (result) => {
                     return res.json(result);
                 });

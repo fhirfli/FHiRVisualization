@@ -102,7 +102,7 @@ export default class Data extends Component {
                           callback={visualization => this.setState({selectedVisualization: visualization})}/>
 
                 {/*{Object.keys(this.props.visualizationMap).map((visualization, index) => (*/}
-                {/*<div key={visualization + index}>*/}
+                {/*<div key={visualizations + index}>*/}
                 {/*{visualization}*/}
                 {/*<input checked={this.state.selectedVisualization === visualization} type="checkbox"*/}
                 {/*onChange={(e) => this.setState({*/}

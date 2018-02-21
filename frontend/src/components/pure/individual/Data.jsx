@@ -87,10 +87,10 @@ export default class Data extends Component {
         console.log("Current prefs: " + JSON.stringify(this.props.preferences[this.state.currentIndex]) + ", for vis " + visualization);
         let isChecked = this.props.preferences[this.state.currentIndex].visualization.some(vis => vis === visualization);
         if (isChecked) {
-            console.log("Removing visualization " + visualization);
+            console.log("Removing visualizations " + visualization);
             this.props.manualRemoveVisualization(dataType, visualization, colour);
         } else {
-            console.log("Adding visualization " + visualization);
+            console.log("Adding visualizations " + visualization);
             this.props.manualAddVisualization(dataType, visualization, colour);
         }
     }

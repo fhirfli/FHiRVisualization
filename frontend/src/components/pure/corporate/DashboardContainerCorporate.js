@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Donut from "../Donut"; //Will change this to a folder of visualisation components
-import BarChartCorporate from "../BarChartCorporate";
-import GroupBarChart from "../GroupBarChart";
-import LineGraphCorporate from "../LineGraphCorporate";
+import Donut from "../individual/visualizations/Donut"; //Will change this to a folder of visualisation components
+import BarChartCorporate from "./visualizations/BarChartCorporate";
+import GroupBarChart from "./visualizations/GroupBarChart";
+import LineGraphCorporate from "./visualizations/LineGraphCorporate";
 
 import * as PropTypes from 'prop-types';
 
@@ -14,6 +14,23 @@ const colourMap = {
     yellow: '#fcee5f'
 };
 
+// reference: https://stackoverflow.com/questions/41850864/get-average-of-every-group-of-n-elements-in-an-array
+function groupAverage(arr, n, isum, idiv) {
+    let fsum = isum || ((x, y) => x + y);
+    let fdiv = idiv || ((x, y) => x / y);
+    const result = [];
+    for (let i = 0; i < arr.length;) {
+        let sum = arr[0];
+        for (let j = 0; j < n; j++) {
+            // Check if value is numeric. If not use default value as 0
+            if (i !== 0 || j !== 0) {
+                sum = fsum(sum, arr[i++]);
+            }
+        }
+        result.push(fdiv(sum, n));
+    }
+    return result;
+}
 
 export default class CorporateDashboardGrid extends React.Component {
 
@@ -86,9 +103,22 @@ export default class CorporateDashboardGrid extends React.Component {
 
         // map over values and format into intermediate representation
         let values = this.props.data[mainDataType][secondaryDataType].map((xy) => {
-            return ( {x: xy.valueA, y: xy.valueB} );
+
+            return ( {x: (Math.floor(xy.valueA * 10) / 10), y: (Math.round(xy.valueB * 10) / 10)} );
         });
+
+        console.log("Formatting data for two - values.length = " + values.length);
+
         // console.log("FORMATTED DATA FOR 2 (BEFORE RETURN): " + JSON.stringify(values));
+        if (values.length > 100) {
+            let intermediate = groupAverage(values, values.length / 100, (a, b) => {
+                return {x: a.x + b.x, y: a.y + b.y}
+            }, (a, b) => {
+                return {x: a.x / b, y: a.y / b}
+            });
+            console.log("Intermediate length is " + intermediate.length);
+            values = intermediate;
+        }
 
         // Mutation-free (no inplace changes) way of updating this.state.data
         if (values.length > 0) {
@@ -112,9 +142,21 @@ export default class CorporateDashboardGrid extends React.Component {
 
         // map over values and format into intermediate representation
         let values = this.props.data[mainDataType].self.map((value, index) => {
-            return ( {x: index, y: value.value} );
+            return ( {x: index, y: (Math.round(value.value * 10) / 10)} );
         });
         // console.log("FORMATTED DATA FOR 1 (BEFORE RETURN): " + JSON.stringify(values));
+
+        console.log("Formatting data for two - values.length = " + values.length);
+        if (values.length > 100) {
+            let intermediate = groupAverage(values, values.length / 100, (a, b) => {
+                return {x: a.x + b.x, y: a.y + b.y}
+            }, (a, b) => {
+                return {x: a.x / b, y: a.y / b}
+            });
+            console.log("Intermediate length is " + intermediate.length);
+            values = intermediate;
+        }
+
 
         // Mutation-free (no inplace changes) way of updating this.state.data
         if (values.length > 0) {
@@ -131,7 +173,7 @@ export default class CorporateDashboardGrid extends React.Component {
     }
 
 
-    // given a list of visualizations, returns a number in the range 0 - 4 to indicate what type of visualization it is.
+    // given a list of visualizations, returns a number in the range 0 - 4 to indicate what type of visualizations it is.
     checkVisType(vis) { // Ammendable visualisation checker
         if (vis.visualization.includes("BarChart")) {
             return 1;
@@ -149,7 +191,7 @@ export default class CorporateDashboardGrid extends React.Component {
     }
 
     /*
-     Constructs a visualization out of a preference
+     Constructs a visualizations out of a preference
      */
     renderVisualization(preference, index) {
         let dataType = preference.mainDataType;

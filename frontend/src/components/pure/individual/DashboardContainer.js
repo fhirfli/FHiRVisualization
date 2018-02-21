@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Donut from "../Donut"; //Will change this to a folder of visualization components
-import BarChart from "../BarChart";
-import GroupBarChart from "../GroupBarChart";
-import BrushLineGraph from "../BrushLineGraph";
-import GoalRing from "../GoalRing";
+import Donut from "./visualizations/Donut"; //Will change this to a folder of visualizations components
+import BarChart from "./visualizations/BarChart";
+import GroupBarChart from "../corporate/visualizations/GroupBarChart";
+import BrushLineGraph from "./visualizations/BrushLineGraph";
+import GoalRing from "./visualizations/GoalRing";
 
 import * as PropTypes from 'prop-types';
 
@@ -54,6 +54,8 @@ export default class DashboardGrid extends React.Component {
 //console.log("DATA YEET: " + dateValueList);
 
         if (dataType === "HeartRate") {
+
+            console.log("HEART RATE: " + JSON.stringify(dataRange));
             if (dataRange === 'Daily') {
 
                 for (let i = 0; i < dateValueList.length; i++) {
@@ -63,6 +65,39 @@ export default class DashboardGrid extends React.Component {
                     });
                 }
             }
+
+            if (dataRange === 'Weekly') {
+                listOfCustomFormats = new Array(7);
+                var currentValue = dateValueList[0].value;
+                var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+
+                for (var i = 0; i < dateValueList.length; i++) {
+                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+                    }
+                    else {
+                        let formatted = {x: currentDay.getDate(), y: currentValue};
+                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
+                            x: currentDay.getDate(),
+                            y: 0
+                        };
+                        currentDay = new Date(dateValueList[i].date);
+                        currentValue = 0;
+                    }
+                }
+                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+                for (var index = 0; index < 7; index++) {
+                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
+                        x: "",
+                        y: 0
+                    } : listOfCustomFormats[index];
+                    listOfCustomFormats[index] = {
+                        x: listOfCustomFormats[index].x,
+                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
+                    };
+                }
+            }
+
         }
 
         else if (dataType === "BodyWeight") {
@@ -283,7 +318,7 @@ export default class DashboardGrid extends React.Component {
         }
     }
 
-    checkVisType(vis) { // Ammendable visualization checker
+    checkVisType(vis) { // Ammendable visualizations checker
         if (vis.includes("BarChart")) {
             return 1;
         }
@@ -355,7 +390,7 @@ export default class DashboardGrid extends React.Component {
                                        colour={ this.state.colour[vis.colour] }/>);
                 break;
             default:
-                console.log("Unkown Data visualization");
+                console.log("Unkown Data visualizations");
                 break;
         }
     }

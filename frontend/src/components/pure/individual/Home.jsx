@@ -3,7 +3,7 @@ import {VictoryLine, VictoryChart, VictoryTheme} from 'victory';
 import '../styles/Home.scss';
 import moment from 'moment';
 import * as propTypes from 'prop-types';
-import DashboardGrid from "../DashboardContainer";
+import DashboardGrid from "./DashboardContainer";
 
 const elem = (colour, string) => (
     <div key={string} style={{
@@ -13,6 +13,7 @@ const elem = (colour, string) => (
     }}>
         {string}
     </div>
+
 );
 
 export default class Home extends Component {
@@ -22,12 +23,14 @@ export default class Home extends Component {
             this.props.preferences.map((p) => {
                 p.visualization.map((v) => {
                     this.props.manualLoadData(p.dataType, this.mapToRange(v));
+
                 })
             })
         });
     }
 
     mapToRange(visualization) {
+
         if (visualization.includes("Daily")) {
             return "Daily"
         }

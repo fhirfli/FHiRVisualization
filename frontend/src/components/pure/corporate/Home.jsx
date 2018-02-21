@@ -3,7 +3,7 @@ import {VictoryLine, VictoryChart, VictoryTheme} from 'victory';
 import '../styles/Home.scss';
 import moment from 'moment';
 import * as propTypes from 'prop-types';
-import CorporateDashboardGrid from "../DashboardContainerCorporate";
+import CorporateDashboardGrid from "./DashboardContainerCorporate";
 
 const elem = (text) => (
     <div style={{
