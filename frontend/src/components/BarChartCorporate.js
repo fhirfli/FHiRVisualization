@@ -3,22 +3,22 @@ import * as Victory from 'victory';
 import * as PropTypes from 'prop-types';
 
 
-export default class BarChart extends React.Component {
+export default class BarChartCoporate extends React.Component {
     constructor(props) {
         super(props);
-        console.log("RENDERING VIS IN BAR CHART: " + JSON.stringify(this.props.data));
+        console.log("RENDERING VIS IN BAR CHART: " + JSON.stringify(this.props));
     }
 
     render() {
+
+
       const styles = this.getStyles()
         return (
             <div className="dash__component">
               <Victory.VictoryLabel x={5} y={24} style={ styles.title }
-                text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown" }
+                text={ this.props.title }
               />
-              <Victory.VictoryChart
-                range={{ y: this.getYAxisFor() }}
-              >
+              <Victory.VictoryChart>
                 <Victory.VictoryBar
                     style={{
                         data: {
@@ -29,64 +29,38 @@ export default class BarChart extends React.Component {
                     alignment="start"
                     cornerRadius={2}
                     barRatio={0.5}
-                    data={ this.getData() }
-                    //categories={{ x: this.getXAxisFor(this.props.dataRange) }}
+                    data={this.props.data}
+                    categories={{ x: this.getXAxisFor(this.props.dataRange) }}
                 />
                 <Victory.VictoryAxis
                   standalone={false}
                   //style={styles.axisYears}
-                  style={{
-                    axis: {stroke: "#74747450"},
-                    tickLabels: {fontSize: 15, padding: 40, angle: 270 }
-                  }}
-                  tickLabelComponent={<Victory.VictoryLabel align={"right"}/>}
                   tickValues={ this.getXAxisFor(this.props.dataRange) }
+                  /*
+                  tickFormat={
+                    (x) => {
+                      if (x.getFullYear() === 2000) {
+                        return x.getFullYear();
+                      }
+                      if (x.getFullYear() % 5 === 0) {
+                        return x.getFullYear().toString().slice(2);
+                      }
+                    }
+                  }
+                  */
                 />
-                <Victory.VictoryAxis dependentAxis
+                <Victory.VictoryAxis
+                  dependentAxis
                   standalone={false}
-                  style={{
-                    axis: {stroke: "#74747450"},
-                    tickLabels: {fontSize: 15, padding: 10 }
-                  }}
-                  tickLabelComponent={<Victory.VictoryLabel align={"right"}/>}
-                  //tickValues={ this.getXAxisFor(this.props.dataRange) }
+                  // style={{
+                  //   grid: {stroke: "grey"},
+                  //   ticks: {stroke: "grey", size: 5},
+                  // }}
+                  tickValues={ this.getYAxisFor(this.props.title)}
                 />
                 </Victory.VictoryChart>
             </div>
         )
-    }
-
-    getData() {
-      let xValues = this.getXAxisFor(this.props.dataRange);
-      /*let newData = this.props.data.map((xy, index) => {
-        return( { x: xValues[index], y: xy.y } );
-      });*/
-      if(this.props.data) {
-        let newData = [];
-        for(var i = 0; i < this.props.data.length; i++) {
-          newData.push({ x: xValues[i], y: this.props.data[i].y })
-        }
-        console.log("THIS IS THE NEW DATA: " + JSON.stringify(newData));
-        return(newData);
-      }
-    }
-
-    getXAxisRangeFor(dataRange) {
-      switch(dataRange) {
-        case 'Daily':
-          return ([this.props.data.x]);
-          break;
-        case 'Weekly':
-          return ([0, 7]);
-          break;
-        case 'Monthly':
-          return ([0, 4]);
-          break;
-        case 'Annual':
-          return ([0, 12]);
-          break;
-        console.log("Unknown data Range");
-      }
     }
 
     getXAxisFor(dataRange) {
@@ -146,18 +120,13 @@ export default class BarChart extends React.Component {
           fill: "#ffffff",
           fontFamily: "inherit",
           fontSize: "14px"
-        },
-
-        //WEEKLY axis
-        weeklyXAxis: {
-          axis: {stroke: "#74747450"},
-          tickLabels: {fontSize: 15, padding: 5, angle: 90},
         }
+
       }
     }
 }
 
-BarChart.propTypes = {
+BarChartCoporate.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
     title: PropTypes.any,
     colour: PropTypes.any,

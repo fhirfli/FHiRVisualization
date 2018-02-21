@@ -40,9 +40,10 @@ export default class GoalRing extends React.Component {
                     </text>
                     <VictoryPie
                         innerRadius={50}
+                        padAngle={1}
                         width={250} height={250}
                         style={{labels: {fontSize: 0}}}
-                        colorScale={["#4ec244", "rgba(78, 194, 68, 0.5)"]}
+                        colorScale={ this.getColoursFor() }
                         standalone={false}
                         events={[{
                             target: "data",
@@ -64,6 +65,32 @@ export default class GoalRing extends React.Component {
                 </svg>
             </div>
         )
+    }
+
+    getColoursFor() {
+      const BLUE_COLOR = "#76bbf1";
+      const BLUE_LESS = "#76bbf162";
+      const RED_COLOR = "#ec5229";
+      const RED_LESS = "#76bbf162";
+      const YELLOW_COLOR = "#fcee5f";
+      const YELLOW_LESS = "#fcee5f62";
+      const GREEN_COLOR = "#69da60";
+      const GREEN_LESS = "#69da6062";
+
+      switch(this.props.colour) {
+        case 'blue':
+          return ( [BLUE_COLOR, BLUE_LESS] );
+          break;
+        case 'red':
+          return ( [RED_COLOR, RED_LESS] );
+        break;
+        case 'yellow':
+          return ( [YELLOW_COLOR, YELLOW_LESS] );
+        break;
+        case 'green':
+          return ( [GREEN_COLOR, GREEN_LESS] );
+        break;
+      }
     }
 
     randomlyChooseMessage() {
@@ -91,9 +118,13 @@ export default class GoalRing extends React.Component {
 
     getStyles() {
         const BLUE_COLOR = "#76bbf1";
+        const BLUE_LESS = "rgba(#76bbf1, 0.62)";
         const RED_COLOR = "#ec5229";
+        const RED_LESS = "rgba(#76bbf1, 0.62)";
         const YELLOW_COLOR = "#fcee5f";
+        const YELLOW_LESS = "rgba(#fcee5f, 0.62)";
         const GREEN_COLOR = "#69da60";
+        const GREEN_LESS = "rgba(#69da60, 0.62)";
 
         return {
             title: {

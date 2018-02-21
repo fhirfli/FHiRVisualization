@@ -29,11 +29,11 @@ export default class Donut extends React.Component {
     }
 
     render() {
-        const styles = this.getStyles();
+      const styles = this.getStyles()
         return (
           <div className="dash__component">
             <VictoryLabel x={5} y={24} style={ styles.title }
-                          text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown" }
+              text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown" }
             />
             <VictoryPie
                 innerRadius={50}
@@ -41,6 +41,7 @@ export default class Donut extends React.Component {
                 colorScale={this.getColourSchemeFor(this.props.colour)}
                 style={{ labels: { fontSize: 10} }}
                 labels={(d) => d.y}
+                padAngle={2}
                 //labelComponent={<VictoryLabel angle={45}/>}
                 data={ this.props.data }
             />
@@ -49,51 +50,43 @@ export default class Donut extends React.Component {
     }
 
     getColourSchemeFor(colour) {
-        console.log("COLOUR: " + colour);
-        let colourScheme = [];
-        switch (colour) {
-            case 'blue':
-                if (this.props.data) {
-                    console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
-                    for (var i = 0; i < this.props.data.length; i++) {
-                        let newColour = "#008bf9" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-                        console.log("newColour: " + newColour);
-                        colourScheme.push(newColour);
-                    }
-                }
-            case 'red':
-                if (this.props.data) {
-                    console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
-                    for (var i = 0; i < this.props.data.length; i++) {
-                        let newColour = "#ec5229" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-                        console.log("newColour: " + newColour);
-                        colourScheme.push(newColour);
-                    }
-                }
-            case 'yellow':
-                if (this.props.data) {
-                    console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
-                    for (var i = 0; i < this.props.data.length; i++) {
-                        let newColour = "#fcee5f" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-                        console.log("newColour: " + newColour);
-                        colourScheme.push(newColour);
-                    }
-                }
-            case 'green':
-                if (this.props.data) {
-                    console.log("getColourSchemeFor data: " + JSON.stringify(this.props.data));
-                    for (var i = 0; i < this.props.data.length; i++) {
-                        let newColour = "#21c814" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
-                        console.log("newColour: " + newColour);
-                        colourScheme.push(newColour);
-                    }
-                }
-        }
-        return colourScheme;
+      console.log("COLOUR: " + colour);
+      let colourScheme = [];
+      switch(colour) {
+        case 'blue':
+          if(this.props.data) {
+            for(var i = 0; i < this.props.data.length; i++) {
+              let newColour = "#008bf9" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
+              colourScheme.push(newColour);
+            }
+          }
+          case 'red':
+          if(this.props.data) {
+            for(var i = 0; i < this.props.data.length; i++) {
+              let newColour = "#ec5229" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
+              colourScheme.push(newColour);
+            }
+          }
+          case 'yellow':
+          if(this.props.data) {
+            for(var i = 0; i < this.props.data.length; i++) {
+              let newColour = "#fcee5f" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
+              colourScheme.push(newColour);
+            }
+          }
+          case 'green':
+          if(this.props.data) {
+            for(var i = 0; i < this.props.data.length; i++) {
+              let newColour = "#21c814" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
+              colourScheme.push(newColour);
+            }
+          }
+      }
+      return colourScheme;
     }
 
     getStyles() {
-        const BLUE_COLOR = "#008bf9";
+      const BLUE_COLOR = "#008bf9";
       const RED_COLOR = "#ec5229";
       const YELLOW_COLOR = "#fcee5f";
       const GREEN_COLOR = "#69da60";
@@ -102,17 +95,17 @@ export default class Donut extends React.Component {
         title: {
           //marginLeft: "-60%",
           float: "left",
-            marginBottom: "-5%",
+          marginBottom: "-5%",
           fill: "#000000",
           fontFamily: "Avenir",
           fontSize: "18px",
         },
-          subTitle: {
-              float: "left",
-              fill: "#000000",
-              fontFamily: "Avenir",
-              fontSize: "13px",
-          },
+        subTitle: {
+          float: "left",
+          fill: "#000000",
+          fontFamily: "Avenir",
+          fontSize: "13px",
+        },
         labelNumber: {
           textAnchor: "middle",
           fill: "#ffffff",
