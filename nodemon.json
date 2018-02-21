@@ -5,6 +5,9 @@
     "frontend/dist/*",
     "frontend/*",
     "frontend/**/*",
-    "test/"
+    "test/",
+    "stress/",
+    "unit/",
+    "performance/"
   ]
 }
