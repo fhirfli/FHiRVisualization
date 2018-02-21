@@ -68,29 +68,29 @@ export default class GoalRing extends React.Component {
     }
 
     getColoursFor() {
-      const BLUE_COLOR = "#76bbf1";
-      const BLUE_LESS = "#76bbf162";
-      const RED_COLOR = "#ec5229";
-      const RED_LESS = "#76bbf162";
-      const YELLOW_COLOR = "#fcee5f";
-      const YELLOW_LESS = "#fcee5f62";
-      const GREEN_COLOR = "#69da60";
-      const GREEN_LESS = "#69da6062";
+        const BLUE_COLOR = "#76bbf1";
+        const BLUE_LESS = "#76bbf162";
+        const RED_COLOR = "#ec5229";
+        const RED_LESS = "#76bbf162";
+        const YELLOW_COLOR = "#fcee5f";
+        const YELLOW_LESS = "#fcee5f62";
+        const GREEN_COLOR = "#69da60";
+        const GREEN_LESS = "#69da6062";
 
-      switch(this.props.colour) {
-        case 'blue':
-          return ( [BLUE_COLOR, BLUE_LESS] );
-          break;
-        case 'red':
-          return ( [RED_COLOR, RED_LESS] );
-        break;
-        case 'yellow':
-          return ( [YELLOW_COLOR, YELLOW_LESS] );
-        break;
-        case 'green':
-          return ( [GREEN_COLOR, GREEN_LESS] );
-        break;
-      }
+        switch (this.props.colour) {
+            case 'blue':
+                return ( [BLUE_COLOR, BLUE_LESS] );
+                break;
+            case 'red':
+                return ( [RED_COLOR, RED_LESS] );
+                break;
+            case 'yellow':
+                return ( [YELLOW_COLOR, YELLOW_LESS] );
+                break;
+            case 'green':
+                return ( [GREEN_COLOR, GREEN_LESS] );
+                break;
+        }
     }
 
     randomlyChooseMessage() {

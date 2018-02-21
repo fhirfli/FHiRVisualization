@@ -17,7 +17,9 @@ export default class GroupBarChart extends React.Component {
 
     render() {
         return (
-            <VictoryChart>
+            <VictoryChart
+                animate={{duration: 200}}
+            >
                 <VictoryGroup offset={20}
                               colorScale={["tomato", "orange", "gold"]}
                 >

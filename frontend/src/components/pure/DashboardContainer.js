@@ -8,11 +8,20 @@ import GoalRing from "../GoalRing";
 
 import * as PropTypes from 'prop-types';
 
+const dateTypeToyLabelMap = {
+    'BMI': 'BMI (kg/m^2)',
+    'HeartRate': 'HeartRate (bpm)',
+    'BloodPressure': 'Blood Pressure (mm)',
+    'BodyWeight': 'Body Weight (kg)',
+    'BodyHeight': 'Body Height (m)'
+};
+
+
 export default class DashboardGrid extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {data: {}, goalData: {}, colour: {}};
+        this.state = {data: {}, goalData: {}, colour: {}, loadedCount: 0};
         this.loadData = this.loadData.bind(this);
         this.loadGoalData = this.loadGoalData.bind(this);
         this.checkVisType = this.checkVisType.bind(this);
@@ -26,121 +35,152 @@ export default class DashboardGrid extends React.Component {
     }
 
     profileToDateValue(preference) {
-      let dateValueList = [];
-      let dataList = this.props.data[preference.dataType][preference.dataRange];
-      for(var i = 0; i < dataList.length; i++) {
+        let dateValueList = [];
+        let dataList = this.props.data[preference.dataType][preference.dataRange];
+        console.log("DHEN-LIST: (" + preference.dataType + ")(" + preference.dataRange + ") " + JSON.stringify(dataList.length));
+
+        for (let i = 0; i < dataList.length; i++) {
             let value = dataList[i]["value"];
             let date = dataList[i]["issued"];
-            dateValueList.push({ value: value, date: date });
-          }
+            dateValueList.push({value: value, date: date});
+        }
 
-      let formattedData = this.dateValueListToCustomFormat(dateValueList, preference.dataType, preference.dataRange);
-      return ({ data: formattedData });
+        let formattedData = this.dateValueListToCustomFormat(dateValueList, preference.dataType, preference.dataRange);
+        return ({data: formattedData});
     }
 
     dateValueListToCustomFormat(dateValueList, dataType, dataRange) {
-      //console.log("DATA YEET: " + dateValueList);
+        let listOfCustomFormats = [];
+//console.log("DATA YEET: " + dateValueList);
 
-      if(dataType === "HeartRate") {
-          if (dataRange === 'Daily') {
-          var listOfCustomFormats = [];
+        if (dataType === "HeartRate") {
+            if (dataRange === 'Daily') {
 
-          for(var i = 0; i < dateValueList.length; i++) {
-            listOfCustomFormats.push({ x: (new Date(dateValueList[i].date).getDate()), y: dateValueList[i].value });
-          }
+                for (let i = 0; i < dateValueList.length; i++) {
+                    listOfCustomFormats.push({
+                        x: (new Date(dateValueList[i].date).getDate()),
+                        y: dateValueList[i].value
+                    });
+                }
+            }
         }
-      }
 
-      else if(dataType === "BodyWeight") {
-        if(dataRange == 'Weekly') {
-          var listOfCustomFormats = new Array(7);
-          var currentValue = dateValueList[0].value;
-          var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+        else if (dataType === "BodyWeight") {
+            if (dataRange == 'Weekly') {
+                let currentValue = dateValueList[0].value;
+                let currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
 
-          for(var i = 0; i < dateValueList.length; i++) {
-            if(currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
-              currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+                for (var i = 0; i < dateValueList.length; i++) {
+                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+                    }
+                    else {
+                        let formatted = {x: currentDay.getDate(), y: currentValue};
+                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
+                            x: currentDay.getDate(),
+                            y: 0
+                        };
+                        currentDay = new Date(dateValueList[i].date);
+                        currentValue = 0;
+                    }
+                }
+                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+                for (let index = 0; index < 7; index++) {
+                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
+                        x: "No data found",
+                        y: 0
+                    } : listOfCustomFormats[index];
+                    listOfCustomFormats[index] = {
+                        x: listOfCustomFormats[index].x,
+                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
+                    };
+                }
             }
-            else {
-              let formatted = { x: currentDay.getDate(), y: currentValue };
-              listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : { x: currentDay.getDate(), y: 0 } ;
-              currentDay = new Date(dateValueList[i].date);
-              currentValue = 0;
-            }
-          }
-          listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
-          for(var index = 0; index < 7; index++) {
-            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "No data found", y: 0 } : listOfCustomFormats[index];
-            listOfCustomFormats[index] = { x: listOfCustomFormats[index].x, y: Math.round(listOfCustomFormats[index].y * 10) / 10} ;
-          }
         }
-      }
 
-      else if(dataType === "BodyHeight") { //This honestly makes no sense to measure
-        if(dataRange == 'Weekly') {
-          var listOfCustomFormats = new Array(7);
-          var currentValue = dateValueList[0].value;
-          var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+        else if (dataType === "BodyHeight") { //This honestly makes no sense to measure
+            if (dataRange === 'Weekly') {
+                listOfCustomFormats = new Array(7);
+                var currentValue = dateValueList[0].value;
+                var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
 
-          for(var i = 0; i < dateValueList.length; i++) {
-            if(currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
-              currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+                for (var i = 0; i < dateValueList.length; i++) {
+                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+                    }
+                    else {
+                        let formatted = {x: currentDay.getDate(), y: currentValue};
+                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
+                            x: currentDay.getDate(),
+                            y: 0
+                        };
+                        currentDay = new Date(dateValueList[i].date);
+                        currentValue = 0;
+                    }
+                }
+                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+                for (var index = 0; index < 7; index++) {
+                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
+                        x: "",
+                        y: 0
+                    } : listOfCustomFormats[index];
+                    listOfCustomFormats[index] = {
+                        x: listOfCustomFormats[index].x,
+                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
+                    };
+                }
             }
-            else {
-              let formatted = { x: currentDay.getDate(), y: currentValue };
-              listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : { x: currentDay.getDate(), y: 0 } ;
-              currentDay = new Date(dateValueList[i].date);
-              currentValue = 0;
-            }
-          }
-          listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
-          for(var index = 0; index < 7; index++) {
-            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
-            listOfCustomFormats[index] = { x: listOfCustomFormats[index].x, y: Math.round(listOfCustomFormats[index].y * 10) / 10} ;
-          }
         }
-      }
 
-      else if(dataType === "BMI") {
-        if(dataRange == 'Weekly') {
-          var listOfCustomFormats = new Array(7);
-          var currentValue = dateValueList[0].value;
-          var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+        else if (dataType === "BMI") {
+            if (dataRange === 'Weekly') {
+                listOfCustomFormats = new Array(7);
+                var currentValue = dateValueList[0].value;
+                var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
 
-          for(var i = 0; i < dateValueList.length; i++) {
-            if(currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
-              currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+                for (var i = 0; i < dateValueList.length; i++) {
+                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+                    }
+                    else {
+                        let formatted = {x: currentDay.getDate(), y: currentValue};
+                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
+                            x: currentDay.getDate(),
+                            y: 0
+                        };
+                        currentDay = new Date(dateValueList[i].date);
+                        currentValue = 0;
+                    }
+                }
+                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+                for (var index = 0; index < 7; index++) {
+                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
+                        x: "",
+                        y: 0
+                    } : listOfCustomFormats[index];
+                    listOfCustomFormats[index] = {
+                        x: listOfCustomFormats[index].x,
+                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
+                    };
+                }
             }
-            else {
-              let formatted = { x: currentDay.getDate(), y: currentValue };
-              listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : { x: currentDay.getDate(), y: 0 } ;
-              currentDay = new Date(dateValueList[i].date);
-              currentValue = 0;
-            }
-          }
-          listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
-          for(var index = 0; index < 7; index++) {
-            listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? { x: "", y: 0 } : listOfCustomFormats[index];
-            listOfCustomFormats[index] = { x: listOfCustomFormats[index].x, y: Math.round(listOfCustomFormats[index].y * 10) / 10} ;
-          }
         }
-      }
 
-      return listOfCustomFormats;
+        return listOfCustomFormats;
     }
 
     componentDidMount() {
         // Either props.preferences is null, OR props.goals is null
         if (this.props.preferences != null) {
-          // EVERYTHING HAPPENS WITHIN THE ONE PROMISE BELOW.
-          let listOfVisComponents = this.props.preferences.map((p) => {
-              let dataType = p.dataType;
-              return (
-                  p.visualization.map((v) => {
-                    let range = this.mapToRange(v);
-                    return { dataRange: range, visualization: v, dataType: dataType, colour: p.colour };
-                  })
-              )
+            // EVERYTHING HAPPENS WITHIN THE ONE PROMISE BELOW.
+            let listOfVisComponents = this.props.preferences.map((p) => {
+                let dataType = p.dataType;
+                return (
+                    p.visualization.map((v) => {
+                        let range = this.mapToRange(v);
+                        return {dataRange: range, visualization: v, dataType: dataType, colour: p.colour};
+                    })
+                )
             });
             listOfVisComponents = [].concat.apply([], listOfVisComponents);
 
@@ -149,19 +189,29 @@ export default class DashboardGrid extends React.Component {
             let components = [];
 
             listOfVisComponents.map((vis) => {
-              this.props.loadData(vis.dataType, vis.dataRange).then(() => {
+                this.props.loadData(vis.dataType, vis.dataRange).then(() => {
 
-                let formatted = this.profileToDateValue(vis);
-                components.push({ dataType: vis.dataType, dataRange: vis.dataRange, data: formatted.data, visType: vis.visualization, colour: vis.colour });
-                console.log("pushing: " + vis.visualization);
-                  //console.log("Added this: " + JSON.stringify({ dataType: dataType, dataRange: range, visType: v }));
-                this.loadData(vis.dataType, vis.dataRange, formatted.data);
-                this.loadColour(vis.colour);
-                this.setState({
-                  listOfVisComponents:[...components]
-                })
-              });
-              console.log("this.state.data: " + JSON.stringify(this.state.listOfVisComponents));
+                    console.log("LOAD DATA RETURNED OF" + vis.dataType + ", " + vis.dataRange + ", " + this.props.data[vis.dataType][vis.dataRange].length);
+
+                    let count = this.state.loadedCount;
+                    let formatted = this.profileToDateValue(vis);
+                    components.push({
+                        dataType: vis.dataType,
+                        dataRange: vis.dataRange,
+                        data: formatted.data,
+                        visType: vis.visualization,
+                        colour: vis.colour
+                    });
+                    console.log("pushing: " + vis.visualization);
+                    //console.log("Added this: " + JSON.stringify({ dataType: dataType, dataRange: range, visType: v }));
+                    this.loadData(vis.dataType, vis.dataRange, formatted.data);
+                    this.loadColour(vis.colour);
+                    this.setState({
+                        listOfVisComponents: [...components],
+                        loadedCount: count + 1
+                    })
+                });
+                console.log("this.state.data: " + JSON.stringify(this.state.listOfVisComponents));
             })
         }
         // we have to check whether  props.goals is null
@@ -278,20 +328,31 @@ export default class DashboardGrid extends React.Component {
     renderVisualization(vis) {
         switch (this.checkVisType(vis.visType)) {
             case 1:
-                return (<BarChart key={ vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } className="dash__component"
-                                  data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ this.state.colour[vis.colour] } dataRange={ vis.dataRange } />);
+                return (<BarChart key={ vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
+                                  className="dash__component"
+                                  ylabel={dateTypeToyLabelMap[vis.dataType]}
+                                  data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
+                                  colour={ this.state.colour[vis.colour] } dataRange={ vis.dataRange }/>);
                 break;
             case 2:
-                return (<BrushLineGraph key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
-                                        data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }  colour={ this.state.colour[vis.colour] } />);
+                return (<BrushLineGraph key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
+                                        dataRange={ vis.dataRange } className="dash__component"
+                                        ylabel={dateTypeToyLabelMap[vis.dataType]}
+                                        data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
+                                        colour={ this.state.colour[vis.colour] }/>);
                 break;
             case 3:
-                return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
-                               data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ vis.colour } />);
+                return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
+                               dataRange={ vis.dataRange } className="dash__component"
+                               data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
+                               colour={ vis.colour }/>);
                 break;
             case 4:
-                return (<GroupBarChart key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) } dataRange={ vis.dataRange } className="dash__component"
-                                       data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType } colour={ this.state.colour[vis.colour] } />);
+                return (<GroupBarChart key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
+                                       dataRange={ vis.dataRange } className="dash__component"
+                                       ylabel={dateTypeToyLabelMap[vis.dataType]}
+                                       data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
+                                       colour={ this.state.colour[vis.colour] }/>);
                 break;
             default:
                 console.log("Unkown Data visualization");
@@ -319,7 +380,15 @@ export default class DashboardGrid extends React.Component {
                 <div className="dash__container">
                     {
                         this.state.listOfVisComponents &&
-                        this.state.listOfVisComponents.map(vis => { console.log("listOfVisComponents.map(vis): " + JSON.stringify(vis)); return (this.renderVisualization(vis))})
+                        this.state.loadedCount > 0 &&
+                        this.state.listOfVisComponents
+                            .filter(vis => {
+                                return this.state.data && this.state.data[vis.dataType] && this.state.data[vis.dataType][vis.dataRange] && this.state.data[vis.dataType][vis.dataRange].length > 0
+                            })
+                            .map(vis => {
+                                console.log("listOfVisComponents.map(vis): " + JSON.stringify(vis));
+                                return (this.renderVisualization(vis))
+                            })
                     }
                 </div>
             )
@@ -328,8 +397,8 @@ export default class DashboardGrid extends React.Component {
             return (
                 <div className="dash__container-goals">
                     {
-                      this.state.listOfGoals &&
-                      this.state.listOfGoals.map(goal => this.renderGoalvisualization(goal.name, goal))
+                        this.state.listOfGoals &&
+                        this.state.listOfGoals.map(goal => this.renderGoalvisualization(goal.name, goal))
                     }
                 </div>
             )

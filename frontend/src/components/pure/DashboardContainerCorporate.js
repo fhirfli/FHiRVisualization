@@ -154,28 +154,36 @@ export default class CorporateDashboardGrid extends React.Component {
     renderVisualization(preference, index) {
         let dataType = preference.mainDataType;
         let secondaryDataType = preference.secondaryDataType;
+        let title;
         let colour = preference.colour;
+        if (secondaryDataType) {
+            title = "Employee average " + dataType + " against " + secondaryDataType
+        } else {
+            title = "Employee average " + dataType + " distribution"
+        }
 
         switch (this.checkVisType(preference)) {
             case 1:
                 return (<BarChartCorporate key={dataType + index} className="dash__component"
-                                  data={ this.state.data[dataType]['self'] }
-                                  title={ dataType } colour={ colourMap[colour] }/>);
+                                           data={ this.state.data[dataType]['self'] }
+                                           title={ title }
+
+                                           colour={ colourMap[colour] }/>);
                 break;
             case 2:
                 return (<LineGraphCorporate key={dataType + index} className="dash__component"
-                                        data={ this.state.data[dataType][secondaryDataType] }
-                                        title={ dataType } colour={ colourMap[colour] }/>);
+                                            data={ this.state.data[dataType][secondaryDataType] }
+                                            title={ title } colour={ colourMap[colour] }/>);
                 break;
             case 3:
                 return (
                     <Donut key={dataType + index} className="dash__component" data={ this.state.data[dataType]['self'] }
-                           title={ dataType } colour={ colourMap[colour] }/>);
+                           title={ title } colour={ colourMap[colour] }/>);
                 break;
             case 4:
                 return (<GroupBarChart key={dataType + index} className="dash__component"
                                        data={ this.state.data[dataType]['self'] }
-                                       title={ dataType } colour={ colourMap[colour] }/>);
+                                       title={ title } colour={ colourMap[colour] }/>);
                 break;
             default:
                 console.log("Unkown Data visualisation");

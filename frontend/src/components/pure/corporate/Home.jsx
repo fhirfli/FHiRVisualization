@@ -49,9 +49,11 @@ export default class Home extends Component {
         console.log("PREFERENCES HOME: " + JSON.stringify(this.props.preferences));
         return (
             <div id="home-container">
-                <div id="home-content">
+                <div id="home-content__header">
                     <h2 className="home__title">Home</h2>
                     <h4 className="home__date">{moment().format("ddd D MMMM")}</h4>
+                </div>
+                <div>
                     {
                         this.props.preferences.length > 0 && (
                             <CorporateDashboardGrid preferences={ this.props.preferences } data={ this.props.data }
