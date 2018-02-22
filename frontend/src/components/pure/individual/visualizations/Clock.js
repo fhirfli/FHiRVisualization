@@ -1,9 +1,9 @@
 import React from 'react';
-import {VictoryPie, VictoryLabel} from 'victory';
+import { VictoryPie, VictoryLabel, VictoryPolarAxis, VictoryTheme } from 'victory';
 import * as PropTypes from 'prop-types';
 
 
-export default class Donut extends React.Component {
+export default class Clock extends React.Component {
 
     render() {
         const styles = this.getStyles();
@@ -12,15 +12,33 @@ export default class Donut extends React.Component {
                 <VictoryLabel x={5} y={24} style={ styles.title }
                               text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown (" + this.props.title + "/day)" }
                 />
+                <svg width={280} height={280} >
                 <VictoryPie
+                    standalone={false}
                     innerRadius={50}
                     width={250} height={250}
                     colorScale={this.getColourSchemeFor(this.props.colour)}
-                    style={{labels: {fontSize: 16}}}
+                    style={{labels: {fontSize: 0}}}
                     labels={(d) => d.y}
                     padAngle={2}
                     data={ this.props.data }
                 />
+
+                <VictoryPolarAxis
+                  width={250}
+                  height={250}
+                  theme={VictoryTheme.material}
+                  standalone={false}
+                  startAngle={90}
+                  endAngle={450}
+                  tickValues={["Monday", "Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday"]}
+                  labelPlacement="vertical"
+                  animate={{
+                    duration: 2000,
+                    easing: "bounce"
+                  }}
+                />
+                </svg>
             </div>
         )
     }
@@ -103,7 +121,7 @@ export default class Donut extends React.Component {
     }
 }
 
-Donut.propTypes = {
+Clock.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
     title: PropTypes.any,
     colour: PropTypes.any,

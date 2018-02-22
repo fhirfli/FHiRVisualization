@@ -35,33 +35,54 @@ export default class BarChartCoporate extends React.Component {
                     />
                     <Victory.VictoryAxis
                         standalone={false}
-                        //style={styles.axisYears}
                         tickValues={ this.getXAxisFor(this.props.dataRange) }
-                        /*
-                         tickFormat={
-                         (x) => {
-                         if (x.getFullYear() === 2000) {
-                         return x.getFullYear();
-                         }
-                         if (x.getFullYear() % 5 === 0) {
-                         return x.getFullYear().toString().slice(2);
-                         }
-                         }
-                         }
-                         */
+                        axisLabelComponent={<Victory.VictoryLabel text={ this.getLabelTitle() } style={ styles.labelTitle } />}
                     />
                     <Victory.VictoryAxis
                         dependentAxis
                         standalone={false}
-                        // style={{
-                        //   grid: {stroke: "grey"},
-                        //   ticks: {stroke: "grey", size: 5},
-                        // }}
                         tickValues={ this.getYAxisFor(this.props.title)}
+                        axisLabelComponent={<Victory.VictoryLabel text={ this.getLabelDependentTitle() } style={ styles.labelTitle } />}
                     />
                 </Victory.VictoryChart>
             </div>
         )
+    }
+
+    getLabelTitle() {
+      if(this.props.title.includes("HeartRate")) {
+        return ("Heart Rate /bpm");
+      }
+      else if(this.props.title.includes("BodyWeight")) {
+        return("Body Weight /kg");
+      }
+      else if(this.props.title.includes("BodyHeight")) {
+        return("Body Height/ cm");
+      }
+      else if(this.props.title.includes("BMI")) {
+        return("Body Mass Index");
+      }
+      else { return; }
+    }
+
+    getLabelDependentTitle() {
+      let pattern = "against";
+      let sliced = this.props.title.substr(this.props.title.indexOf(pattern) + pattern.length, this.props.title.length);
+      if(this.props.title.includes(pattern)) {
+        if(sliced.includes("HeartRate")) {
+          return ("Heart Rate /bpm");
+        }
+        else if(sliced.includes("BodyWeight")) {
+          return("Body Weight /kg");
+        }
+        else if(sliced.includes("BodyHeight")) {
+          return("Body Height/ cm");
+        }
+        else if(sliced.includes("BMI")) {
+          return("Body Mass Index");
+        }
+        else { return; }
+      }
     }
 
     getXAxisFor(dataRange) {
@@ -121,7 +142,14 @@ export default class BarChartCoporate extends React.Component {
                 fill: "#ffffff",
                 fontFamily: "inherit",
                 fontSize: "14px"
-            }
+            },
+            labelTitle: {
+                float: "left",
+                marginBottom: "-10%",
+                fill: "#000000",
+                fontFamily: "Avenir",
+                fontSize: "12px",
+            },
 
         }
     }

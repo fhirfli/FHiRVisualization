@@ -23,7 +23,7 @@ export default class BarChart extends React.Component {
                     <Victory.VictoryBar
                         style={{
                             data: {
-                                fill: this.props.colour,
+                                fill: this.getColour(this.props.colour),
                                 padding: 5
                             }
                         }}
@@ -31,11 +31,9 @@ export default class BarChart extends React.Component {
                         cornerRadius={2}
                         barRatio={0.5}
                         data={ this.getData() }
-                        //categories={{ x: this.getXAxisFor(this.props.dataRange) }}
                     />
                     <Victory.VictoryAxis
                         standalone={false}
-                        //style={styles.axisYears}
                         style={{
                             axis: {stroke: "#74747450"},
                             tickLabels: {fontSize: 20, padding: 40, angle: 310, textAnchor: 'end'}
@@ -138,6 +136,19 @@ export default class BarChart extends React.Component {
         }
     }
 
+    getColour(colour) {
+      switch (colour) {
+        case 'blue': return ("#008bf9");
+        case 'red': return ("#ec5229");
+        case 'yellow': return ("#fcee5f");
+        case 'green': return ("#69da60");
+        case 'indigo': return ("#5884f5");
+        case 'orange': return ("#ff6611");
+        case 'navy': return ("#123283");
+        default: return;
+      }
+    }
+
     getStyles() {
         return {
             title: {
@@ -151,18 +162,6 @@ export default class BarChart extends React.Component {
                 fontFamily: "Avenir",
                 fontSize: "18px",
             },
-            labelNumber: {
-                textAnchor: "middle",
-                fill: "#ffffff",
-                fontFamily: "inherit",
-                fontSize: "14px"
-            },
-
-            //WEEKLY axis
-            weeklyXAxis: {
-                axis: {stroke: "#74747450"},
-                tickLabels: {fontSize: 15, padding: 5, angle: 90},
-            }
         }
     }
 }

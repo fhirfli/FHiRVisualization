@@ -5,6 +5,7 @@ import BarChart from "./visualizations/BarChart";
 import GroupBarChart from "../corporate/visualizations/GroupBarChart";
 import BrushLineGraph from "./visualizations/BrushLineGraph";
 import GoalRing from "./visualizations/GoalRing";
+import Clock from "./visualizations/Clock";
 
 import * as PropTypes from 'prop-types';
 
@@ -29,7 +30,6 @@ export default class DashboardGrid extends React.Component {
         this.renderVisualization = this.renderVisualization.bind(this);
         this.renderGoalvisualization = this.renderGoalvisualization.bind(this);
         this.loadGoals = this.loadGoals.bind(this);
-        this.loadColour = this.loadColour.bind(this);
         this.profileToDateValue = this.profileToDateValue.bind(this);
         this.dateValueListToCustomFormat = this.dateValueListToCustomFormat.bind(this);
     }
@@ -240,7 +240,7 @@ export default class DashboardGrid extends React.Component {
                     console.log("pushing: " + vis.visualization);
                     //console.log("Added this: " + JSON.stringify({ dataType: dataType, dataRange: range, visType: v }));
                     this.loadData(vis.dataType, vis.dataRange, formatted.data);
-                    this.loadColour(vis.colour);
+                    //this.loadColour(vis.colour);
                     this.setState({
                         listOfVisComponents: [...components],
                         loadedCount: count + 1
@@ -282,54 +282,21 @@ export default class DashboardGrid extends React.Component {
         return "OOPS";
     }
 
-    // LOAD COLOURS:
-    loadColour(colour) {
-        if (colour.includes("blue")) {
-            const blue = "#76bbf1";
-
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = blue;
-        }
-        else if (colour.includes("red")) {
-            const red = "#ec5229";
-
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = red;
-        }
-        else if (colour.includes("yellow")) {
-            const yellow = "#fcee5f";
-
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = yellow;
-        }
-        else if (colour.includes("green")) {
-            const green = "#69da60";
-
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = green;
-        }
-    }
-
     checkVisType(vis) { // Ammendable visualizations checker
         if (vis.includes("BarChart")) {
-            return 1;
+          return 1;
         }
         else if (vis.includes("LineGraph")) {
-            return 2;
+          return 2;
         }
         else if (vis.includes("Doughnut")) {
-            return 3;
+          return 3;
         }
         else if (vis.includes("GroupBarChart")) {
-            return 4;
+          return 4;
+        }
+        else if (vis.includes("Clock")) {
+          return 5;
         }
         return 0;
     }
@@ -367,14 +334,14 @@ export default class DashboardGrid extends React.Component {
                                   className="dash__component"
                                   ylabel={dateTypeToyLabelMap[vis.dataType]}
                                   data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
-                                  colour={ this.state.colour[vis.colour] } dataRange={ vis.dataRange }/>);
+                                  colour={ vis.colour } dataRange={ vis.dataRange }/>);
                 break;
             case 2:
                 return (<BrushLineGraph key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
                                         dataRange={ vis.dataRange } className="dash__component"
                                         ylabel={dateTypeToyLabelMap[vis.dataType]}
                                         data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
-                                        colour={ this.state.colour[vis.colour] }/>);
+                                        colour={ vis.colour }/>);
                 break;
             case 3:
                 return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
@@ -387,8 +354,15 @@ export default class DashboardGrid extends React.Component {
                                        dataRange={ vis.dataRange } className="dash__component"
                                        ylabel={dateTypeToyLabelMap[vis.dataType]}
                                        data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
-                                       colour={ this.state.colour[vis.colour] }/>);
+                                       colour={ vis.colour }/>);
                 break;
+           case 5:
+               return (<Clock key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
+                                      dataRange={ vis.dataRange } className="dash__component"
+                                      ylabel={dateTypeToyLabelMap[vis.dataType]}
+                                      data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
+                                      colour={ vis.colour }/>);
+               break;
             default:
                 console.log("Unkown Data visualizations");
                 break;

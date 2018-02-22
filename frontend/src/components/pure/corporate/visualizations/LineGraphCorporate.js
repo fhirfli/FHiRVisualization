@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     VictoryArea,
+    VictoryAxis,
     VictoryGraph,
     VictoryBrushContainer,
     VictoryLine,
@@ -43,14 +44,6 @@ export default class LineGraphCorporate extends React.Component {
                 <VictoryChart
                     animate={{duration: 200}}
                     style={ styles.axisOne }
-                    //theme={ VictoryTheme.material }
-                    /*containerComponent={
-                     <VictoryBrushContainer
-                     brushDimension="x"
-                     brushDomain={{x: [0.1, 0.3]}}
-                     />
-                     }
-                     */
                 >
                     <VictoryScatter
                         data={ this.props.data }
@@ -62,11 +55,55 @@ export default class LineGraphCorporate extends React.Component {
                             }
                         }}
                     />
+                    <VictoryAxis
+                        standalone={false}
+                        axisLabelComponent={<VictoryLabel text={ this.getLabelTitle() } style={ styles.labelTitle }/>}
+                    />
+                    <VictoryAxis
+                        dependentAxis
+                        standalone={false}
+                        axisLabelComponent={<VictoryLabel text={ this.getLabelDependentTitle() } style={ styles.labelTitle } />}
+                    />
                 </VictoryChart>
             </div>
         )
     }
 
+    getLabelTitle() {
+      if(this.props.title.includes("HeartRate")) {
+        return ("Heart Rate /bpm");
+      }
+      else if(this.props.title.includes("BodyWeight")) {
+        return("Body Weight /kg");
+      }
+      else if(this.props.title.includes("BodyHeight")) {
+        return("Body Height/ cm");
+      }
+      else if(this.props.title.includes("BMI")) {
+        return("Body Mass Index");
+      }
+      else { return; }
+    }
+
+    getLabelDependentTitle() {
+      let pattern = "against";
+      let sliced = this.props.title.substr(this.props.title.indexOf(pattern) + pattern.length, this.props.title.length);
+      if(this.props.title.includes(pattern)) {
+        if(sliced.includes("HeartRate")) {
+          return ("Heart Rate /bpm");
+        }
+        else if(sliced.includes("BodyWeight")) {
+          return("Body Weight /kg");
+        }
+        else if(sliced.includes("BodyHeight")) {
+          return("Body Height/ cm");
+        }
+        else if(sliced.includes("BMI")) {
+          return("Body Mass Index");
+        }
+        else { return; }
+      }
+    }
 
     getStyles() {
         const BLUE_COLOR = "#76bbf1";
@@ -83,32 +120,13 @@ export default class LineGraphCorporate extends React.Component {
                 fontFamily: "Avenir",
                 fontSize: "18px",
             },
-            labelNumber: {
-                textAnchor: "middle",
-                fill: "#ffffff",
-                fontFamily: "inherit",
-                fontSize: "14px"
+            labelTitle: {
+                float: "left",
+                marginBottom: "-10%",
+                fill: "#000000",
+                fontFamily: "Avenir",
+                fontSize: "12px",
             },
-
-            // INDEPENDENT AXIS
-            axisYears: {
-                axis: {stroke: "black", strokeWidth: 1},
-                ticks: {
-                    size: (tick) => {
-                        const tickSize =
-                            tick.getFullYear() % 5 === 0 ? 10 : 5;
-                        return tickSize;
-                    },
-                    stroke: "black",
-                    strokeWidth: 1
-                },
-                tickLabels: {
-                    fill: "black",
-                    fontFamily: "inherit",
-                    fontSize: 16
-                }
-            },
-
             // DATA SET ONE
             axisOne: {
                 grid: {
@@ -123,21 +141,6 @@ export default class LineGraphCorporate extends React.Component {
                     fontFamily: "inherit",
                     fontSize: 16
                 }
-            },
-            labelOne: {
-                fill: BLUE_COLOR,
-                fontFamily: "inherit",
-                fontSize: 12,
-                fontStyle: "italic"
-            },
-            lineOne: {
-                data: {stroke: BLUE_COLOR, strokeWidth: 4.5, fill: BLUE_COLOR}
-            },
-            axisOneCustomLabel: {
-                fill: BLUE_COLOR,
-                fontFamily: "inherit",
-                fontWeight: 300,
-                fontSize: 21
             },
         };
     }

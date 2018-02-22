@@ -209,13 +209,15 @@ export default class CorporateDashboardGrid extends React.Component {
                 return (<BarChartCorporate key={dataType + index} className="dash__component"
                                            data={ this.state.data[dataType]['self'] }
                                            title={ title }
-
+                                           //Add dataType={}
                                            colour={ colourMap[colour] }/>);
                 break;
             case 2:
                 return (<LineGraphCorporate key={dataType + index} className="dash__component"
                                             data={ this.state.data[dataType][secondaryDataType] }
-                                            title={ title } colour={ colourMap[colour] }/>);
+                                            title={ title }
+                                            //Add dataType={}
+                                            colour={ colourMap[colour] }/>);
                 break;
             case 3:
                 return (

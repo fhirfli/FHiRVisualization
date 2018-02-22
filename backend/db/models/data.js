@@ -13,7 +13,7 @@ const VALID_SCHEMAS = [
 const VALID_VISUALIZATIONS = [
     "BarChartDaily", "BarChartWeekly", "BarChartMonthly",
     "LineGraphWeekly", "LineGraphMonthly", "LineGraphAnnual",
-    "DoughnutDaily", "DoughnutWeekly"
+    "DoughnutDaily", "DoughnutWeekly", "ClockWeekly"
 ];
 
 
@@ -29,7 +29,7 @@ const VALID_AGGREGATE_VISUALIZATIONS = Object.keys(AGGREGATE_VISUALIZATIONS_SECO
  ];*/
 
 
-const COLORS = ['red', 'blue', 'green', 'yellow'];
+const COLORS = ['red', 'blue', 'green', 'yellow', 'indigo', 'navy', 'orange'];
 
 /*
  "29463-7", // weight
@@ -66,7 +66,8 @@ const DATA_SPECIFICATION = {
         loinc: "29463-7", // weight
         validVisualizations: [
             "LineGraphWeekly",
-            "LineGraphAnnual"
+            "LineGraphAnnual",
+            "ClockWeekly"
         ]
     },
     "BloodPressure": {
