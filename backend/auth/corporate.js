@@ -39,6 +39,7 @@ module.exports = (env, passport) => {
         },
         passport.authenticate('corporate'),
         (req, res) => {
+            console.log(JSON.stringify(req.user));
             // Needed to get remove all Mongoose bindings
             return res.json({user: sanitizeUser(req.user)});
         });
@@ -50,6 +51,18 @@ module.exports = (env, passport) => {
             return res.json({msg: 'LOGGED_OUT'});
         } else {
             res.json({error: 'NO_USER'});
+        }
+    });
+
+
+    router.post('/clear', (req, res, next) => {
+        if (env.TEST) {
+            const {email} = req.body;
+            CorporateUser.findOneAndRemove({email: email}, (err, user) => {
+                res.status(200).send();
+            })
+        } else {
+            res.status(404).send();
         }
     });
 

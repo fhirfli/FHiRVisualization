@@ -58,6 +58,7 @@ export default class Data extends Component {
 
         return (<input
             type="checkbox"
+            style={{marginTop: "20px"}}
             value={visualization}
             checked={isChecked}
             onChange={this.toggleVisualization.bind(this, visualization)}/>);
@@ -86,10 +87,10 @@ export default class Data extends Component {
         console.log("Current prefs: " + JSON.stringify(this.props.preferences[this.state.currentIndex]) + ", for vis " + visualization);
         let isChecked = this.props.preferences[this.state.currentIndex].visualization.some(vis => vis === visualization);
         if (isChecked) {
-            console.log("Removing visualization " + visualization);
+            console.log("Removing visualizations " + visualization);
             this.props.manualRemoveVisualization(dataType, visualization, colour);
         } else {
-            console.log("Adding visualization " + visualization);
+            console.log("Adding visualizations " + visualization);
             this.props.manualAddVisualization(dataType, visualization, colour);
         }
     }
@@ -110,7 +111,7 @@ export default class Data extends Component {
                 <div id="data-list">
                     {
                         Object.keys(this.props.validVisualizations).map((key) => {
-                            return (<button id="btn"
+                            return (<button className="zoom" id="btn"
                                             key={key}
                                             onClick={this.setCurrentItem.bind(this, key)}
                             >{key}</button>);

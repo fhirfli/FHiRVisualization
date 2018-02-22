@@ -21,6 +21,7 @@ module.exports = (env, passport) => {
     });
 
 
+
         router.post('/logout', (req,res) =>{
             if(req.user) {
                 req.session.destroy();
@@ -35,4 +36,4 @@ module.exports = (env, passport) => {
         router.use('/corporate', Corporate);
 
         return router;
-}
+};

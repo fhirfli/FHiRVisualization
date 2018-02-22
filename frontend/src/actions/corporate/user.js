@@ -59,9 +59,10 @@ function registerError() {
 }
 
 function makeUserRequest(method, data, endpoint="/auth/corporate/login") {
+    console.log("SENDING REQUEST TO : " + JSON.stringify(BASE_URL + endpoint));
     return axios({
         method: method,
-        url: endpoint,
+        url: BASE_URL + endpoint,
         data: data
     });
 }
@@ -78,11 +79,10 @@ export function manualLogin(data,successPath) {
                     browserHistory.push(successPath);
                 } else {
                     dispatch(loginError());
-                    return JSON.stringify(response.data.error);
                 }
             }).catch(err => {
+                console.log("GOT A ERROR " + JSON.stringify(err));
                 dispatch(loginError());
-                return err.response.statusText;
             });
     };
 }
@@ -91,7 +91,7 @@ export function manualLogin(data,successPath) {
 export function manualLogout() {
     return dispatch => {
         dispatch(beginLogout());
-        return axios.get("/auth/logout")
+        return axios.get(BASE_URL + "/auth/logout")
             .then(response => {
                 if(!response.data.error) {
                     dispatch(logoutSuccess());

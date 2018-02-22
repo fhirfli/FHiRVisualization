@@ -1,0 +1,11 @@
+{
+  "name": "stress",
+  "version": "1.0.0",
+  "description": "A stress testing framework for FHiR Visualization",
+  "main": "index.js",
+  "author": "Kiran Gopinathan",
+  "license": "MIT",
+  "dependencies": {
+    "artillery": "^1.6.0-13"
+  }
+}

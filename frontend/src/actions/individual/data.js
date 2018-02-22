@@ -118,7 +118,7 @@ export function manualLoadColours() {
         dispatch(beginLoadColours());
         return axios({
             method: "get",
-            url: "/api/visualizations/colours"
+            url: BASE_URL + "/api/visualizations/colours"
         }).then(response => {
             let colours = response.data;
             dispatch(loadColoursSuccess(colours));
@@ -132,7 +132,7 @@ export function manualLoadPreferences() {
         dispatch(beginLoadPreferences());
         return axios({
             method: "get",
-            url: "/api/individual/preferences"
+            url: BASE_URL + "/api/individual/preferences"
         }).then(response => {
             // these are the preferences the user has selected
             // of form
@@ -145,7 +145,7 @@ export function manualLoadPreferences() {
             // now we must get all the visualizations
             return axios({
                 method: "get",
-                url: "/api/data/types/all"
+                url: BASE_URL + "/api/data/types/all"
             }).then(response => {
                 // these are all the dataTypes
                 // of form
@@ -172,7 +172,7 @@ export function manualLoadVisualizationsFor(dataType) {
         dispatch(beginLoadVisualizationsFor(dataType));
         return axios({
             method: "get",
-            url: "/api/data/types/" + dataType + "/visualizations"
+            url: BASE_URL + "/api/data/types/" + dataType + "/visualizations"
         }).then(response => {
             // list string
             let visualizations = response.data;
@@ -187,7 +187,7 @@ export function manualAddVisualization(dataType, visualization, colour) {
         dispatch(beginAddVisualization());
         return axios({
             method: "post",
-            url: "/api/individual/preferences",
+            url: BASE_URL + "/api/individual/preferences",
             data: {
                 dataType,
                 visualization,
@@ -211,7 +211,7 @@ export function manualRemoveVisualization(dataType, visualization) {
         dispatch(beginRemoveVisualization());
         return axios({
             method: "delete",
-            url: "/api/individual/preferences",
+            url: BASE_URL + "/api/individual/preferences",
             data: {
                 dataType,
                 visualization
@@ -234,7 +234,7 @@ export function manualUpdateColour(dataType, colour) {
         console.log("Manual update colour called with " + dataType + " and " + colour);
         return axios({
             method: "put",
-            url: "/api/individual/preferences",
+            url: BASE_URL + "/api/individual/preferences",
             data: {
                 dataType,
                 colour

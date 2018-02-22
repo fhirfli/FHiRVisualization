@@ -155,7 +155,7 @@ export function manualLoadPreferences() {
         dispatch(beginLoadPreferences());
         return axios({
             method: "get",
-            url: "/api/corporate/preferences"
+            url: BASE_URL + "/api/corporate/preferences"
         }).then(response => {
             let preferences = response.data;
             dispatch(loadPreferencesSuccess(preferences));
@@ -170,12 +170,12 @@ export function manualLoadVisualizations() {
         dispatch(beginLoadVisualizations());
         return axios({
             method: "get",
-            url: "/api/data/types/all"
+            url: BASE_URL + "/api/data/types/all"
         }).then(response => {
             let dataTypes = response.data;
             return axios({
                 method: "get",
-                url: "/api/visualizations/aggregate/specification"
+                url: BASE_URL + "/api/visualizations/aggregate/specification"
             }).then(response => {
                 let visualizations = response.data;
                 dispatch(loadVisualizationsSuccess(visualizations, dataTypes));
@@ -193,7 +193,7 @@ export function manualLoadColours() {
         dispatch(beginLoadColours());
         return axios({
             method: "get",
-            url: "/api/visualizations/colours"
+            url: BASE_URL + "/api/visualizations/colours"
         }).then(response => {
             let colours = response.data;
             dispatch(loadColoursSuccess(colours));
@@ -210,7 +210,7 @@ export function manualCreatePreference(preference) {
         dispatch(beginCreatePreference());
         return axios({
             method: "post",
-            url: "/api/corporate/preferences",
+            url: BASE_URL + "/api/corporate/preferences",
             data: preference
         }).then(response => {
             let savedPreference = response.data;
@@ -226,7 +226,7 @@ export function manualUpdatePreference(preference) {
         dispatch(beginUpdatePreference());
         return axios({
             method: "put",
-            url: "/api/corporate/preferences",
+            url: BASE_URL + "/api/corporate/preferences",
             data: preference
         }).then(response => {
             let updatedPreference = response.data;
@@ -242,7 +242,7 @@ export function manualRemovePreference(preference) {
         dispatch(beginRemovePreference());
         return axios({
             method: "delete",
-            url: "/api/corporate/preferences",
+            url: BASE_URL + "/api/corporate/preferences",
             data: preference
         }).then(response => {
             let removedPreference = response.data;

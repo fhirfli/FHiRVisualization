@@ -5,7 +5,11 @@ module.exports = (env) => {
     if(env.PRODUCTION) {
         console.log("Connecting to " + env.MONGODB_URL);
         mongoose.connect(env.MONGODB_URL, { useMongoClient: true});
-    } else {
+    } else if (env.TEST) {
+        console.log("Connecting to " + env.MONGODB_TEST_URL);
+        mongoose.connect(env.MONGODB_TEST_URL, {useMongoClient: true});
+    }
+    else {
         console.log("Connecting to " + env.MONGODB_DEV_URL);
         mongoose.connect(env.MONGODB_DEV_URL, { useMongoClient: true});
     }
@@ -21,4 +25,4 @@ module.exports = (env) => {
     });
 
     return db;
-}
+};

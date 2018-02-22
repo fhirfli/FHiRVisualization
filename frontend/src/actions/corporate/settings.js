@@ -60,7 +60,7 @@ export function manualLoadAssociatedUsers() {
         dispatch(beginLoadAssociatedUsers());
         return axios({
             method: "get",
-            url: "/api/corporate/associations"
+            url: BASE_URL + "/api/corporate/associations"
         }).then((response) => {
             let users = response.data;
             dispatch(loadAssociatedUsersSuccess(users));
@@ -75,7 +75,7 @@ export function manualRemoveAssociatedUser(email) {
         dispatch(beginRemoveAssociatedUser());
         return axios({
             method: "delete",
-            url: "/api/corporate/associations",
+            url: BASE_URL + "/api/corporate/associations",
             data: {
                 email
             }

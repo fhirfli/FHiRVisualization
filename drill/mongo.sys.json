@@ -1,0 +1,8 @@
+{
+  "name": "mongo",
+  "config": {
+    "type": "mongo",
+    "connection": "mongodb://localhost:27017/",
+    "enabled": true
+  }
+}

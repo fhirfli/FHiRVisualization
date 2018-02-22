@@ -6,12 +6,14 @@ mongoose.Promise = Promise;
 
 
 const VALID_SCHEMAS = [
-    "HeartRate", "BodyHeight", "BodyWeight", "BloodPressureSystolicAndDiastolic", "BMI",
-    "Observation", "Condition", "FamilyMemberHistory", "MedicationStatement.js", "Patient", "Organization"
+//    "HeartRate", "BodyHeight", "BodyWeight", "BloodPressureSystolicAndDiastolic", "BMI",
+    "Observation", "Condition", "FamilyMemberHistory", "MedicationStatement", "Patient", "Organization"
 ];
 
 const VALID_VISUALIZATIONS = [
-    "BarChartDaily", "BarChartWeekly", "LineGraphWeekly", "DoughnutDaily", "LineGraphAnnual"
+    "BarChartDaily", "BarChartWeekly", "BarChartMonthly",
+    "LineGraphWeekly", "LineGraphMonthly", "LineGraphAnnual",
+    "DoughnutDaily", "DoughnutWeekly"
 ];
 
 
@@ -27,27 +29,41 @@ const VALID_AGGREGATE_VISUALIZATIONS = Object.keys(AGGREGATE_VISUALIZATIONS_SECO
  ];*/
 
 
-const COLORS = ['red', 'blue', 'green', 'yellow', 'white'];
+const COLORS = ['red', 'blue', 'green', 'yellow'];
 
+/*
+ "29463-7", // weight
+ "65968-0", // sleep
+ "63863-5", // hours of activity
+ "35094-2",// sys blood pressure
+ "39156-5"// bmi
+ */
 const DATA_SPECIFICATION = {
     "HeartRate": {
         name: "Heart Rate",
-        profile: "HeartRate",
+        profile: "Observation",
+        loinc: "8867-4",
         validVisualizations: [
-            "DoughnutDaily"
+            "DoughnutDaily",
+            "DoughnutWeekly",
+            "BarChartWeekly",
+            "BarChartMonthly"
         ]
     },
     "BodyHeight": {
         name: "Body Height",
-        profile: "BodyHeight",
+        profile: "Observation",
+        loinc: "8302-2", // height
         validVisualizations: [
             "LineGraphWeekly",
+            "BarChartWeekly",
             "LineGraphAnnual"
         ]
     },
     "BodyWeight": {
         name: "Body Weight",
-        profile: "BodyWeight",
+        profile: "Observation",
+        loinc: "29463-7", // weight
         validVisualizations: [
             "LineGraphWeekly",
             "LineGraphAnnual"
@@ -55,15 +71,8 @@ const DATA_SPECIFICATION = {
     },
     "BloodPressure": {
         name: "Blood Pressure",
-        profile: "BloodPressure",
-        validVisualizations: [
-            "LineGraphWeekly",
-            "LineGraphAnnual"
-        ]
-    },
-    "SystolicAndDiastolic": {
-        name: "Systolic Blood Pressure",
-        profile: "SystolicAndDiastolicSystolicAndDiastolic",
+        profile: "Observation",
+        loinc: "35094-2",// sys blood pressure
         validVisualizations: [
             "LineGraphWeekly",
             "LineGraphAnnual"
@@ -71,15 +80,18 @@ const DATA_SPECIFICATION = {
     },
     "BMI": {
         name: "Body mass Index",
-        profile: "BMI",
+        profile: "Observation",
+        loinc: "39156-5",// bmi
         validVisualizations: [
             "LineGraphAnnual",
-            "BarChartWeekly"
+            "BarChartWeekly",
+            "DoughnutWeekly"
         ]
     }
 };
 
 const VALID_DATA_TYPES = Object.keys(DATA_SPECIFICATION);
+const VALID_DATA_RANGES = ["Single", "Daily", "Weekly", "Monthly", "Annual"];
 /*[
  "HeartRate",
  "BodyHeight",
@@ -92,6 +104,7 @@ const VALID_DATA_TYPES = Object.keys(DATA_SPECIFICATION);
 module.exports = {
     DATA_SPECIFICATION,
     VALID_DATA_TYPES,
+    VALID_DATA_RANGES,
     VALID_SCHEMAS,
     VALID_VISUALIZATIONS,
     VALID_AGGREGATE_VISUALIZATIONS,

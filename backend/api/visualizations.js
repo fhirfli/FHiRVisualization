@@ -12,7 +12,7 @@ module.exports = (env) => {
         return res.status(200).json(Data.AGGREGATE_VISUALIZATIONS_SECONDARY_NEEDED);
     });
 
-   router.get('/:visualization/type', (req, res)=> {
+    router.get('/:visualizations/type', (req, res) => {
         const visualization = req.params.visualization;
         if(!visualization){
           return res.status(400).json({error: 'NO_VISUALIZATION_PROVIDED'});

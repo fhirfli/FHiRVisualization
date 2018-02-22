@@ -31,7 +31,7 @@ const data = (state = {
          {
          "dataType": "HeartRate",
          "colour":  DEFAULT_COLOUR,
-         "visualization": [],
+         "visualizations": [],
          }
          */
     ],
@@ -59,7 +59,7 @@ const data = (state = {
             // {
             //   dataType: ______,
             //   colour  : ______,
-            //   visualization: [],
+            //   visualizations: [],
             // }
             // dataTypes:
             // {
@@ -142,7 +142,7 @@ const data = (state = {
             let dataType = action.data.dataType;
             let colour = action.data.colour;
             let preferences = [...state.preferences];
-            console.log("Adding visualization success " + JSON.stringify(action));
+            console.log("Adding visualizations success " + JSON.stringify(action));
             let i = 0;
             // find index with "preference" for object
             for (; i < preferences.length; i++) {
@@ -155,7 +155,7 @@ const data = (state = {
                 preferences[i].colour = colour;
                 preferences[i].visualization = visualizations;
             } else {
-                console.log("Adding new visualization");
+                console.log("Adding new visualizations");
                 // means no preference for datatype exist
                 // make a preference
                 preferences.push({

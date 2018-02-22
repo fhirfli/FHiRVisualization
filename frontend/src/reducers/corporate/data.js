@@ -31,13 +31,13 @@ const data = (state = {
          {
          mainDataType: "HeartRate",
          colour: "red",
-         visualization: ""
+         visualizations: ""
          },
          {
          mainDataType: "bloodPressure",
          secondaryDataType: "heartRate",
          colour: "red",
-         visualization: "LineGraph"
+         visualizations: "LineGraph"
          },
          */
     ],
