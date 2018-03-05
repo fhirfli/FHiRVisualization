@@ -16,13 +16,77 @@ export default class Donut extends React.Component {
                     innerRadius={50}
                     width={250} height={250}
                     colorScale={this.getColourSchemeFor(this.props.colour)}
-                    style={{labels: {fontSize: 16}}}
-                    labels={(d) => d.y}
+                    style={{labels: {fontSize: 14, padding: 15}}}
+                    labels={(d) => { if(d.y !== 0) { return d.y } } }
                     padAngle={2}
+                    events={[{
+                          target: "data",
+                          eventHandlers: {
+                            onMouseOver: () => {
+                              return [
+                                {
+                                  target: "data",
+                                  mutation: (props) => {
+                                    return { style: Object.assign({}, props.style, {fill: this.getHoverColourFor(this.props.colour)}) };
+                                  }
+                                },
+                                {
+                                  target: "labels",
+                                  mutation: (props) => {
+                                    let week = this.furtherFormatData()
+                                    return { text: week[props.index].x };
+                                  }
+                                }
+                              ]},
+                              onMouseOut: () => {
+                                return [
+                                  {
+                                    target: "data",
+                                    mutation: (props) => {
+                                      let colours = this.getColourSchemeFor(this.props.colour)
+                                      return {
+                                        style: Object.assign({}, props.style, {fill: colours[props.index]})
+                                      };
+                                    }
+                                  },
+                                  {
+                                    target: "labels",
+                                    mutation: (props) => {
+                                      if(this.props.data[props.index].y !== 0) {
+                                        return { text: this.props.data[props.index].y }
+                                      }
+                                      else {
+                                        return { text: "" };
+                                      }
+                                    }
+                                  }
+                                ]}
+                            }
+                        }]}
+
                     data={ this.props.data }
                 />
             </div>
         )
+    }
+
+    furtherFormatData() {
+      let week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      return this.props.data.map((xy, i) => {
+        return { x: week[i], y: xy.y};
+      });
+    }
+
+    getHoverColourFor(colour) {
+      switch(colour) {
+        case 'blue': return "#008bf9"; break;
+        case 'red': return "#ec5229"; break;
+        case 'yellow': return "#fcee5f"; break;
+        case 'indigo': return "#5884f5"; break;
+        case 'orange': return "#ff6611"; break;
+        case 'navy': return "#123283"; break;
+        default: return "#61d666"; break;
+      }
     }
 
     getColourSchemeFor(colour) {
@@ -80,7 +144,7 @@ export default class Donut extends React.Component {
             case 'navy':
             if (this.props.data) {
               for (i = 0; i < this.props.data.length; i++) {
-                let newColour = "##123283" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
+                let newColour = "#123283" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
                 colourScheme.push(newColour);
               }
             }
@@ -92,7 +156,6 @@ export default class Donut extends React.Component {
     getStyles() {
         return {
             title: {
-                //marginLeft: "-60%",
                 float: "left",
                 marginBottom: "-5%",
                 fill: "#000000",

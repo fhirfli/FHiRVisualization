@@ -30,6 +30,50 @@ export default class BarChart extends React.Component {
                         alignment="start"
                         cornerRadius={2}
                         barRatio={0.5}
+                        events={[{
+                              target: "data",
+                              eventHandlers: {
+                                onMouseOver: () => {
+                                  return [
+                                    {
+                                      target: "data",
+                                      mutation: (props) => {
+                                        return { style: Object.assign({}, props.style, {fill: this.getColour(this.props.colour) + "75"}) };
+                                      }
+                                    },
+                                    {
+                                      target: "labels",
+                                      mutation: (props) => {
+                                        console.log("props: " + JSON.stringify(props));
+                                        return { text: this.props.data[props.index].y };
+                                      }
+                                    },
+                                    {
+                                      target: "labels",
+                                      mutation: (props) => {
+                                        return { textAnchor: "right" };
+                                      }
+                                    }
+                                  ]},
+                                  onMouseOut: () => {
+                                    return [
+                                      {
+                                        target: "data",
+                                        mutation: (props) => {
+                                          return {
+                                            style: Object.assign({}, props.style, {fill: this.getColour(this.props.colour)})
+                                          };
+                                        }
+                                      },
+                                      {
+                                        target: "labels",
+                                        mutation: (props) => {
+                                          return { text: "" };
+                                        }
+                                      }
+                                    ]}
+                                }
+                            }]}
                         data={ this.getData() }
                     />
                     <Victory.VictoryAxis
@@ -74,7 +118,6 @@ export default class BarChart extends React.Component {
             for (var i = 0; i < this.props.data.length; i++) {
                 newData.push({x: xValues[i], y: this.props.data[i].y})
             }
-            console.log("THIS IS THE NEW DATA: " + JSON.stringify(newData));
             return (newData);
         }
     }

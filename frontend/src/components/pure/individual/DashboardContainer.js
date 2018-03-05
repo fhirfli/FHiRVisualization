@@ -37,7 +37,7 @@ export default class DashboardGrid extends React.Component {
     profileToDateValue(preference) {
         let dateValueList = [];
         let dataList = this.props.data[preference.dataType][preference.dataRange];
-        console.log("DHEN-LIST: (" + preference.dataType + ")(" + preference.dataRange + ") " + JSON.stringify(dataList.length));
+        //console.log("DHEN-LIST: (" + preference.dataType + ")(" + preference.dataRange + ") " + JSON.stringify(dataList.length));
 
         for (let i = 0; i < dataList.length; i++) {
             let value = dataList[i]["value"];
@@ -50,12 +50,10 @@ export default class DashboardGrid extends React.Component {
     }
 
     dateValueListToCustomFormat(dateValueList, dataType, dataRange) {
+      //console.log("dateValueListToCustomFormat OBJECT: " + JSON.stringify(dateValueList));
         let listOfCustomFormats = [];
-//console.log("DATA YEET: " + dateValueList);
 
         if (dataType === "HeartRate") {
-
-            console.log("HEART RATE: " + JSON.stringify(dataRange));
             if (dataRange === 'Daily') {
 
                 for (let i = 0; i < dateValueList.length; i++) {
@@ -219,14 +217,12 @@ export default class DashboardGrid extends React.Component {
             });
             listOfVisComponents = [].concat.apply([], listOfVisComponents);
 
-            console.log("listOfVisComponents in componentDidMount(): " + JSON.stringify(listOfVisComponents));
-
             let components = [];
 
             listOfVisComponents.map((vis) => {
                 this.props.loadData(vis.dataType, vis.dataRange).then(() => {
 
-                    console.log("LOAD DATA RETURNED OF" + vis.dataType + ", " + vis.dataRange + ", " + this.props.data[vis.dataType][vis.dataRange].length);
+                    //console.log("LOAD DATA RETURNED OF" + vis.dataType + ", " + vis.dataRange + ", " + this.props.data[vis.dataType][vis.dataRange].length);
 
                     let count = this.state.loadedCount;
                     let formatted = this.profileToDateValue(vis);
@@ -237,7 +233,6 @@ export default class DashboardGrid extends React.Component {
                         visType: vis.visualization,
                         colour: vis.colour
                     });
-                    console.log("pushing: " + vis.visualization);
                     //console.log("Added this: " + JSON.stringify({ dataType: dataType, dataRange: range, visType: v }));
                     this.loadData(vis.dataType, vis.dataRange, formatted.data);
                     //this.loadColour(vis.colour);
@@ -246,14 +241,12 @@ export default class DashboardGrid extends React.Component {
                         loadedCount: count + 1
                     })
                 });
-                console.log("this.state.data: " + JSON.stringify(this.state.listOfVisComponents));
             })
         }
         // we have to check whether  props.goals is null
         else {
 
             let listOfGoals = this.loadGoals();
-            console.log("GOALS: " + JSON.stringify(listOfGoals));
             for (var i = 0; i < listOfGoals.length; i++) {
                 let goal = listOfGoals[i].value;
                 let title = listOfGoals[i].name;
@@ -395,7 +388,6 @@ export default class DashboardGrid extends React.Component {
                                 return this.state.data && this.state.data[vis.dataType] && this.state.data[vis.dataType][vis.dataRange] && this.state.data[vis.dataType][vis.dataRange].length > 0
                             })
                             .map(vis => {
-                                console.log("listOfVisComponents.map(vis): " + JSON.stringify(vis));
                                 return (this.renderVisualization(vis))
                             })
                     }
