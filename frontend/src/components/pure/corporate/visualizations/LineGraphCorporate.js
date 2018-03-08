@@ -118,7 +118,7 @@ export default class LineGraphCorporate extends React.Component {
                 marginBottom: "-10%",
                 fill: "#000000",
                 fontFamily: "Avenir",
-                fontSize: "18px",
+                fontSize: "13px",
             },
             labelTitle: {
                 float: "left",

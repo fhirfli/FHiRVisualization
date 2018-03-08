@@ -135,7 +135,7 @@ export default class BarChartCoporate extends React.Component {
                 marginBottom: "-10%",
                 fill: "#000000",
                 fontFamily: "Avenir",
-                fontSize: "18px",
+                fontSize: "13px",
             },
             labelNumber: {
                 textAnchor: "middle",

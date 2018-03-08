@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Donut from "../individual/visualizations/Donut"; //Will change this to a folder of visualisation components
+import DonutCorporate from "./visualizations/DonutCorporate"; //Will change this to a folder of visualisation components
 import BarChartCorporate from "./visualizations/BarChartCorporate";
 import GroupBarChart from "./visualizations/GroupBarChart";
 import LineGraphCorporate from "./visualizations/LineGraphCorporate";
@@ -168,7 +168,7 @@ export default class CorporateDashboardGrid extends React.Component {
             this.setState({data, loadedValues: count + 1});
         }
 
-        // not necassary, but if you want to log it
+        // not necessary, but if you want to log it
         return values;
     }
 
@@ -221,8 +221,8 @@ export default class CorporateDashboardGrid extends React.Component {
                 break;
             case 3:
                 return (
-                    <Donut key={dataType + index} className="dash__component" data={ this.state.data[dataType]['self'] }
-                           title={ title } colour={ colourMap[colour] }/>);
+                    <DonutCorporate key={dataType + index} className="dash__component" data={ this.state.data[dataType]['self'] }
+                           title={ title } colour={ colour }/>);
                 break;
             case 4:
                 return (<GroupBarChart key={dataType + index} className="dash__component"
