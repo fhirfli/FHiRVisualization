@@ -33,8 +33,8 @@ export default class DonutCorporate extends React.Component {
                                 {
                                   target: "labels",
                                   mutation: (props) => {
-                                    let week = this.furtherFormatData()
-                                    return { text: week[props.index].x };
+                                    let formattedData = this.makeDataBucketsFormat(this.props.data)
+                                    return { text: formattedData[props.index].y };
                                   }
                                 }
                               ]},
@@ -52,9 +52,9 @@ export default class DonutCorporate extends React.Component {
                                   {
                                     target: "labels",
                                     mutation: (props) => {
-                                      let formattedData = this.makeDataWeeklyFormat(this.props.data)
+                                      let formattedData = this.makeDataBucketsFormat(this.props.data)
                                       if(formattedData[props.index].y !== 0) {
-                                        return { text: formattedData[props.index].y }
+                                        return { text: formattedData[props.index].label }
                                       }
                                       else {
                                         return { text: "" };
@@ -65,24 +65,46 @@ export default class DonutCorporate extends React.Component {
                             }
                         }]}
 
-                    data={ this.makeDataWeeklyFormat(this.props.data) }
+                    data={ this.makeDataBucketsFormat(this.props.data) }
                 />
             </div>
         )
     }
 
-    makeDataWeeklyFormat(ogDataArray) {
-      // Average Data to an array of 7
+    makeDataBucketsFormat(ogDataArray) {
+      // Average Data to an array of n
+      let values = ogDataArray.map((xy) => {return(xy.y)});
+      let max = Math.max(...values); let min = Math.min(...values);
+      let range = max - min;
+      let noOfBuckets = 8;
+      let intervalLength = range / noOfBuckets;
       let newDataArray = [];
-      let shouldMaxAtIndex = Math.floor((ogDataArray.length / 7));
-      let max = 0;
-      for(let i = 0; newDataArray.length < 7; i += shouldMaxAtIndex) {
-        for(let j = i; j < (i + shouldMaxAtIndex); j++) {
-          max = (ogDataArray[j].y > max) ? ogDataArray[j].y : max;
+
+      for(let i = 1; i <= noOfBuckets; i++) {
+        let label = (Math.floor((min + (intervalLength * (i - 1))) * 10) / 10).toString() + " - " + (Math.floor((min + (intervalLength * i)) * 10) / 10).toString();
+        let xValue = 0;
+        let yValue = 0;
+        for(let j = 0; j < values.length; j++) {
+          if((values[j] > (min + (intervalLength * (i -1))) && (values[j] <= min + (intervalLength * i)))) {
+            xValue += values[j];
+            yValue++;
+          }
         }
-        newDataArray.push({ x: newDataArray.length, y: max });
-        max = 0;
+        // Mean the sum
+        xValue = Math.floor((xValue / yValue) * 10) / 10;
+        newDataArray.push({ x: xValue, y: yValue, label: label });
       }
+
+      // let shouldMaxAtIndex = Math.floor((ogDataArray.length / noOfBuckets));
+      // let max = 0;
+      // for(let i = 0; newDataArray.length < noOfBuckets; i += shouldMaxAtIndex) {
+      //   for(let j = i; j < (i + shouldMaxAtIndex); j++) {
+      //     max = (ogDataArray[j].y > max) ? ogDataArray[j].y : max;
+      //   }
+      //   newDataArray.push({ x: i, y: max });
+      //   max = 0;
+      // }
+
       return newDataArray
     }
 
@@ -109,7 +131,7 @@ export default class DonutCorporate extends React.Component {
         let i;
         let colourScheme = [];
         if (this.props.data) {
-          let data = this.makeDataWeeklyFormat(this.props.data);
+          let data = this.makeDataBucketsFormat(this.props.data);
           switch (colour) {
             case 'blue':
             for (i = 0; i < data.length; i++) {
