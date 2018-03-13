@@ -13,7 +13,7 @@ const VALID_SCHEMAS = [
 const VALID_VISUALIZATIONS = [
     "BarChartDaily", "BarChartWeekly", "BarChartMonthly",
     "LineGraphWeekly", "LineGraphMonthly", "LineGraphAnnual",
-    "DoughnutDaily", "DoughnutWeekly", "ClockWeekly"
+    "DoughnutDaily", "DoughnutWeekly", "ClockDaily"
 ];
 
 
@@ -66,8 +66,9 @@ const DATA_SPECIFICATION = {
         loinc: "29463-7", // weight
         validVisualizations: [
             "LineGraphWeekly",
+            "BarChartDaily",
             "LineGraphAnnual",
-            "ClockWeekly"
+            "ClockDaily"
         ]
     },
     "BloodPressure": {

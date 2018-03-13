@@ -10,7 +10,7 @@ export default class Clock extends React.Component {
         return (
             <div className="dash__component">
                 <VictoryLabel x={5} y={24} style={ styles.title }
-                              text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown (" + this.props.title + "/day)" }
+                              text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown" }
                 />
                 <svg width={280} height={280} >
                 <VictoryPie
@@ -27,11 +27,11 @@ export default class Clock extends React.Component {
                 <VictoryPolarAxis
                   width={250}
                   height={250}
-                  theme={VictoryTheme.material}
+                  //theme={VictoryTheme.material}
                   standalone={false}
                   startAngle={90}
                   endAngle={450}
-                  tickValues={["Monday", "Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday"]}
+                  tickValues={["00:00", "18:00", "12:00", "06:00", ""]}
                   labelPlacement="vertical"
                   animate={{
                     duration: 2000,

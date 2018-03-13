@@ -100,8 +100,6 @@ export default class BarChart extends React.Component {
 
                                          axisLabelComponent={<Victory.VictoryLabel transform="translate(-20 0)"
                                                                                    align={"left"}/>}
-
-                        //tickValues={ this.getXAxisFor(this.props.dataRange) }
                     />
                 </Victory.VictoryChart>
             </div>
@@ -110,12 +108,9 @@ export default class BarChart extends React.Component {
 
     getData() {
         let xValues = this.getXAxisFor(this.props.dataRange);
-        /*let newData = this.props.data.map((xy, index) => {
-         return( { x: xValues[index], y: xy.y } );
-         });*/
         if (this.props.data) {
             let newData = [];
-            for (var i = 0; i < this.props.data.length; i++) {
+            for (let i = 0; i < this.props.data.length; i++) {
                 newData.push({x: xValues[i], y: this.props.data[i].y})
             }
             return (newData);
