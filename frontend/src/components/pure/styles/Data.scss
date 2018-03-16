@@ -116,6 +116,9 @@
   input > {
     grid-column: 2;
   }
+  input:hover {
+    cursor: pointer;
+  }
 }
 
 .border {
@@ -143,7 +146,10 @@
   // display: flex;
   padding: 10px !important;
   border-width: 0px;
-  
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .save {
@@ -159,7 +165,7 @@
   padding: 10px !important;
   border-width: 0px;
   width: 100%;
-  
+
 }
 
 .zoom {
@@ -169,4 +175,5 @@
 
 .zoom:hover {
   transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  cursor: pointer;
 }

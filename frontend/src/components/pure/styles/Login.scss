@@ -92,8 +92,11 @@ $primary-color: #333;
     border-radius: 40px;
     text-transform: uppercase;
     font-weight: 700;
-}
 
+    &:hover {
+      cursor: pointer;
+    }
+}
 
 #login-error {
     color: #D8000C;
@@ -102,5 +105,3 @@ $primary-color: #333;
     padding: 12px;
     border-radius: 3px;
 }
-
-

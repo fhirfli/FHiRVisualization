@@ -11,7 +11,10 @@ const colourMap = {
     red: '#ec5229',
     green: '#69da60',
     blue: '#76bbf1',
-    yellow: '#fcee5f'
+    yellow: '#fcee5f',
+    indigo: '#5884f5',
+    orange: '#ff6611',
+    navy: '#123283'
 };
 
 // reference: https://stackoverflow.com/questions/41850864/get-average-of-every-group-of-n-elements-in-an-array
