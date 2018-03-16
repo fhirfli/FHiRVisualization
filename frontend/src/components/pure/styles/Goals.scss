@@ -141,7 +141,7 @@ input.goals-display-panel-content {
 #goals-panel-button-container {
   display: flex !important;
   //justify-content: center;
-  margin-top: auto;
+  margin-top: 100px;
   //margin-bottom: 10px;
   //align-items: center;
   flex-direction: column;
@@ -156,6 +156,7 @@ input.goals-display-panel-content {
 
 .dropdown-display {
   margin-right: 10px;
+  // padding: 0px;
 }
 
 .dropdown-list > div {
