@@ -5,6 +5,7 @@ import BarChart from "./visualizations/BarChart";
 import GroupBarChart from "../corporate/visualizations/GroupBarChart";
 import BrushLineGraph from "./visualizations/BrushLineGraph";
 import GoalRing from "./visualizations/GoalRing";
+import Clock from "./visualizations/Clock";
 
 import * as PropTypes from 'prop-types';
 
@@ -22,22 +23,25 @@ export default class DashboardGrid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {data: {}, goalData: {}, colour: {}, loadedCount: 0};
-        this.loadData = this.loadData.bind(this);
+        this.loadDataToState = this.loadDataToState.bind(this);
         this.loadGoalData = this.loadGoalData.bind(this);
         this.checkVisType = this.checkVisType.bind(this);
         this.mapToRange = this.mapToRange.bind(this);
         this.renderVisualization = this.renderVisualization.bind(this);
         this.renderGoalvisualization = this.renderGoalvisualization.bind(this);
         this.loadGoals = this.loadGoals.bind(this);
-        this.loadColour = this.loadColour.bind(this);
         this.profileToDateValue = this.profileToDateValue.bind(this);
         this.dateValueListToCustomFormat = this.dateValueListToCustomFormat.bind(this);
+        this.formatDaily = this.formatDaily.bind(this);
+        this.formatWeekly = this.formatWeekly.bind(this);
     }
 
+    // The data given is of type: { value, issued }
+    // profileToDateValue() method converts this into a data set readable by Victory.js
+    // visualization charts, accustom to the dataType and dataRange; an array of { x, y } objects
     profileToDateValue(preference) {
         let dateValueList = [];
         let dataList = this.props.data[preference.dataType][preference.dataRange];
-        console.log("DHEN-LIST: (" + preference.dataType + ")(" + preference.dataRange + ") " + JSON.stringify(dataList.length));
 
         for (let i = 0; i < dataList.length; i++) {
             let value = dataList[i]["value"];
@@ -49,159 +53,97 @@ export default class DashboardGrid extends React.Component {
         return ({data: formattedData});
     }
 
+
+    // Converts an array of { date, value } objects to an array of:
+    // { x, y } objects, accustom to the type of data and the range in which the data is recorded.
     dateValueListToCustomFormat(dateValueList, dataType, dataRange) {
         let listOfCustomFormats = [];
-//console.log("DATA YEET: " + dateValueList);
-
         if (dataType === "HeartRate") {
-
-            console.log("HEART RATE: " + JSON.stringify(dataRange));
             if (dataRange === 'Daily') {
-
-                for (let i = 0; i < dateValueList.length; i++) {
-                    listOfCustomFormats.push({
-                        x: (new Date(dateValueList[i].date).getDate()),
-                        y: dateValueList[i].value
-                    });
-                }
+                listOfCustomFormats = this.formatDaily(dateValueList);
             }
-
-            if (dataRange === 'Weekly') {
-                listOfCustomFormats = new Array(7);
-                var currentValue = dateValueList[0].value;
-                var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
-
-                for (var i = 0; i < dateValueList.length; i++) {
-                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
-                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
-                    }
-                    else {
-                        let formatted = {x: currentDay.getDate(), y: currentValue};
-                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
-                            x: currentDay.getDate(),
-                            y: 0
-                        };
-                        currentDay = new Date(dateValueList[i].date);
-                        currentValue = 0;
-                    }
-                }
-                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
-                for (var index = 0; index < 7; index++) {
-                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
-                        x: "",
-                        y: 0
-                    } : listOfCustomFormats[index];
-                    listOfCustomFormats[index] = {
-                        x: listOfCustomFormats[index].x,
-                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
-                    };
-                }
+            else if (dataRange === 'Weekly') {
+                listOfCustomFormats = this.formatWeekly(dateValueList);
             }
-
         }
 
         else if (dataType === "BodyWeight") {
-            if (dataRange == 'Weekly') {
-                let currentValue = dateValueList[0].value;
-                let currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
-
-                for (var i = 0; i < dateValueList.length; i++) {
-                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
-                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
-                    }
-                    else {
-                        let formatted = {x: currentDay.getDate(), y: currentValue};
-                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
-                            x: currentDay.getDate(),
-                            y: 0
-                        };
-                        currentDay = new Date(dateValueList[i].date);
-                        currentValue = 0;
-                    }
-                }
-                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
-                for (let index = 0; index < 7; index++) {
-                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
-                        x: "No data found",
-                        y: 0
-                    } : listOfCustomFormats[index];
-                    listOfCustomFormats[index] = {
-                        x: listOfCustomFormats[index].x,
-                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
-                    };
-                }
+            if (dataRange === 'Daily') {
+              listOfCustomFormats = this.formatDaily(dateValueList);
+            }
+            else if (dataRange === 'Weekly') {
+              listOfCustomFormats = this.formatWeekly(dateValueList);
             }
         }
 
-        else if (dataType === "BodyHeight") { //This honestly makes no sense to measure
-            if (dataRange === 'Weekly') {
-                listOfCustomFormats = new Array(7);
-                var currentValue = dateValueList[0].value;
-                var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
-
-                for (var i = 0; i < dateValueList.length; i++) {
-                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
-                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
-                    }
-                    else {
-                        let formatted = {x: currentDay.getDate(), y: currentValue};
-                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
-                            x: currentDay.getDate(),
-                            y: 0
-                        };
-                        currentDay = new Date(dateValueList[i].date);
-                        currentValue = 0;
-                    }
-                }
-                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
-                for (var index = 0; index < 7; index++) {
-                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
-                        x: "",
-                        y: 0
-                    } : listOfCustomFormats[index];
-                    listOfCustomFormats[index] = {
-                        x: listOfCustomFormats[index].x,
-                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
-                    };
-                }
+        else if (dataType === "BodyHeight") {
+            if (dataRange === 'Daily') {
+              listOfCustomFormats = this.formatDaily(dateValueList);
+            }
+            else if (dataRange === 'Weekly') {
+                listOfCustomFormats = this.formatWeekly(dateValueList);
             }
         }
 
         else if (dataType === "BMI") {
-            if (dataRange === 'Weekly') {
-                listOfCustomFormats = new Array(7);
-                var currentValue = dateValueList[0].value;
-                var currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
-
-                for (var i = 0; i < dateValueList.length; i++) {
-                    if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
-                        currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
-                    }
-                    else {
-                        let formatted = {x: currentDay.getDate(), y: currentValue};
-                        listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
-                            x: currentDay.getDate(),
-                            y: 0
-                        };
-                        currentDay = new Date(dateValueList[i].date);
-                        currentValue = 0;
-                    }
-                }
-                listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
-                for (var index = 0; index < 7; index++) {
-                    listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
-                        x: "",
-                        y: 0
-                    } : listOfCustomFormats[index];
-                    listOfCustomFormats[index] = {
-                        x: listOfCustomFormats[index].x,
-                        y: Math.round(listOfCustomFormats[index].y * 10) / 10
-                    };
-                }
+            if (dataRange === 'Daily') {
+              listOfCustomFormats = this.formatDaily(dateValueList);
+            }
+            else if (dataRange === 'Weekly') {
+                listOfCustomFormats = this.formatWeekly(dateValueList);
             }
         }
 
         return listOfCustomFormats;
+    }
+
+    formatDaily(dateValueList) {
+      // Formats data into a readable 'daily' customised array of { x, y } data
+      let listOfCustomFormats = new Array(7);
+
+      for (let i = 0; i < dateValueList.length; i++) {
+          listOfCustomFormats.push({
+              x: (new Date(dateValueList[i].date).getDate()),
+              y: (Math.floor(dateValueList[i].value * 10) / 10)
+          });
+      }
+      return listOfCustomFormats;
+    }
+
+    // Formats data into a readable 'Weekly' customised array of { x, y } data
+    formatWeekly(dateValueList) {
+      let listOfCustomFormats = new Array(7);
+      let currentValue = dateValueList[0].value;
+      let currentDay = new Date(dateValueList[0].date); // OF TYPE DATE
+
+      // Iterate through the list of { date, value } objects and then get the max of each day
+      // save that as: { x, y } then add to the new list of Custom Formats
+      for (let i = 0; i < dateValueList.length; i++) {
+          if (currentDay.getDay() == (new Date(dateValueList[i].date).getDay())) {
+              currentValue = (currentValue < dateValueList[i].value) ? dateValueList[i].value : currentValue;
+          }
+          else {
+              let formatted = {x: currentDay.getDate(), y: currentValue};
+              listOfCustomFormats[currentDay.getDay()] = (formatted != null) ? formatted : {
+                  x: currentDay.getDate(),
+                  y: 0
+              };
+              currentDay = new Date(dateValueList[i].date);
+              currentValue = 0;
+          }
+      }
+      listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
+      for (let index = 0; index < 7; index++) {
+          listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
+              x: "",
+              y: 0
+          } : listOfCustomFormats[index];
+          listOfCustomFormats[index] = {
+              x: listOfCustomFormats[index].x,
+              y: Math.round(listOfCustomFormats[index].y * 10) / 10
+          };
+      }
+      return listOfCustomFormats;
     }
 
     componentDidMount() {
@@ -219,14 +161,12 @@ export default class DashboardGrid extends React.Component {
             });
             listOfVisComponents = [].concat.apply([], listOfVisComponents);
 
-            console.log("listOfVisComponents in componentDidMount(): " + JSON.stringify(listOfVisComponents));
-
             let components = [];
 
             listOfVisComponents.map((vis) => {
-                this.props.loadData(vis.dataType, vis.dataRange).then(() => {
+                this.props.loadDataToState(vis.dataType, vis.dataRange).then(() => {
 
-                    console.log("LOAD DATA RETURNED OF" + vis.dataType + ", " + vis.dataRange + ", " + this.props.data[vis.dataType][vis.dataRange].length);
+                    //console.log("LOAD DATA RETURNED OF" + vis.dataType + ", " + vis.dataRange + ", " + this.props.data[vis.dataType][vis.dataRange].length);
 
                     let count = this.state.loadedCount;
                     let formatted = this.profileToDateValue(vis);
@@ -237,23 +177,20 @@ export default class DashboardGrid extends React.Component {
                         visType: vis.visualization,
                         colour: vis.colour
                     });
-                    console.log("pushing: " + vis.visualization);
                     //console.log("Added this: " + JSON.stringify({ dataType: dataType, dataRange: range, visType: v }));
-                    this.loadData(vis.dataType, vis.dataRange, formatted.data);
-                    this.loadColour(vis.colour);
+                    this.loadDataToState(vis.dataType, vis.dataRange, formatted.data);
+                    //this.loadColour(vis.colour);
                     this.setState({
                         listOfVisComponents: [...components],
                         loadedCount: count + 1
                     })
                 });
-                console.log("this.state.data: " + JSON.stringify(this.state.listOfVisComponents));
             })
         }
         // we have to check whether  props.goals is null
         else {
 
             let listOfGoals = this.loadGoals();
-            console.log("GOALS: " + JSON.stringify(listOfGoals));
             for (var i = 0; i < listOfGoals.length; i++) {
                 let goal = listOfGoals[i].value;
                 let title = listOfGoals[i].name;
@@ -266,6 +203,8 @@ export default class DashboardGrid extends React.Component {
         }
     }
 
+    // mapToRange takes in a given Visualzation spec: '{visualizationType}{dataRange}'
+    // as a parameter, and returns a data range.
     mapToRange(visualization) {
         if (visualization.includes("Daily")) {
             return "Daily"
@@ -279,63 +218,31 @@ export default class DashboardGrid extends React.Component {
         else if (visualization.includes("Annual")) {
             return "Annual";
         }
-        return "OOPS";
+        return "Data given throws error: Unknown Range";
     }
 
-    // LOAD COLOURS:
-    loadColour(colour) {
-        if (colour.includes("blue")) {
-            const blue = "#76bbf1";
 
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = blue;
+    // checkVisType takes in a given Visualzation spec: '{visualizationType}{dataRange}'
+    // and returns an int corresponding to the type of visualization
+    checkVisType(visualization) {
+        if (visualization.includes("BarChart")) {
+          return 1;
         }
-        else if (colour.includes("red")) {
-            const red = "#ec5229";
-
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = red;
+        else if (visualization.includes("LineGraph")) {
+          return 2;
         }
-        else if (colour.includes("yellow")) {
-            const yellow = "#fcee5f";
-
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = yellow;
+        else if (visualization.includes("Doughnut")) {
+          return 3;
         }
-        else if (colour.includes("green")) {
-            const green = "#69da60";
-
-            var mock = Object.assign({}, this.state);
-            mock.colour = mock.colour || {};
-            mock.colour[colour] = mock.colour[colour] || {};
-            mock.colour[colour] = green;
-        }
-    }
-
-    checkVisType(vis) { // Ammendable visualizations checker
-        if (vis.includes("BarChart")) {
-            return 1;
-        }
-        else if (vis.includes("LineGraph")) {
-            return 2;
-        }
-        else if (vis.includes("Doughnut")) {
-            return 3;
-        }
-        else if (vis.includes("GroupBarChart")) {
-            return 4;
+        else if (visualization.includes("Clock")) {
+          return 4;
         }
         return 0;
     }
 
-    //Save Data to State
-    loadData(dataType, dataRange, formattedData) {
+    // loadDataToState() takes: dataType, dataRange and an array of previously formatted data
+    // and set
+    loadDataToState(dataType, dataRange, formattedData) {
         var obj = Object.assign({}, this.state);
         obj.data = obj.data || {};
         obj.data[dataType] = obj.data[dataType] || {};
@@ -345,7 +252,7 @@ export default class DashboardGrid extends React.Component {
         this.setState(obj);
     }
 
-    //Find Goals
+    // Generates random goal data for a goal ring - Since we have no way of tracking the data
     // ManualLoadGoal() gets called on:
     loadGoalData(title, goal/*, current*/) {
         let current = Math.round(Number(goal - (Math.random() * goal)));
@@ -360,6 +267,10 @@ export default class DashboardGrid extends React.Component {
         this.setState(mock);
     }
 
+
+    // Returns a specific Visualisation for a given 'vis' object:
+    // vis has a dataType, colour, and dataRange
+    // Switches using the checkVisType() method to determine what type of visualization is preferred
     renderVisualization(vis) {
         switch (this.checkVisType(vis.visType)) {
             case 1:
@@ -367,14 +278,14 @@ export default class DashboardGrid extends React.Component {
                                   className="dash__component"
                                   ylabel={dateTypeToyLabelMap[vis.dataType]}
                                   data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
-                                  colour={ this.state.colour[vis.colour] } dataRange={ vis.dataRange }/>);
+                                  colour={ vis.colour } dataRange={ vis.dataRange }/>);
                 break;
             case 2:
                 return (<BrushLineGraph key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
                                         dataRange={ vis.dataRange } className="dash__component"
                                         ylabel={dateTypeToyLabelMap[vis.dataType]}
                                         data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
-                                        colour={ this.state.colour[vis.colour] }/>);
+                                        colour={ vis.colour }/>);
                 break;
             case 3:
                 return (<Donut key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
@@ -383,18 +294,20 @@ export default class DashboardGrid extends React.Component {
                                colour={ vis.colour }/>);
                 break;
             case 4:
-                return (<GroupBarChart key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
-                                       dataRange={ vis.dataRange } className="dash__component"
-                                       ylabel={dateTypeToyLabelMap[vis.dataType]}
-                                       data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
-                                       colour={ this.state.colour[vis.colour] }/>);
-                break;
+                // Note: clock only works for Daily dataRange
+               return (<Clock key={vis.dataRange + vis.dataType + this.checkVisType(vis.visType) }
+                                      dataRange={ vis.dataRange } className="dash__component"
+                                      ylabel={dateTypeToyLabelMap[vis.dataType]}
+                                      data={ this.state.data[vis.dataType][vis.dataRange] } title={ vis.dataType }
+                                      colour={ vis.colour }/>);
+               break;
             default:
                 console.log("Unkown Data visualizations");
                 break;
         }
     }
 
+    // Returns a 'GoalRing' component given some specific goalData for a 'Title'
     renderGoalvisualization(name, goal) {
         return (<GoalRing key={goal + goal.name} className="dash__component" data={ this.state.goalData[name] }
                           title={ name } colour={ goal.colour }/> );
@@ -409,11 +322,18 @@ export default class DashboardGrid extends React.Component {
         return listOfGoalVis;
     }
 
+    // Checks whether to render a goal-only DashboardGrid
+    // or a Visualisation DashboardGrid
     preferencesOrGoals() {
         if (this.props.preferences != null) {
             return (
+              // Returns a Visualisation DashboardGrid
                 <div className="dash__container">
                     {
+                      // Check if this.state.listOfVisComponents is not empty,
+                      // Check if the length of data loaded is greater than 1
+                      // Then map over each visualization in the array of this.state.data
+                      // that has an available dataset and render the visualization
                         this.state.listOfVisComponents &&
                         this.state.loadedCount > 0 &&
                         this.state.listOfVisComponents
@@ -421,7 +341,6 @@ export default class DashboardGrid extends React.Component {
                                 return this.state.data && this.state.data[vis.dataType] && this.state.data[vis.dataType][vis.dataRange] && this.state.data[vis.dataType][vis.dataRange].length > 0
                             })
                             .map(vis => {
-                                console.log("listOfVisComponents.map(vis): " + JSON.stringify(vis));
                                 return (this.renderVisualization(vis))
                             })
                     }
@@ -430,8 +349,10 @@ export default class DashboardGrid extends React.Component {
         }
         else {
             return (
+              // Returns Goal-type DashboardGrid
                 <div className="dash__container-goals">
                     {
+                        // Check if this.state.listOfGoals is not empty, then map over each goal and render the goal
                         this.state.listOfGoals &&
                         this.state.listOfGoals.map(goal => this.renderGoalvisualization(goal.name, goal))
                     }
@@ -442,6 +363,7 @@ export default class DashboardGrid extends React.Component {
 
     render() {
         return (
+          //Render
             <div>
                 { this.preferencesOrGoals() }
             </div>
@@ -453,5 +375,5 @@ DashboardGrid.propTypes = {
     preferences: PropTypes.array,
     goals: PropTypes.array,
     data: PropTypes.any,
-    loadData: PropTypes.func
+    loadDataToState: PropTypes.func
 };

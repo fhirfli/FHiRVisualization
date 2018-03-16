@@ -56,7 +56,7 @@ export default class Home extends Component {
                     {
                         this.props.preferences.length > 0 && (
                             <DashboardGrid preferences={ this.props.preferences } data={ this.props.data }
-                                           loadData={ this.props.manualLoadData }/> )
+                                           loadDataToState={ this.props.manualLoadData }/> )
                     }
                     {
                     /* May No Longer Need This

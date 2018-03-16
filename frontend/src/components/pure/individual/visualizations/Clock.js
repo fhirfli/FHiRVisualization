@@ -1,92 +1,46 @@
 import React from 'react';
-import {VictoryPie, VictoryLabel} from 'victory';
+import { VictoryPie, VictoryLabel, VictoryPolarAxis, VictoryTheme } from 'victory';
 import * as PropTypes from 'prop-types';
 
 
-export default class Donut extends React.Component {
+export default class Clock extends React.Component {
 
     render() {
         const styles = this.getStyles();
         return (
             <div className="dash__component">
                 <VictoryLabel x={5} y={24} style={ styles.title }
-                              text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown (" + this.props.title + "/day)" }
+                              text={ "Your " + this.props.dataRange + " " + this.props.title + " Breakdown" }
                 />
+                <svg width={280} height={280} >
                 <VictoryPie
+                    standalone={false}
                     innerRadius={50}
                     width={250} height={250}
                     colorScale={this.getColourSchemeFor(this.props.colour)}
-                    style={{labels: {fontSize: 14, padding: 15}}}
-                    labels={(d) => { if(d.y !== 0) { return d.y } } }
+                    style={{labels: {fontSize: 0}}}
+                    labels={(d) => d.y}
                     padAngle={2}
-                    events={[{
-                          target: "data",
-                          eventHandlers: {
-                            onMouseOver: () => {
-                              return [
-                                {
-                                  target: "data",
-                                  mutation: (props) => {
-                                    return { style: Object.assign({}, props.style, {fill: this.getHoverColourFor(this.props.colour)}) };
-                                  }
-                                },
-                                {
-                                  target: "labels",
-                                  mutation: (props) => {
-                                    let week = this.furtherFormatData()
-                                    return { text: week[props.index].x };
-                                  }
-                                }
-                              ]},
-                              onMouseOut: () => {
-                                return [
-                                  {
-                                    target: "data",
-                                    mutation: (props) => {
-                                      let colours = this.getColourSchemeFor(this.props.colour)
-                                      return {
-                                        style: Object.assign({}, props.style, {fill: colours[props.index]})
-                                      };
-                                    }
-                                  },
-                                  {
-                                    target: "labels",
-                                    mutation: (props) => {
-                                      if(this.props.data[props.index].y !== 0) {
-                                        return { text: this.props.data[props.index].y }
-                                      }
-                                      else {
-                                        return { text: "" };
-                                      }
-                                    }
-                                  }
-                                ]}
-                            }
-                        }]}
-
                     data={ this.props.data }
                 />
+
+                <VictoryPolarAxis
+                  width={250}
+                  height={250}
+                  //theme={VictoryTheme.material}
+                  standalone={false}
+                  startAngle={90}
+                  endAngle={450}
+                  tickValues={["00:00", "18:00", "12:00", "06:00", ""]}
+                  labelPlacement="vertical"
+                  animate={{
+                    duration: 2000,
+                    easing: "bounce"
+                  }}
+                />
+                </svg>
             </div>
         )
-    }
-
-    furtherFormatData() {
-      let week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-      return this.props.data.map((xy, i) => {
-        return { x: week[i], y: xy.y};
-      });
-    }
-
-    getHoverColourFor(colour) {
-      switch(colour) {
-        case 'blue': return "#008bf9"; break;
-        case 'red': return "#ec5229"; break;
-        case 'yellow': return "#fcee5f"; break;
-        case 'indigo': return "#5884f5"; break;
-        case 'orange': return "#ff6611"; break;
-        case 'navy': return "#123283"; break;
-        default: return "#61d666"; break;
-      }
     }
 
     getColourSchemeFor(colour) {
@@ -144,7 +98,7 @@ export default class Donut extends React.Component {
             case 'navy':
             if (this.props.data) {
               for (i = 0; i < this.props.data.length; i++) {
-                let newColour = "#123283" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
+                let newColour = "##123283" + ((i + 1) * Math.floor(100 / this.props.data.length)); //(Math.floor(Math.random() * 100)); //"rgba(colour, Math.Random())"
                 colourScheme.push(newColour);
               }
             }
@@ -156,6 +110,7 @@ export default class Donut extends React.Component {
     getStyles() {
         return {
             title: {
+                //marginLeft: "-60%",
                 float: "left",
                 marginBottom: "-5%",
                 fill: "#000000",
@@ -166,7 +121,7 @@ export default class Donut extends React.Component {
     }
 }
 
-Donut.propTypes = {
+Clock.propTypes = {
     data: PropTypes.array, // whatever `this.state.videos` is
     title: PropTypes.any,
     colour: PropTypes.any,

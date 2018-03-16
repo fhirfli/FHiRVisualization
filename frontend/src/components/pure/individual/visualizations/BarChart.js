@@ -23,19 +23,61 @@ export default class BarChart extends React.Component {
                     <Victory.VictoryBar
                         style={{
                             data: {
-                                fill: this.props.colour,
+                                fill: this.getColour(this.props.colour),
                                 padding: 5
                             }
                         }}
                         alignment="start"
                         cornerRadius={2}
                         barRatio={0.5}
+                        events={[{
+                              target: "data",
+                              eventHandlers: {
+                                onMouseOver: () => {
+                                  return [
+                                    {
+                                      target: "data",
+                                      mutation: (props) => {
+                                        return { style: Object.assign({}, props.style, {fill: this.getColour(this.props.colour) + "75"}) };
+                                      }
+                                    },
+                                    {
+                                      target: "labels",
+                                      mutation: (props) => {
+                                        console.log("props: " + JSON.stringify(props));
+                                        return { text: this.props.data[props.index].y };
+                                      }
+                                    },
+                                    {
+                                      target: "labels",
+                                      mutation: (props) => {
+                                        return { textAnchor: "right" };
+                                      }
+                                    }
+                                  ]},
+                                  onMouseOut: () => {
+                                    return [
+                                      {
+                                        target: "data",
+                                        mutation: (props) => {
+                                          return {
+                                            style: Object.assign({}, props.style, {fill: this.getColour(this.props.colour)})
+                                          };
+                                        }
+                                      },
+                                      {
+                                        target: "labels",
+                                        mutation: (props) => {
+                                          return { text: "" };
+                                        }
+                                      }
+                                    ]}
+                                }
+                            }]}
                         data={ this.getData() }
-                        //categories={{ x: this.getXAxisFor(this.props.dataRange) }}
                     />
                     <Victory.VictoryAxis
                         standalone={false}
-                        //style={styles.axisYears}
                         style={{
                             axis: {stroke: "#74747450"},
                             tickLabels: {fontSize: 20, padding: 40, angle: 310, textAnchor: 'end'}
@@ -58,8 +100,6 @@ export default class BarChart extends React.Component {
 
                                          axisLabelComponent={<Victory.VictoryLabel transform="translate(-20 0)"
                                                                                    align={"left"}/>}
-
-                        //tickValues={ this.getXAxisFor(this.props.dataRange) }
                     />
                 </Victory.VictoryChart>
             </div>
@@ -68,15 +108,11 @@ export default class BarChart extends React.Component {
 
     getData() {
         let xValues = this.getXAxisFor(this.props.dataRange);
-        /*let newData = this.props.data.map((xy, index) => {
-         return( { x: xValues[index], y: xy.y } );
-         });*/
         if (this.props.data) {
             let newData = [];
-            for (var i = 0; i < this.props.data.length; i++) {
+            for (let i = 0; i < this.props.data.length; i++) {
                 newData.push({x: xValues[i], y: this.props.data[i].y})
             }
-            console.log("THIS IS THE NEW DATA: " + JSON.stringify(newData));
             return (newData);
         }
     }
@@ -138,6 +174,19 @@ export default class BarChart extends React.Component {
         }
     }
 
+    getColour(colour) {
+      switch (colour) {
+        case 'blue': return ("#008bf9");
+        case 'red': return ("#ec5229");
+        case 'yellow': return ("#fcee5f");
+        case 'green': return ("#69da60");
+        case 'indigo': return ("#5884f5");
+        case 'orange': return ("#ff6611");
+        case 'navy': return ("#123283");
+        default: return;
+      }
+    }
+
     getStyles() {
         return {
             title: {
@@ -151,18 +200,6 @@ export default class BarChart extends React.Component {
                 fontFamily: "Avenir",
                 fontSize: "18px",
             },
-            labelNumber: {
-                textAnchor: "middle",
-                fill: "#ffffff",
-                fontFamily: "inherit",
-                fontSize: "14px"
-            },
-
-            //WEEKLY axis
-            weeklyXAxis: {
-                axis: {stroke: "#74747450"},
-                tickLabels: {fontSize: 15, padding: 5, angle: 90},
-            }
         }
     }
 }

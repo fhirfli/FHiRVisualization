@@ -47,9 +47,9 @@ export default class BrushLineGraph extends React.Component {
                         data={ this.changeXAxis() }
                         style={{
                             data: {
-                                stroke: this.props.colour,
+                                stroke: this.getColour(this.props.colour),
                                 strokeWidth: 4.5,
-                                fill: this.props.colour
+                                fill: this.getColour(this.props.colour)
                             }
                         }}
 
@@ -66,7 +66,6 @@ export default class BrushLineGraph extends React.Component {
                     />
                     <VictoryAxis
                         standalone={false}
-                        //style={styles.axisYears}
                         style={{
                             axis: {stroke: "#74747450"},
                             tickLabels: {fontSize: 20, padding: 40, angle: 310, textAnchor: 'end'}
@@ -118,13 +117,20 @@ export default class BrushLineGraph extends React.Component {
         }
     }
 
+    getColour(colour) {
+      switch (colour) {
+        case 'blue': return ("#008bf9");
+        case 'red': return ("#ec5229");
+        case 'yellow': return ("#fcee5f");
+        case 'green': return ("#69da60");
+        case 'indigo': return ("#5884f5");
+        case 'orange': return ("#ff6611");
+        case 'navy': return ("#123283");
+        default: return;
+      }
+    }
 
     getStyles() {
-        const BLUE_COLOR = "#76bbf1";
-        const RED_COLOR = "#ec5229";
-        const YELLOW_COLOR = "#fcee5f";
-        const GREEN_COLOR = "#69da60";
-
         return {
             title: {
                 //marginLeft: "-45%",
@@ -133,62 +139,6 @@ export default class BrushLineGraph extends React.Component {
                 fill: "#000000",
                 fontFamily: "Avenir",
                 fontSize: "18px",
-            },
-            labelNumber: {
-                textAnchor: "middle",
-                fill: "#ffffff",
-                fontFamily: "inherit",
-                fontSize: "14px"
-            },
-
-            // INDEPENDENT AXIS
-            axisYears: {
-                axis: {stroke: "black", strokeWidth: 1},
-                ticks: {
-                    size: (tick) => {
-                        const tickSize =
-                            tick.getFullYear() % 5 === 0 ? 10 : 5;
-                        return tickSize;
-                    },
-                    stroke: "black",
-                    strokeWidth: 1
-                },
-                tickLabels: {
-                    fill: "black",
-                    fontFamily: "inherit",
-                    fontSize: 16
-                }
-            },
-
-            // DATA SET ONE
-            axisOne: {
-                grid: {
-                    stroke: (tick) =>
-                        tick === -10 ? "transparent" : "#ffffff",
-                    strokeWidth: 2
-                },
-                axis: {stroke: BLUE_COLOR, strokeWidth: 0},
-                ticks: {strokeWidth: 0},
-                tickLabels: {
-                    fill: BLUE_COLOR,
-                    fontFamily: "inherit",
-                    fontSize: 16
-                }
-            },
-            labelOne: {
-                fill: BLUE_COLOR,
-                fontFamily: "inherit",
-                fontSize: 12,
-                fontStyle: "italic"
-            },
-            lineOne: {
-                data: {stroke: BLUE_COLOR, strokeWidth: 4.5, fill: BLUE_COLOR}
-            },
-            axisOneCustomLabel: {
-                fill: BLUE_COLOR,
-                fontFamily: "inherit",
-                fontWeight: 300,
-                fontSize: 21
             },
         };
     }

@@ -53,7 +53,7 @@ module.exports = (env, router) => {
             }
 
         } else {
-            if (true) {
+            if (false) {
 
                 CorporateDataManager.loadDataFor(Data.DATA_SPECIFICATION[mainDataType], req.user, (result) => {
                     return res.json(result);
