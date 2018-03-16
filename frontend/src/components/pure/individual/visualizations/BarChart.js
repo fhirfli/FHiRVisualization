@@ -84,8 +84,8 @@ export default class BarChart extends React.Component {
                         }}
                         tickLabelComponent={<Victory.VictoryLabel transform="translate(5 -18)" align={"right"}/>}
 
-
-                        tickValues={ this.getXAxisFor(this.props.dataRange) }
+                        tickValues={ this.getXAxisRangeFor(this.props.dataRange) }
+                        tickFormat={(t) => { if(t.startsWith("none")) { return ""; } else { return t; } } }
                     />
                     <Victory.VictoryAxis dependentAxis
                                          standalone={false}
@@ -120,7 +120,7 @@ export default class BarChart extends React.Component {
     getXAxisRangeFor(dataRange) {
         switch (dataRange) {
             case 'Daily':
-                return ([this.props.data.x]);
+                return ([0, 4]);
                 break;
             case 'Weekly':
                 return ([0, 7]);
@@ -136,9 +136,20 @@ export default class BarChart extends React.Component {
     }
 
     getXAxisFor(dataRange) {
+      console.log("data range: " + dataRange);
         switch (dataRange) {
             case 'Daily':
-                return ([this.props.data.x]);
+                let daily = [];
+                for(let i = 0; i < 25; i++) {
+                  if((i % 6) === 0) {
+                    daily.push(i + ":00");
+                  }
+                  else {
+                    daily.push("none" + i);
+                  }
+                }
+                console.log("xAxis: " + JSON.stringify(daily));
+                return (daily);
                 break;
             case 'Weekly':
                 return (['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);

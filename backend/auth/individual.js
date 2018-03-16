@@ -13,6 +13,7 @@ module.exports = (env, passport) => {
     router.post('/login',
         passport.authenticate('individual'),
         (req, res) => {
+            console.log(JSON.stringify(req.body));
             res.json({user: sanitizeUser(req.user)});
         });
 

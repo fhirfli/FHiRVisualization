@@ -99,11 +99,11 @@ export default class DashboardGrid extends React.Component {
 
     formatDaily(dateValueList) {
       // Formats data into a readable 'daily' customised array of { x, y } data
-      let listOfCustomFormats = new Array(7);
+      let listOfCustomFormats = [];
 
       for (let i = 0; i < dateValueList.length; i++) {
           listOfCustomFormats.push({
-              x: (new Date(dateValueList[i].date).getDate()),
+              x: (new Date(dateValueList[i].date).getHours()),
               y: (Math.floor(dateValueList[i].value * 10) / 10)
           });
       }
@@ -134,7 +134,7 @@ export default class DashboardGrid extends React.Component {
       }
       listOfCustomFormats[0] = (listOfCustomFormats[0].x > listOfCustomFormats[6].x) ? null : listOfCustomFormats[0];
       for (let index = 0; index < 7; index++) {
-          listOfCustomFormats[index] = (listOfCustomFormats[index] == null) ? {
+          listOfCustomFormats[index] = (listOfCustomFormats[index] === null) ? {
               x: "",
               y: 0
           } : listOfCustomFormats[index];
