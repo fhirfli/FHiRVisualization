@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
-
 const paths = {
     DIST: path.resolve(__dirname, 'frontend', 'dist'),
     SRC: path.resolve(__dirname, 'frontend', 'src')
@@ -33,14 +32,14 @@ module.exports = {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     use: [
-                             "css-loader",
-                             "sass-loader"
+                        "css-loader",
+                        "sass-loader"
                     ],
                     fallback: "style-loader"
                 })
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|svg)$/,
                 use: [
                     'file-loader'
                 ]
@@ -49,6 +48,9 @@ module.exports = {
     },
     // Plugins for the project
     plugins: [
+        new webpack.DefinePlugin({
+            "BASE_URL": JSON.stringify("")
+        }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             output: {
@@ -71,9 +73,9 @@ module.exports = {
     // Resolve allows us to import things as just 'from example' rather than 'from example.js'
     resolve: {
         extensions: ['.js', '.jsx'],
-        modules:[
+        modules: [
             "node_modules",
             path.resolve(__dirname, 'frontend/src')
         ]
     }
-}
+};

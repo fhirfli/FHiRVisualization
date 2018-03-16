@@ -1,0 +1,57 @@
+@import "components/pure/styles/variables";
+
+a, button {
+    outline: 0;
+}
+
+:focus {
+    outline: none;
+}
+
+button::-moz-focus-inner {
+    outline: none;
+    border: 0;
+}
+html, body {
+    outline: 0;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: $bodyAccentColour;
+    font-size: $bodyFontSize;
+    font-family: $baseFontFamily;
+}
+
+#app {
+    height: 100%;
+}
+
+#app > div {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: $footerAccentColour;
+    color: $footerTextColour;
+    text-align: right;
+    padding: 20px;
+    z-index: 2;
+}
+
+.footer-button {
+    margin: 0px 20px;
+    display: inline-block;
+    text-decoration: none;
+    font-size: $smallFontSize;
+    color: $footerTextColour;
+}
+
+.footer-button-last {
+    margin-right: 50px;
+}

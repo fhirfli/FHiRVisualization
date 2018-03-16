@@ -52,7 +52,7 @@ module.exports = {
                 })
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|svg)$/,
                 use: [
                     'file-loader'
                 ]
@@ -61,6 +61,9 @@ module.exports = {
     },
     // Plugins for the project
     plugins: [
+        new webpack.DefinePlugin({
+            "BASE_URL": JSON.stringify("")
+        }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
@@ -80,4 +83,4 @@ module.exports = {
             path.resolve(__dirname, 'frontend/src')
         ]
     }
-}
+};

@@ -3,16 +3,19 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const webpack = require('webpack');
 const app = express();
+const cors = require('cors');
 
+app.use(cors());
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV === 'development') {
     const webpackMiddleware = require('webpack-dev-middleware');
     const webpackDevMiddleware = require('webpack-hot-middleware');
 
     let config = require('./webpack.config.dev');
     let compiler = webpack(config);
     let DIR_DIST = path.resolve(__dirname, 'frontend', 'dist');
+
 
     app.use((req, res, next) => {
         console.log(req.body);
@@ -43,7 +46,7 @@ if (process.env.NODE_ENV == 'development') {
 }
 else if (process.env.NODE_ENV == 'production') {
 
-    app.use('/static', express.static(path.join(__dirname, './frontend/dist')))
+    app.use('/static', express.static(path.join(__dirname, './frontend/dist')));
 
     app.get('/', (req, res) => {
         res.sendFile(path.join(__dirname, './frontend/dist/index.html'))
@@ -58,7 +61,6 @@ else if (process.env.NODE_ENV == 'production') {
 }
 
 
-
-app.listen(80, () => {
+app.listen(8080, () => {
     console.log("Express app listening on port " + 80);
-})
+});

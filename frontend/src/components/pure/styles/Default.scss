@@ -1,0 +1,88 @@
+#about-container {
+    width: 100%;
+    display: grid;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+#about-content {
+    align-self: center;
+    grid-row: 1;
+    grid-column: 2;
+    align-content: center;
+    text-align: justify;
+    display: -webkit-inline-box;
+
+
+}
+
+#bttn {
+    background-color: #00a200 !important;
+    color: white;
+    border-radius: 50px;
+    justify-content: center;
+    text-transform: uppercase !important;
+    font-weight: 700;
+    // display: flex;
+    padding: 10px !important;
+    margin: 10px !important;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#masthead {
+    position: relative;
+    // background: url('../img/masthead.png') no-repeat center center;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+   
+    h1 {
+      font-size: 2rem;
+    }
+    
+  }
+  
+  #overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.7;
+  }
+
+  #image {
+      margin-top: -2em;
+      width: 100%;
+  }
+
+  #banner {
+    margin-top: -20em;
+    margin-bottom: 7em;
+    > h2 {
+        color: white;
+        margin-left: 25%;
+        font-weight: initial;
+    }
+
+    > p {
+        color: white;
+        margin-left: 25%;
+        font-weight: initial;
+    }
+  }
+
+ .containerr {
+    position: relative;
+    text-align: center;
+    color: white;
+ }
+
+ #centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

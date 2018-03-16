@@ -1,0 +1,32 @@
+version: '2'
+services:
+        mongo:
+               image: 'mongo:3.4.1'
+               restart: always
+               ports:
+                  - '27017:27017'
+               volumes:
+                  - 'mongo:/data/db'
+        web:
+               depends_on:
+                  - 'mongo'
+                  - 'apache'
+               build:
+                  context: .
+                  dockerfile: Dockerfile
+               ports:
+                  - "8000:3000"
+               env_file:
+                  - ./secrets.env
+               environment:
+                  PORT: 3000
+        apache:
+               depends_on:
+                  - 'mongo'
+               build:
+                  context: ./drill/
+                  dockerfile: Dockerfile
+               ports:
+                  - "8047:8047"
+volumes:
+  mongo:

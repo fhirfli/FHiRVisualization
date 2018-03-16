@@ -1,0 +1,22 @@
+{
+  "name": "integration",
+  "version": "1.0.0",
+  "description": "FHiR Visualziation Integration Tests",
+  "main": "index.js",
+  "author": "Kiran Gopinathan",
+  "license": "MIT",
+  "scripts": {
+    "build": "cd .. && yarn run integration",
+    "webdriver": "java -jar -Dwebdriver.chrome.driver=chromedriver.exe selenium-server-standalone-3.0.1.jar",
+    "server": "cd ./server && node index",
+    "test": "mocha \"./test_*.js\"",
+    "standalone": "npm run build && concurrent \"cd ./server && node index\" \"sleepms 2000 && mocha \\\"./test_*.js\\\"\" \"npm run webdriver\""
+  },
+  "dependencies": {
+    "chai": "^4.1.2",
+    "concurrently": "^3.5.1",
+    "mocha": "^5.0.1",
+    "sleep-ms": "^2.0.1",
+    "webdriverio": "^4.10.2"
+  }
+}
