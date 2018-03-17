@@ -80,33 +80,50 @@ module.exports = function (env) {
     return {
         loadDataFor: function (spec, user, callback) {
             request({
-                url: env.DRILL_URL,
+                url: 'http://localhost:8047/query.json',
                 method: "POST",
                 json: true,
+		timeout: 130000,
                 body: {
                     queryType: 'SQL',
                     query: generateSingleTypeQueryCodeFor(user.email, spec.loinc)
                 }
             }, (err, response, body) => {
-                console.log(JSON.stringify(body));
-                callback(body.rows);
+		if(!err) 
+			callback(body.rows);
+		else {
+			console.log("ERROR: In Apache Drill Query " + JSON.stringify(err));
+			callback([]);
+		}
             });
 
 
         },
         loadMultiDataFor: function (spec, secondarySpec, user, callback) {
-            console.log(generateMultiTypeQueryCodeFor(user.email, spec.loinc, secondarySpec.loinc));
             request({
-                url: env.DRILL_URL,
+                url: 'http://localhost:8047/query.json',
                 method: "POST",
                 json: true,
+		timeout: 130000,
                 body: {
                     queryType: 'SQL',
                     query: generateMultiTypeQueryCodeFor(user.email, spec.loinc, secondarySpec.loinc)
                 }
             }, (err, response, body) => {
+                console.log("\n\n-------------------------------------------------------------------\n" + 
+					"On Multi Request: " + user.email +  ", " + JSON.stringify(spec) + ", " + JSON.stringify(secondarySpec) +  "\n" + 
+					JSON.stringify(body) + "\n\n");
+ 
+	       console.log("QUERY: " + generateMultiTypeQueryCodeFor(user.email, spec.loinc, secondarySpec.loinc)  + "\n");
+
                 console.log(JSON.stringify(body));
-                callback(body.rows);
+		if(!err) 
+			callback(body.rows);
+		else {
+			console.log("ERROR: In Apache Drill Query " + JSON.stringify(err));
+			callback([]);
+		}
+
             });
 
         }

@@ -112,5 +112,6 @@ const server = http.createServer(app);
 server.on('error', onError);
 server.on('listen', onListening);
 console.log("Going to run Express " + env.PRODUCTION + " app listening on port " + env.PORT);
-app.listen(env.PORT);
+server.listen(env.PORT);
+server.timeout = 320000;
 console.log("Express " + env.PRODUCTION + " app listening on port " + env.PORT);

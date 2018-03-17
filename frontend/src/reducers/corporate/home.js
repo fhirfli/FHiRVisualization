@@ -25,6 +25,8 @@ const home = (state = {
         // }
     }
 }, action) => {
+    console.log("DATA IN ACTION: " + JSON.stringify(action.data));
+	let result;
     switch (action.type) {
         case LOAD_DATA:
             let data = Object.assign({}, state.data);
@@ -35,18 +37,24 @@ const home = (state = {
                 data[action.data.mainDataType]['self'] = data[action.data.mainDataType]['self'] || [];
             }
 
-            return Object.assign({}, state, {
+            result = Object.assign({}, state, {
                 isLoading: true,
                 data
             });
+
+	    console.log("RESULT: " + JSON.stringify(result));
+	    return result;
             break;
         case LOAD_DATA_ERROR:
-            return Object.assign({}, state, {
+	    result = Object.assign({}, state, {
                 isLoading: false,
                 hasErrored: true,
                 errorMsg: action.data.error
             });
-            break;
+
+	    console.log("RESULT: " + JSON.stringify(result));
+            return result;
+	    break;
 
         case LOAD_DATA_SUCCESS: {
 
@@ -56,11 +64,16 @@ const home = (state = {
                 data[action.data.mainDataType][action.data.secondaryDataType] = action.data.values;
             } else {
                 data[action.data.mainDataType]['self'] = action.data.values;
+
             }
-            return Object.assign({}, state, {
+
+	    let result = Object.assign({}, state, {
                 isLoading: false,
                 data
             });
+	    console.log("RESULT: " + JSON.stringify(result));
+
+            return result;
 
         }
             break;
