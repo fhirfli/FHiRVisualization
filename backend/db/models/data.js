@@ -1,3 +1,4 @@
+// This module contains the definition of all the static data configurations of the system
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
@@ -5,11 +6,12 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 mongoose.Promise = Promise;
 
 
+// A list of all valid data profiles in the system
 const VALID_SCHEMAS = [
-//    "HeartRate", "BodyHeight", "BodyWeight", "BloodPressureSystolicAndDiastolic", "BMI",
     "Observation", "Condition", "FamilyMemberHistory", "MedicationStatement", "Patient", "Organization"
 ];
 
+// A list of all valid visualizations for individual users
 const VALID_VISUALIZATIONS = [
     "BarChartDaily", "BarChartWeekly", "BarChartMonthly",
     "LineGraphWeekly", "LineGraphMonthly", "LineGraphAnnual",
@@ -17,18 +19,23 @@ const VALID_VISUALIZATIONS = [
 ];
 
 
+// A mapping of visualizations to a boolean representing
+// whether the visualization requires multipledata points
 const AGGREGATE_VISUALIZATIONS_SECONDARY_NEEDED = {
     "BarChart": false,
     "LineGraph": true,
     "DoughnutChart": false
 };
 
+// A list of all valid visualizations for corporate users
 const VALID_AGGREGATE_VISUALIZATIONS = Object.keys(AGGREGATE_VISUALIZATIONS_SECONDARY_NEEDED);
+// At run time will be of the form
 /*[
  "BarChart", "LineGraph", "DoughnutChart"
  ];*/
 
 
+// A list of all valid colours supported by the system
 const COLORS = ['red', 'blue', 'green', 'yellow', 'indigo', 'navy', 'orange'];
 
 /*
@@ -38,6 +45,8 @@ const COLORS = ['red', 'blue', 'green', 'yellow', 'indigo', 'navy', 'orange'];
  "35094-2",// sys blood pressure
  "39156-5"// bmi
  */
+// A mapping of datatypes to an object specifying various important specifications for the datatype
+// such as a human readable name, a loinc code, a list of visualizations supported by the data type
 const DATA_SPECIFICATION = {
     "HeartRate": {
         name: "Heart Rate",
@@ -92,8 +101,9 @@ const DATA_SPECIFICATION = {
     }
 };
 
+// a list of all valid data types supported by the system
 const VALID_DATA_TYPES = Object.keys(DATA_SPECIFICATION);
-const VALID_DATA_RANGES = ["Single", "Daily", "Weekly", "Monthly", "Annual"];
+// At runtime will be of the form
 /*[
  "HeartRate",
  "BodyHeight",
@@ -102,6 +112,10 @@ const VALID_DATA_RANGES = ["Single", "Daily", "Weekly", "Monthly", "Annual"];
  "BMI"
  ]; */
 
+
+
+// a list of all valid data ranges for individual users
+const VALID_DATA_RANGES = ["Single", "Daily", "Weekly", "Monthly", "Annual"];
 
 module.exports = {
     DATA_SPECIFICATION,

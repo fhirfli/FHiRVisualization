@@ -1,3 +1,4 @@
+// Root module for all authenticated endpoints
 module.exports = (env) => {
     const express = require('express');
     const router = express.Router();
@@ -6,8 +7,9 @@ module.exports = (env) => {
     const data = require('./data')(env);
     const visualizations = require('./visualizations')(env);
 
-   router.use((req, res, next) => {
-        if(!req.user){
+    // Ensure user is authenticated before allowing access to all further endpoints
+    router.use((req, res, next) => {
+        if (!req.user) {
             res.send(403, 'Unauthorized');
         } else {
             next();
@@ -15,11 +17,11 @@ module.exports = (env) => {
     });
 
 
-
+    // Main System endpoints
     router.use('/corporate', corporate);
     router.use('/individual', individual);
     router.use('/data', data);
     router.use('/visualizations', visualizations);
 
     return router;
-}
+};

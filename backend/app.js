@@ -1,3 +1,5 @@
+// This module organizes all the endpoints together to form a reusable expressjs router that can be a sub path of a
+// larger project
 module.exports = (env) => {
     const express = require('express');
     const bodyParser = require('body-parser');
@@ -8,13 +10,14 @@ module.exports = (env) => {
     const MongoStore = require('connect-mongo')(session);
 
 
-    // main application
+    // Router representing the root - can be used as a middleware itself, allowing for this whole tree of
+    // endpoints to be a subpath of a larger system
     const router = express.Router();
-    const PORT = env.PORT;
 
-    // add middleware for passport, api's etc
 
     // Allow CORS
+    // These functions return 200 responses to CORS requests - this allows the frontend to be hosted from a different
+    // server to the backend increasing modularity
     router.use(methodOverride());
     router.use((req, res, next) => {
         res.header('Access-Control-Allow-Credentials', true);
@@ -29,15 +32,18 @@ module.exports = (env) => {
         }
     });
 
+    // The routes on the system use URL parameters, and as such the following middleware enables that functionality
     router.use(
         bodyParser.urlencoded({
             extended: true
         })
     );
-    // Body parser
 
+    // Body parser for supporting JSON post requests
     router.use(bodyParser.json());
 
+    // Use the MongoDB to store sessions for the route - this increases scalability, as the alternative would be storing
+    // them locally, which would be limited by the capabilities of the host OS's filesystem
     router.use(session({
         secret: env.SECRET,
         store: new MongoStore({mongooseConnection: dbConnection}),
@@ -46,26 +52,29 @@ module.exports = (env) => {
     }));
 
 
-    // logging middleware
+    // Logging middleware to record all anomalous events to a log for later use
     if (env.PRODUCTION) {
         let accessLogStream = fs.createWriteStream(path.join(env.LOGDIR), {flags: 'a'});
         router.use(morgan(':method :url :status :res[content-length] - :response-time ms', {stream: accessLogStream}));
     }
 
+    // Initialize the passport middleware, as it is used for authenticating access to this endpoint
     const passport = require('./passport')(env);
     router.use(passport.initialize());
     router.use(passport.session());
 
 
-    // Authentication Middleware
+    // Authentication Endpoints Middleware
     const auth = require('./auth')(env, passport);
     router.use('/auth', auth);
 
-    // API Middleware
+    // API Endpoints Middleware
     const api = require('./api')(env);
     router.use('/api', api);
 
-    // TODO: Error handling
+
+    // Final endpoint to catch any errors which are uncaught
+    // return a 500 error and no error information to prevent leaking system information
     router.use((err, req, res, next) => {
         console.log('=========== ERROR ============');
         console.error(err.stack);

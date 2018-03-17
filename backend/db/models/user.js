@@ -5,19 +5,21 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 mongoose.Promise = Promise;
 
 
+// A schema to represent individual users on the system
 const individualUserSchema = new Schema({
-  email: { type: String, unique: true, required: true },
-  password: { type: String, unique: false, required: true },
-  name: {
+    email: {type: String, unique: true, required: true},         // the email used to identify the user
+    password: {type: String, unique: false, required: true},     // a cryptographic hash of the password used to log in
+    name: {                                                        // the name of the user
         type: String,
         required: true
   }
 });
 
+// A schema used to represent corporate users of the system
 const corporateUserSchema = new Schema({
-  email: { type: String, unique: true, required: true },
-  password: { type: String, unique: false, required: true },
-  company:  {type: ObjectId, ref: 'Company', required: true}
+    email: {type: String, unique: true, required: true},         // the email used to identify the user
+    password: {type: String, unique: false, required: true},     // a cryptographic hash of the password used to log in
+    company: {type: ObjectId, ref: 'Company', required: true}     // the name of the company to which the user belongs
 });
 
 

@@ -1,3 +1,5 @@
+// This module contains a listing of all SNOWMED codes supported by the system - a subset is used to prevent
+// misinterpretations of the data
 module.exports = {
     snowmedCTCodes: [
         // include allowable snowmedCodes here
