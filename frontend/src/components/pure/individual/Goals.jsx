@@ -209,11 +209,11 @@ export default class Goals extends Component {
 
     createNewGoal() {
         let newGoal = {
-            name: " ",
-            dataType: " ",
+            name: " ADD A NEW GOAL",
+            dataType: "-",
             value: 100,
-            period: " ",
-            colour: " "
+            period: "-",
+            colour: "-"
         };
 
         let newGoals = [...this.state.newGoals, newGoal];
