@@ -1,3 +1,4 @@
+// This is where all endpoints specific to coporate users are referenced
 module.exports = (env) => {
     const express = require('express');
     const router = express.Router();
@@ -5,6 +6,7 @@ module.exports = (env) => {
     const associations = require('./associations');
     const data = require('./data');
 
+    // Ensure that all users accessing these endpoints are corporate users
     router.use((req, res, next) => {
         console.log("Accessing api");
         if (!req.user.isCorporate) {
@@ -14,7 +16,7 @@ module.exports = (env) => {
         }
     });
 
-
+    // Corporate specific endpoints
     preferences(env, router);
     associations(env, router);
     data(env, router);

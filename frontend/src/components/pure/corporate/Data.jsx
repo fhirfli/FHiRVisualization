@@ -73,7 +73,18 @@ export default class Data extends Component {
                               choices={(this.props.colours)}
                               currentlySelected={this.state.selectedColour}
                               choiceToString={(colour => colour)}
-                              callback={colour => this.setState({selectedColour: colour})}/>
+                              callback={colour => {
+						if(colour !== this.state.selectedColour) {
+							this.props.manualUpdatePreference({
+							    visualization: this.state.selectedVisualization,
+							    mainDataType: dataType.dataType,
+							    secondaryDataType: this.state.selectedSecondaryDataType,
+							    colour: colour
+							});
+							this.setState({selectedColour: colour});
+						}
+					}
+				} />
                 </div>
                 <p>Available Visualizations:</p>
                 <div className="border">
@@ -95,11 +106,14 @@ export default class Data extends Component {
                 }
                 </div>
                 <h4>Data Type</h4>
-                <Dropdown baseZindex={2}
-                          choices={(Object.keys(this.props.visualizationMap))}
-                          currentlySelected={this.state.selectedVisualization}
-                          choiceToString={(vis => vis)}
-                          callback={visualization => this.setState({selectedVisualization: visualization})}/>
+		{ 
+			this.props.visualizationMap &&	
+			(<Dropdown baseZindex={2}
+				  choices={(Object.keys(this.props.visualizationMap))}
+				  currentlySelected={this.state.selectedVisualization}
+				  choiceToString={(vis => vis)}
+				  callback={visualization => this.setState({selectedVisualization: visualization})}/>)
+		}
 
                 {/*{Object.keys(this.props.visualizationMap).map((visualization, index) => (*/}
                 {/*<div key={visualizations + index}>*/}

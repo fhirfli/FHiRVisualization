@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 let snowmed = require('./SnowmedCodes');
 
+// A FHIR Compliant Condition Schema - See Project Documentation Website for information
 const conditionSchema = new Schema({
     // identifier is implicitly present
     status: {

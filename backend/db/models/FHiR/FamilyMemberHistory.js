@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 let snowmed = require('./SnowmedCodes');
 
+// A FHIR Compliant Family Member History Schema - See Project Documentation Website for information
 const familyMemberSchema = new Schema({
     // identifier is implicitly present
     status: {
